@@ -8,20 +8,21 @@
 class Game
 {
 public:    
-    Game(const char* pTitle);
+    Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene = 0);
+
+    void Initialize();
+    
 private:
     std::string mName = "hello world";
 
     Window* mWindow;
     Renderer* mRenderer;
 
-    Scene hello = Scene(mRenderer);
-    std::vector<Scene> mScenes = { hello };
-    int CurrentScene = 0;
+    std::vector<Scene*> mScenes;
+    int mLoadedScene;
 
-    bool mIsRunning = false;
+    bool mIsRunning = false;    
     
-    void Initialize();
     void Loop();
     void Render();
     void Update();

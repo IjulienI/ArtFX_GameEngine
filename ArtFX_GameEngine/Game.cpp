@@ -1,7 +1,10 @@
 ﻿#include "Game.h"
 #include <iostream>
 
-Game::Game(const char* pTitle)
+#include "PongScene.h"
+#include "Time.h"
+
+Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mName(pName), mScenes(pScenes), mLoadedScene(pLoadedScene)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -11,7 +14,6 @@ Game::Game(const char* pTitle)
     {
         std::cout << "SDL initialization succeeded!";
     }
-    Initialize();
 }
 
 void Game::Initialize()
@@ -20,7 +22,14 @@ void Game::Initialize()
 
     mRenderer = new Renderer();
 
-    if(mWindow->Open() && mRenderer->Initialize(*mWindow)) Loop();
+    if(mWindow->Open() && mRenderer->Initialize(*mWindow))
+    {
+        if(mScenes.size() == 1) mLoadedScene = 0;
+        mScenes[mLoadedScene]->SetRenderer(mRenderer);
+        dynamic_cast<PongScene*>(mScenes[mLoadedScene])->SetWindow(mWindow);        
+        mScenes[mLoadedScene]->Start();
+        Loop();
+    } 
 }
 
 void Game::Loop()
@@ -28,9 +37,11 @@ void Game::Loop()
     mIsRunning = true;
     while(mIsRunning)
     {
+        Time::ComputeDeltaTime();
         CheckInputs();
         Update();
         Render();
+        Time::DelayTime();
     }
     Close();
 }
@@ -39,14 +50,14 @@ void Game::Render()
 {
     mRenderer->BeginDraw();
 
-    mScenes[CurrentScene].Render();
+    mScenes[mLoadedScene]->Render();
 
     mRenderer->EndDraw();
 }
 
 void Game::Update()
 {
-    mScenes[CurrentScene].Update();
+    mScenes[mLoadedScene]->Update();
 }
 
 void Game::CheckInputs()
@@ -63,12 +74,12 @@ void Game::CheckInputs()
             break;
         }
     }
-    mScenes[CurrentScene].OnInput(event);
+    mScenes[mLoadedScene]->OnInput(event);
 }
 
 void Game::Close()
 {
-    mScenes[CurrentScene].Close();
+    mScenes[mLoadedScene]->Close();
     mWindow->Close();
     SDL_Quit();
 }

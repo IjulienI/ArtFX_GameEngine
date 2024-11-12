@@ -4,16 +4,19 @@
 
 class Scene
 {
-private: 
+protected: 
 	std::string mTitle;
-	Renderer* mRenderer;
+	Renderer* mRenderer = nullptr;
 public:
+	Scene();
 	Scene(Renderer* pRenderer, std::string pTitle = "NoName");
 
 	virtual void Start();
 	virtual void Update();
-	virtual void Render();
+	virtual void Render() const;
 	virtual void OnInput(SDL_Event);
-	virtual void Close();
+	virtual void Close() const;
+
+	void SetRenderer(Renderer* pRenderer);
 };
 

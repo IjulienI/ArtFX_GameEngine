@@ -16,5 +16,5 @@ public:
 	void EndDraw();
 	void Close();
 
-	void DrawRect(Rectangle& rRect);
+	void DrawRect(Rectangle& rRect,Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 };

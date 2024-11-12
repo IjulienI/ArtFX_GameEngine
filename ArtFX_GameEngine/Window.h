@@ -15,11 +15,9 @@ public:
     Window(const Window&);
     Window& operator=(const Window&) = delete;
 
-    Vec2 GetDimensions() const { return mDimensions;};
+    Vec2 GetDimensions() const { return mDimensions;}
 
-    SDL_Window* GetSldWindow() const {return mSdlWindow;};
-
-
+    SDL_Window* GetSldWindow() const {return mSdlWindow;}
     
     bool Open();
     void Close();
