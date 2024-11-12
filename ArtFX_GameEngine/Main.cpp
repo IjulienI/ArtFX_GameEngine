@@ -1,9 +1,9 @@
 #include <iostream>
+#include "Game.h"
 #include <SDL.h>
-#include "Vec2.h"
 
-int main(int argc, char** argv) {
-	Vec2 myVector = Vec2::One();
-	myVector /= 2.0f;
+int main(int argc, char* argv[])
+{
+	Game* game = new Game("Hello World");
 	return 0;
 }
