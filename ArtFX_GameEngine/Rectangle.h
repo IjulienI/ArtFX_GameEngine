@@ -19,4 +19,18 @@ struct Rectangle
             static_cast<int>(dimensions.x),
             static_cast<int>(dimensions.y) };
     }
+
+    inline bool HandleCollision(Rectangle* b)
+    {
+        float xMinA =  position.x;
+        float yMinA =  position.y;
+        float xMaxA =  position.x + dimensions.x;
+        float yMaxA =  position.y + dimensions.y;
+        float xMinB =  b->position.x;
+        float yMinB =  b->position.y;
+        float xMaxB =  b->position.x + b->dimensions.x;
+        float yMaxB =  b->position.y + b->dimensions.y;
+
+        return(!(xMinB > xMaxA || yMinB > yMaxA || xMaxB < xMinA || yMaxB < yMinA));
+    }
 };

@@ -18,7 +18,7 @@ bool Renderer::Initialize(Window& rWindow)
 
 void Renderer::BeginDraw()
 {
-	SDL_SetRenderDrawColor(mSdlRenderer, 120, 120, 255, 255);
+	SDL_SetRenderDrawColor(mSdlRenderer, 32, 32, 32, 255);
 	SDL_RenderClear(mSdlRenderer);
 }
 
