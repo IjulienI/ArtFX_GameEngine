@@ -1,35 +1,37 @@
 ﻿#include "PongScene.h"
 
+#include "Log.h"
 #include "Time.h"
 
 void PongScene::Start()
 {
     mWindowSize = mCurrentWindow->GetDimensions();
     mMaxPosY = mWindowSize.y - mPaddleSize.y;
-    mPlayerPos.x = mPaddleOffset;
-    mEnemyPos.x = mWindowSize.x - mPaddleOffset - mPaddleSize.x;
+    mPlayerRect = new Rectangle{mPaddleOffset,0.0f,mPaddleSize.x,mPaddleSize.y};
+    mEnemyRect = new Rectangle{mWindowSize.x - mPaddleOffset - mPaddleSize.x,0,0,0};
+    mBallRect = new Rectangle{0.0f,0.0f, mBallSize,mBallSize};
 }
 
 void PongScene::Update()
 {
     PlayerUpdate();
-    BallUpdate();
+    BallUpdate();    
     EnemyUpdate();
+    Collisions();
 }
 
 void PongScene::Render() const
 {
     //Draw PlayerPaddle
-    Rectangle playerPaddle = {mPlayerPos.x,mPlayerPos.y,mPaddleSize.x,mPaddleSize.y};
+    Rectangle playerPaddle = {mPlayerRect->position.x,mPlayerRect->position.y,mPaddleSize.x,mPaddleSize.y};
     mRenderer->DrawRect(playerPaddle,0,0,255);
 
     //Draw EnemyPaddle
-    Rectangle enemyPaddle = {mEnemyPos.x,mEnemyPos.y,mPaddleSize.x,mPaddleSize.y};
+    Rectangle enemyPaddle = {mEnemyRect->position.x,mEnemyRect->position.y,mPaddleSize.x,mPaddleSize.y};
     mRenderer->DrawRect(enemyPaddle,255,0,0);
 
-    //Draw Ball
-    Rectangle ball = {mBallPos.x,mBallPos.y,mBallSize,mBallSize};
-    mRenderer->DrawRect(ball,255,255,0);
+    //Draw Ball 
+    mRenderer->DrawRect(*mBallRect,255,255,0);
 }
 
 void PongScene::OnInput(SDL_Event sdl_event)
@@ -59,12 +61,12 @@ void PongScene::PlayerUpdate()
     //////////////
     
     //Apply Movements
-    if(mGoUp) mPlayerPos.y -= mPlayerSpeed * Time::deltaTime;
-    if(mGoDown) mPlayerPos.y += mPlayerSpeed * Time::deltaTime;
+    if(mGoUp) mPlayerRect->position.y -= mPlayerSpeed * Time::deltaTime;
+    if(mGoDown) mPlayerRect->position.y += mPlayerSpeed * Time::deltaTime;
 
     //If touch screen corner, tp
-    if(mPlayerPos.y < 5.0f) mPlayerPos.y = 5.0f;
-    if(mPlayerPos.y > mMaxPosY -5.0f) mPlayerPos.y = mMaxPosY -5.0f;
+    if(mPlayerRect->position.y < 5.0f) mPlayerRect->position.y = 5.0f;
+    if(mPlayerRect->position.y > mMaxPosY -5.0f) mPlayerRect->position.y = mMaxPosY -5.0f;
 }
 
 void PongScene::BallUpdate()
@@ -72,29 +74,28 @@ void PongScene::BallUpdate()
     /////////////
     /// BALL ///
     ////////////
-
+    ///
     //Apply Movements
-    mBallPos += { (mBallSpeed * mBallVelocity.x) * Time::deltaTime, (mBallSpeed * mBallVelocity.y) * Time::deltaTime};
-
+    mBallRect->position += { (mBallSpeed * mBallVelocity.x) * Time::deltaTime, (mBallSpeed * mBallVelocity.y) * Time::deltaTime};
     //If touch screen corner, tp and reverse velocity
-    if(mBallPos.x < 0.0f)
+    if(mBallRect->position.x < 0.0f)
     {
-        mBallPos.x = 0.0f;
+        mBallRect->position.x = 0.0f;
         mBallVelocity.x *= -1.0f;
     }
-    else if(mBallPos.x > mWindowSize.x - mBallSize)
+    else if(mBallRect->position.x > mWindowSize.x - mBallSize)
     {
-        mBallPos.x = mWindowSize.x - mBallSize;
+        mBallRect->position.x = mWindowSize.x - mBallSize;
         mBallVelocity.x *= -1.0f;
     }
-    if(mBallPos.y < 0.0f)
+    if(mBallRect->position.y < 0.0f)
     {
-        mBallPos.y= 0.0f;
+        mBallRect->position.y= 0.0f;
         mBallVelocity.y *= -1.0f;
     }
-    else if(mBallPos.y > mWindowSize.y - mBallSize)
+    else if(mBallRect->position.y > mWindowSize.y - mBallSize)
     {
-        mBallPos.y = mWindowSize.y - mBallSize;
+        mBallRect->position.y = mWindowSize.y - mBallSize;
         mBallVelocity.y *= -1.0f;
     }
 }
@@ -106,16 +107,49 @@ void PongScene::EnemyUpdate()
     /// /////////
 
     //Ai Logic
-    float ballDist = (mEnemyPos.y + mPaddleSize.y / 2.0f) - mBallPos.y;
+    float ballDist = (mEnemyRect->position.y + mPaddleSize.y / 2.0f) - mBallRect->position.y;
     
     if(ballDist < -25.0f) mEnemyVelocity = 1.0f;
     else if (ballDist > 25.0f) mEnemyVelocity = -1.0f;
     else mEnemyVelocity = 0.0f;
 
     //Apply Movements
-    mEnemyPos.y += (mEnemyVelocity * mEnemySpeed) * Time::deltaTime;
+    mEnemyRect->position.y += (mEnemyVelocity * mEnemySpeed) * Time::deltaTime;
 
     //If touch screen corner, tp
-    if(mEnemyPos.y < 5.0f) mEnemyPos.y = 5.0f;
-    if(mEnemyPos.y > mMaxPosY -5.0f) mEnemyPos.y = mMaxPosY -5.0f;
+    if(mEnemyRect->position.y < 5.0f) mEnemyRect->position.y = 5.0f;
+    if(mEnemyRect->position.y > mMaxPosY -5.0f) mEnemyRect->position.y = mMaxPosY -5.0f;
+}
+
+void PongScene::Collisions()
+{
+    if(HandleCollision(mBallRect,mPlayerRect))
+    {
+        mBallVelocity.x *= -1.0f;
+        mBallRect->position.x = mPlayerRect->position.x + mPlayerRect->dimensions.x;
+    }
+    if(HandleCollision(mBallRect,mEnemyRect))
+    {
+        mBallVelocity.x *= -1.0f;
+        mBallRect->position.x = mEnemyRect->position.x;
+    }
+    Log::Info(HandleCollision(mBallRect,mEnemyRect) ? "Yes" : "No");
+}
+
+bool PongScene::HandleCollision(Rectangle* a, Rectangle* b)
+{
+    float xMinA =  a->position.x;
+    float yMinA =  a->position.y;
+    float xMaxA =  a->position.x + a->dimensions.x;
+    float yMaxA =  a->position.y + a->dimensions.y;
+    float xMinB =  b->position.x;
+    float yMinB =  b->position.y;
+    float xMaxB =  b->position.x + b->dimensions.x;
+    float yMaxB =  b->position.y + b->dimensions.y;
+
+    return(!(xMinB > xMaxA || yMinB > yMaxA || xMaxB < xMinA || yMaxB < yMinA));
+}
+
+PongScene::PongScene(): Scene()
+{
 }

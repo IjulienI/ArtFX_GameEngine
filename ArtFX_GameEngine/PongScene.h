@@ -12,18 +12,18 @@ private:
     float mPaddleOffset = 15.0f;
     
     //Player
-    Vec2 mPlayerPos = {100.0f, 0.0f};
+    Rectangle* mPlayerRect = nullptr;
     float mPlayerSpeed = 500.0f;
     bool mGoUp = false;
     bool mGoDown = false;
 
     //Enemy
-    Vec2 mEnemyPos = {100.0f, 0.0f};
+    Rectangle* mEnemyRect = nullptr;
     float mEnemySpeed = 200.0f;
     float mEnemyVelocity = 0.0f;
 
     //Ball
-    Vec2 mBallPos = {0.0f, 0.0f};
+    Rectangle* mBallRect = nullptr;
     Vec2 mBallVelocity = { 1.0f, -1.0f};
     float mBallSpeed = 200.0f;
     float mBallSize = 10.0f;
@@ -31,11 +31,12 @@ private:
     void PlayerUpdate();
     void BallUpdate();
     void EnemyUpdate();
-    bool HandleCollision();
+    void Collisions();
+    static bool HandleCollision(Rectangle* a, Rectangle* b);
     
 public:
-    PongScene() = default;
-    
+    PongScene();
+
     void Start() override;
     void Update() override;
     void Render() const override;
