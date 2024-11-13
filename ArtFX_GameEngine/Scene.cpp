@@ -33,3 +33,8 @@ void Scene::SetRenderer(Renderer* pRenderer)
 {
 	mRenderer = pRenderer;
 }
+
+void Scene::SetWindow(Window* pWindow)
+{
+	mCurrentWindow = pWindow;
+}

@@ -26,7 +26,7 @@ void Game::Initialize()
     {
         if(mScenes.size() == 1) mLoadedScene = 0;
         mScenes[mLoadedScene]->SetRenderer(mRenderer);
-        dynamic_cast<PongScene*>(mScenes[mLoadedScene])->SetWindow(mWindow);        
+        mScenes[mLoadedScene]->SetWindow(mWindow);
         mScenes[mLoadedScene]->Start();
         Loop();
     } 
@@ -70,11 +70,14 @@ void Game::CheckInputs()
         case SDL_QUIT:
             mIsRunning = false;
             break;
+        case SDL_KEYDOWN:
+            if (event.key.keysym.sym == SDLK_ESCAPE) mIsRunning = false;
+            break;
         default:
             break;
         }
-    }
-    mScenes[mLoadedScene]->OnInput(event);
+        mScenes[mLoadedScene]->OnInput(event);
+    }    
 }
 
 void Game::Close()

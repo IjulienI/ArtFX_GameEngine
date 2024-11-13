@@ -6,7 +6,9 @@ class Scene
 {
 protected: 
 	std::string mTitle;
-	Renderer* mRenderer = nullptr;
+	Renderer* mRenderer = nullptr;	
+	Window* mCurrentWindow = nullptr;
+	
 public:
 	Scene();
 	Scene(Renderer* pRenderer, std::string pTitle = "NoName");
@@ -18,5 +20,6 @@ public:
 	virtual void Close() const;
 
 	void SetRenderer(Renderer* pRenderer);
+	void SetWindow(Window* pWindow);
 };
 
