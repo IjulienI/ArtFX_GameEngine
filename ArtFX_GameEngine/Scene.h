@@ -22,4 +22,3 @@ public:
 	void SetRenderer(Renderer* pRenderer);
 	void SetWindow(Window* pWindow);
 };
-
