@@ -23,6 +23,7 @@ struct Vec2 {
 
     float Dot(const Vec2& v) const;          // v1.Dot(v2)
     float Cross(const Vec2& v) const;        // v1.Cross(v2)
+    float Distance(const Vec2& v)const;      //v1.Distance(v2)
 
     static Vec2 Zero();                      // return (0.0f, 0.0f)
     static Vec2 One();                       // return (1.0f, 1.0f) 

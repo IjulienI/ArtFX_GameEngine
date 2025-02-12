@@ -70,6 +70,13 @@ float Vec2::Cross(const Vec2& v) const {
 	return (x * v.y) - (y * v.x);
 }
 
+float Vec2::Distance(const Vec2& v) const
+{
+	float difX = x - v.x;
+	float difY = y - v.y;
+	return sqrt((difX * difX) + (difY * difY));
+}
+
 Vec2 Vec2::Zero()
 {
 	return Vec2(0.0f, 0.0f);

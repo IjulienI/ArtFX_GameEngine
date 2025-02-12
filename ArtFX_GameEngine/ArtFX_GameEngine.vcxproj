@@ -138,6 +138,7 @@
     <ClCompile Include="Engine\Component.cpp" />
     <ClCompile Include="Engine\Maths\Transform2D.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game\BaseComponents\BoxColliderComponent.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="PongScene.cpp" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Engine\Component.h" />
     <ClInclude Include="Engine\Maths\Transform2D.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Game\BaseComponents\BoxColliderComponent.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="PongScene.h" />
     <ClInclude Include="Rectangle.h" />

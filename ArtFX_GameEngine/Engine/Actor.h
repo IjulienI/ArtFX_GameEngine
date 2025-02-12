@@ -4,8 +4,7 @@
 #include "ActorState.h"
 #include "../Scene.h"
 #include "Maths/Transform2D.h"
-
-class Component;
+#include "Component.h"
 
 class Actor
 {
@@ -13,19 +12,40 @@ private:
     Scene& mScene;
     ActorState mActorState;
     Transform2D mTransform;
-    std::vector<Component> mComponents;
+    std::vector<Component*> mComponents;
 
 public:
-    
+    Actor(Transform2D location, Scene& scene, ActorState state);
     Actor() = delete;
 
 public:
     void Initialize();
     void Start();
-    void AttachScene(Scene& scene);
-    void AddComponent(Component component);
-    void RemoveComponent();
-    void SetActive();
+    void AttachScene(const Scene& scene);
+    void AddComponent(Component* component);
+    void RemoveComponent(Component* component);
+    void SetActive(ActorState state);
     void Update();
     void Destroy();
+
+public:
+    Vec2 GetLocation();
+    Vec2 GetRotation();
+    Vec2 GetScale();
+    Transform2D GetTransform();
+    Scene* GetScene();
+    std::vector<Component*> GetComponents();
+    template<typename T>T* GetComponent()
+    {
+        for(auto component : mComponents)
+        {
+            T* result = dynamic_cast<T*>(component);
+            if(result)
+            {
+                return result;
+            }
+        }
+        return nullptr;
+    }
 };
+

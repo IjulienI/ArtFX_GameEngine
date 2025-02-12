@@ -1,6 +1,8 @@
 #include "Scene.h"
 #include <iostream>
 
+#include "Engine/Actor.h"
+
 Scene::Scene(): mTitle("")
 {
 }
@@ -37,4 +39,19 @@ void Scene::SetRenderer(Renderer* pRenderer)
 void Scene::SetWindow(Window* pWindow)
 {
 	mCurrentWindow = pWindow;
+}
+
+void Scene::AddActor(Actor* actor)
+{
+	mActors.push_back(actor);
+}
+
+void Scene::RemoveActor(Actor* actor)
+{
+	
+}
+
+std::vector<Actor*> Scene::GetActors()
+{
+	return mActors;
 }
