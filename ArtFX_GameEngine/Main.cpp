@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <SDL.h>
 
-#include "PongScene.h"
+#include "Game/Scenes/PongScene.h"
 
 int main(int argc, char* argv[])
 {

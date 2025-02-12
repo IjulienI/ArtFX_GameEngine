@@ -1,8 +1,8 @@
 ﻿#include "Game.h"
 #include <iostream>
 
-#include "PongScene.h"
-#include "Time.h"
+#include "Game/Scenes/PongScene.h"
+#include "Engine/Math/Time.h"
 
 Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mName(pName), mScenes(pScenes), mLoadedScene(pLoadedScene)
 {

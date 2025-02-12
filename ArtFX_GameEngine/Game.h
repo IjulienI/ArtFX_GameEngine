@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "Window.h"
-#include "Renderer.h"
+#include "Engine/Core/Render/Renderer.h"
+#include "Engine/Core/Render/Window.h"
 #include <string>
 #include <vector>
-#include "Scene.h"
+#include "Engine/Core/Class/Scene/Scene.h"
 
 class Game
 {

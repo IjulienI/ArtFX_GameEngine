@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <SDL.h>
-#include "Vec2.h"
+#include "../../Math/Vec2.h"
 #include <string>
 
 class Window

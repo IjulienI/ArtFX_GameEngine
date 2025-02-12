@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "../../Scene.h"
-#include "../../Engine/Component.h"
-#include "../../Engine/Maths/Transform2D.h"
+#include "../../../Engine/Core/Class/Scene/Scene.h"
+#include "../../../Engine/Core/Class/Component/Component.h"
+#include "../../../Engine/Math/Transform2D.h"
 
 class BoxColliderComponent : public Component
 {

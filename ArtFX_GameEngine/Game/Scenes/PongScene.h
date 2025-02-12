@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Scene.h"
+#include "../../Engine/Core/Class/Scene/Scene.h"
 
 class PongScene : public Scene
 {

@@ -1,6 +1,6 @@
 ﻿#include "BoxColliderComponent.h"
 
-#include "../../Engine/Actor.h"
+#include "../../../Engine/Core/Class/Actor/Actor.h"
 
 BoxColliderComponent::BoxColliderComponent(Actor& owner, Vec2 size, int updateOrder, float maxDistance) : Component(owner, updateOrder), mSize(size), mMaxDistance(maxDistance)
 {

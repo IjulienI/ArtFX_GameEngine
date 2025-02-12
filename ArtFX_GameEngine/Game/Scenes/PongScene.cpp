@@ -1,7 +1,7 @@
 ﻿#include "PongScene.h"
 
-#include "Log.h"
-#include "Time.h"
+#include "../../Engine/Debug/Log.h"
+#include "../../Engine/Math/Time.h"
 #include <algorithm>
 
 PongScene::PongScene(): Scene()

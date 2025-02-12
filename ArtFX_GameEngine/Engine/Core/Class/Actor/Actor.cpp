@@ -1,7 +1,7 @@
 ﻿#include "Actor.h"
 
 #include <algorithm>
-#include "../Log.h"
+#include "../../../Debug/Log.h"
 
 Actor::Actor(Transform2D location, Scene& scene, ActorState state) : mTransform(location), mScene(scene), mActorState(state)
 {

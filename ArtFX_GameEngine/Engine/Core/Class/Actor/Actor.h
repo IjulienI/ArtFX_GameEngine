@@ -2,9 +2,9 @@
 #include <vector>
 
 #include "ActorState.h"
-#include "../Scene.h"
-#include "Maths/Transform2D.h"
-#include "Component.h"
+#include "../Scene/Scene.h"
+#include "../../../Math/Transform2D.h"
+#include "../Component/Component.h"
 
 class Actor
 {

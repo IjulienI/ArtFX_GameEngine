@@ -1,5 +1,5 @@
 #include "Renderer.h"
-#include "Log.h"
+#include "../../Debug/Log.h"
 
 Renderer::Renderer(): mSdlRenderer(nullptr)
 {

@@ -1,5 +1,5 @@
 ﻿#include "Window.h"
-#include "Log.h"
+#include "../../Debug/Log.h"
 
 Window::Window(int pWitdh, int pHeight, std::string pTitle)
 {

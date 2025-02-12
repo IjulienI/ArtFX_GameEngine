@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include <iostream>
 
-#include "Engine/Actor.h"
+#include "../../Class/Actor/Actor.h"
 
 Scene::Scene(): mTitle("")
 {
@@ -13,10 +13,18 @@ Scene::Scene(Renderer* pRenderer, std::string pTitle): mRenderer(pRenderer), mTi
 
 void Scene::Start()
 {
+	for (Actor* actor : mActors)
+	{
+		actor->Start();
+	}
 }
 
 void Scene::Update()
 {
+	for (Actor* actor : mActors)
+	{
+		actor->Update();
+	}
 }
 
 void Scene::Render() const
@@ -29,6 +37,10 @@ void Scene::OnInput(SDL_Event)
 
 void Scene::Close() const
 {
+	for (Actor* actor : mActors)
+	{
+		actor->Destroy();
+	}
 }
 
 void Scene::SetRenderer(Renderer* pRenderer)
