@@ -1,5 +1,6 @@
 #include "Scene.h"
-#include <iostream>
+
+#include <algorithm>
 
 #include "../../Class/Actor/Actor.h"
 
@@ -9,6 +10,11 @@ Scene::Scene(): mTitle("")
 
 Scene::Scene(Renderer* pRenderer, std::string pTitle): mRenderer(pRenderer), mTitle(pTitle)
 {
+}
+
+Scene::~Scene()
+{
+	
 }
 
 void Scene::Start()
@@ -29,6 +35,7 @@ void Scene::Update()
 
 void Scene::Render() const
 {
+
 }
 
 void Scene::OnInput(SDL_Event) 
@@ -56,11 +63,17 @@ void Scene::SetWindow(Window* pWindow)
 void Scene::AddActor(Actor* actor)
 {
 	mActors.push_back(actor);
+	actor->Start();
 }
 
 void Scene::RemoveActor(Actor* actor)
 {
-	
+	auto it = std::find(mActors.begin(),mActors.end(),actor);
+	if(it != mActors.end())
+	{
+		iter_swap(it, mActors.end() -1);
+		mActors.pop_back();
+	}
 }
 
 std::vector<Actor*> Scene::GetActors()

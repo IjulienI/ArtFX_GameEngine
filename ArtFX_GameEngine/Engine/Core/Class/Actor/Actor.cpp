@@ -45,7 +45,10 @@ void Actor::SetActive(ActorState state)
 
 void Actor::Update()
 {
-    
+    for(Component* component : mComponents)
+    {
+        component->Update();
+    }
 }
 
 void Actor::Destroy()

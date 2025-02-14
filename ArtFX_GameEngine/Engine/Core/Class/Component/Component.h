@@ -5,12 +5,12 @@ class Actor;
 class Component
 {
 protected:
-    bool mActive;
-    Actor& mOwner;
+    bool mActive = true;
+    Actor* mOwner;
     int mUpdateOrder;
     
 public:
-    Component(Actor& owner, int updateOrder = 0);
+    Component(Actor* owner, int updateOrder = 0);
     Component() = delete;
     virtual ~Component();
 

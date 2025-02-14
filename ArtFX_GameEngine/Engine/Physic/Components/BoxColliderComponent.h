@@ -10,12 +10,9 @@ protected:
     Vec2 mSize;
     Scene* mScene = nullptr;
     float mMaxDistance;
-
-public:
-    bool mCollision = false;
     
 public:
-    BoxColliderComponent(Actor& owner, Vec2 size, int updateOrder = 0, float maxDistance = 25.0f);
+    BoxColliderComponent(Actor* owner, Vec2 size, int updateOrder = 0, float maxDistance = 25.0f);
     BoxColliderComponent() = delete;
     
     void OnStart() override;
@@ -23,6 +20,9 @@ public:
     void OnEnd() override;
 
     Vec2 GetSize();
-    bool Collision(BoxColliderComponent* component, Vec2 actorLocation);
+    bool Collision(BoxColliderComponent* component, Vec2 actorLocation) const;
+
+private:
+    void OnCollision(Actor* actor);
     
 };

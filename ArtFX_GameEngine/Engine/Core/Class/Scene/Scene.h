@@ -7,15 +7,18 @@ class Actor;
 
 class Scene
 {
-protected: 
-	std::string mTitle;
+public:
 	Renderer* mRenderer = nullptr;	
 	Window* mCurrentWindow = nullptr;
+	
+protected: 
+	std::string mTitle;
 	std::vector<Actor*> mActors;
 	
 public:
 	Scene();
 	Scene(Renderer* pRenderer, std::string pTitle = "NoName");
+	virtual ~Scene();
 
 	virtual void Start();
 	virtual void Update();

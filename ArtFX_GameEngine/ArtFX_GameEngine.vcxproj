@@ -32,6 +32,8 @@
     <ClCompile Include="Engine\Math\Vec3.cpp" />
     <ClCompile Include="Engine\Physic\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game\Actor\NDebugCollisions.cpp" />
+    <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
     <ClCompile Include="Game\Scenes\PongScene.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -52,6 +54,8 @@
     <ClInclude Include="Engine\Math\Vec3.h" />
     <ClInclude Include="Engine\Physic\Components\BoxColliderComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Game\Actor\NDebugCollisions.h" />
+    <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
     <ClInclude Include="Game\Scenes\PongScene.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

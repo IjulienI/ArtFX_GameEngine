@@ -8,25 +8,32 @@
 
 class Actor
 {
-private:
+protected:
     Scene& mScene;
     ActorState mActorState;
     Transform2D mTransform;
+    
+private:
     std::vector<Component*> mComponents;
 
 public:
     Actor(Transform2D location, Scene& scene, ActorState state);
     Actor() = delete;
+    virtual ~Actor() = default;
 
+protected:
+    virtual void Initialize();
+    
 public:
-    void Initialize();
-    void Start();
+    virtual void Start();
+    virtual void Update();
+    virtual void Destroy();
+    
+public:
     void AttachScene(const Scene& scene);
     void AddComponent(Component* component);
     void RemoveComponent(Component* component);
     void SetActive(ActorState state);
-    void Update();
-    void Destroy();
 
 public:
     Vec2 GetLocation();
