@@ -2,7 +2,7 @@
 
 #include "Debug/Log.h"
 
-NDebugCollisions::NDebugCollisions(Transform2D location, Scene& scene, ActorState state) : Actor(location, scene, state)
+NDebugCollisions::NDebugCollisions(Transform2D location, Scene& scene, ActorState state) : Actor(location, state)
 {
     
 }

@@ -1,19 +1,25 @@
 #pragma once
 #include "../../Render/Renderer.h"
 #include <string>
-#include <vector>
+#include <deque>
 
 class Actor;
 
 class Scene
 {
 public:
+	static Scene* ActiveScene;
+	
 	Renderer* mRenderer = nullptr;	
 	Window* mCurrentWindow = nullptr;
 	
 protected: 
 	std::string mTitle;
-	std::vector<Actor*> mActors;
+	std::deque<Actor*> mActors;
+	std::deque<Actor*> mPendingActors;
+
+private:
+	bool mUpdatingActors;
 	
 public:
 	Scene();
@@ -32,7 +38,9 @@ public:
 public:
 	void AddActor(Actor* actor);
 	void RemoveActor(Actor* actor);
+	void UpdateActors();
 
 public:
-	std::vector<Actor*> GetActors();
+	std::deque<Actor*> GetActors();
+	Renderer* GetRenderer();
 };

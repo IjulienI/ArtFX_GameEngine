@@ -17,7 +17,7 @@ private:
     std::vector<Component*> mComponents;
 
 public:
-    Actor(Transform2D location, Scene& scene, ActorState state);
+    Actor(Transform2D location, ActorState state);
     Actor() = delete;
     virtual ~Actor() = default;
 

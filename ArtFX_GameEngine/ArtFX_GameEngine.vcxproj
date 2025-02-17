@@ -23,7 +23,9 @@
     <ClCompile Include="Engine\Core\Class\Component\Component.cpp" />
     <ClCompile Include="Engine\Core\Class\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Core\Dispatcher\EventDispatcher.cpp" />
+    <ClCompile Include="Engine\Core\Render\Component\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Renderer.cpp" />
+    <ClCompile Include="Engine\Core\Render\Texture.cpp" />
     <ClCompile Include="Engine\Core\Render\Window.cpp" />
     <ClCompile Include="Engine\Debug\Log.cpp" />
     <ClCompile Include="Engine\Math\Time.cpp" />
@@ -31,6 +33,7 @@
     <ClCompile Include="Engine\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Math\Vec3.cpp" />
     <ClCompile Include="Engine\Physic\Components\BoxColliderComponent.cpp" />
+    <ClCompile Include="Engine\Storage\Assets.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game\Actor\NDebugCollisions.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
@@ -44,15 +47,19 @@
     <ClInclude Include="Engine\Core\Class\Scene\Scene.h" />
     <ClInclude Include="Engine\Core\Dispatcher\EventDispatcher.h" />
     <ClInclude Include="Engine\Core\Dispatcher\IObserver.h" />
+    <ClInclude Include="Engine\Core\Render\Component\SpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Renderer.h" />
+    <ClInclude Include="Engine\Core\Render\Texture.h" />
     <ClInclude Include="Engine\Core\Render\Window.h" />
     <ClInclude Include="Engine\Debug\Log.h" />
+    <ClInclude Include="Engine\Math\Maths.h" />
     <ClInclude Include="Engine\Math\Rectangle.h" />
     <ClInclude Include="Engine\Math\Time.h" />
     <ClInclude Include="Engine\Math\Transform2D.h" />
     <ClInclude Include="Engine\Math\Vec2.h" />
     <ClInclude Include="Engine\Math\Vec3.h" />
     <ClInclude Include="Engine\Physic\Components\BoxColliderComponent.h" />
+    <ClInclude Include="Engine\Storage\Assets.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game\Actor\NDebugCollisions.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
@@ -116,14 +123,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\GL\SDL\include;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\include\GL;$(SolutionDir)\ArtFX_GameEngine\Engine;$(SolutionDir)\ArtFX_GameEngine\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\GL\SDL\include;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\include\GL;$(SolutionDir)\Dependencies\SDL2_image-2.8.2\include;$(SolutionDir)\ArtFX_GameEngine\Engine;$(SolutionDir)\ArtFX_GameEngine\Game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\lib\Release\Win32;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\bin\Release\Win32;$(SolutionDir)\Dependencies\GL\SDL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glu32.lib;glew32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\SDL2_image-2.8.2\lib\x86;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\lib\Release\Win32;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\bin\Release\Win32;$(SolutionDir)\Dependencies\GL\SDL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2_image.lib;glu32.lib;glew32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -134,14 +141,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\GL\SDL\include;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\include\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies\GL\SDL\include;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\include\GL;$(SolutionDir)\Dependencies\SDL2_image-2.8.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\lib\Release\Win32;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\bin\Release\Win32;$(SolutionDir)\Dependencies\GL\SDL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Dependencies\SDL2_image-2.8.2\lib\x86;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\lib\Release\Win32;$(SolutionDir)\Dependencies\glew-2.2.0-win32\glew-2.2.0\bin\Release\Win32;$(SolutionDir)\Dependencies\GL\SDL\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glu32.lib;glew32.lib;opengl32.lib;SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
