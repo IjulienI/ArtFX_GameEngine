@@ -18,15 +18,16 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
 
 void Game::Initialize()
 {
-    mWindow = new Window(800,600, mName);
+    mWindow = new Window(800,800, mName);
 
-    mRenderer = new Renderer();
+    mRenderer = new Renderer();    
 
     if(mWindow->Open() && mRenderer->Initialize(*mWindow))
     {
         if(mScenes.size() == 1) mLoadedScene = 0;
         mScenes[mLoadedScene]->SetRenderer(mRenderer);
         mScenes[mLoadedScene]->SetWindow(mWindow);
+        mScenes[mLoadedScene]->Load();
         mScenes[mLoadedScene]->Start();
         Loop();
     } 
@@ -50,7 +51,7 @@ void Game::Render()
 {
     mRenderer->BeginDraw();
 
-    mScenes[mLoadedScene]->Render();
+    mRenderer->Draw();
 
     mRenderer->EndDraw();
 }

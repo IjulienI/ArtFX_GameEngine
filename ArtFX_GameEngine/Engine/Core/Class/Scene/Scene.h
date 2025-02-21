@@ -28,9 +28,11 @@ public:
 
 	virtual void Start();
 	virtual void Update();
-	virtual void Render() const;
 	virtual void OnInput(SDL_Event);
 	virtual void Close() const;
+	
+	virtual void Load();
+	virtual void Unload();
 
 	void SetRenderer(Renderer* pRenderer);
 	void SetWindow(Window* pWindow);

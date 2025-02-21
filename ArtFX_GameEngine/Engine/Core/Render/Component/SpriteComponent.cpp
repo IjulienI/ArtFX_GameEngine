@@ -2,6 +2,7 @@
 
 #include "../Engine/Core/Class/Actor/Actor.h"
 #include "../Engine/Core/Class/Scene/Scene.h"
+#include "Math/Rectangle.h"
 
 
 SpriteComponent::SpriteComponent(Actor* owner, Texture& texture, int drawOrder):
@@ -28,5 +29,5 @@ void SpriteComponent::SetTexture(const Texture& pTexture)
 void SpriteComponent::Draw(Renderer& pRenderer)
 {
     Vec2 origin {mTexWidth/2.0f, mTexHeight/2.0f};
-    pRenderer.Draw(*mOwner, mTexture, Rectangle(), origin, Flip::None);
+    pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(), origin, Flip::NONE);
 }

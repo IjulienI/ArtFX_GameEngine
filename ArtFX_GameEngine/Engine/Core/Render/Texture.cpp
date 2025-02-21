@@ -1,8 +1,5 @@
 ﻿#include "Texture.h"
 
-#include <SDL_image.h>
-#include <SDL_surface.h>
-
 #include "Renderer.h"
 #include "Debug/Log.h"
 
@@ -51,4 +48,9 @@ int Texture::GetWidht()
 int Texture::GetHeight()
 {
     return mHeight;
+}
+
+SDL_Texture* Texture::GetSdlTexture()
+{
+    return mTexture;
 }

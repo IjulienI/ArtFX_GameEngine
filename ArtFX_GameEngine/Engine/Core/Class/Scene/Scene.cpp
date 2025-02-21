@@ -6,7 +6,20 @@
 
 Scene* Scene::ActiveScene = nullptr;
 
-Scene::Scene(): mTitle("")
+void Scene::Load()
+{
+}
+
+void Scene::Unload()
+{
+	while(!mActors.empty())
+	{
+		delete mActors.back();
+	}
+	Assets::Clear();
+}
+
+Scene::Scene(): mTitle(""), mRenderer(nullptr)
 {
 }
 
@@ -33,11 +46,6 @@ void Scene::Update()
 	{
 		actor->Update();
 	}
-}
-
-void Scene::Render() const
-{
-
 }
 
 void Scene::OnInput(SDL_Event) 

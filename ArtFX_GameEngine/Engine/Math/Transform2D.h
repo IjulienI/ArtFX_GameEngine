@@ -6,10 +6,14 @@ class Transform2D
 public:
     Vec2 position;
     Vec2 scale;
-    Vec2 rotation;
+    float rotation;
 
 public:
-    Transform2D(Vec2 position, Vec2 scale, Vec2 rotation);
+    Transform2D(Vec2 position, Vec2 scale, float rotation);
     Transform2D();
-    
+
+public:
+    Vec2 GetPosition();
+    Vec2 GetScale();
+    float GetRotation();
 };

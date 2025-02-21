@@ -9,7 +9,7 @@
 class Actor
 {
 protected:
-    Scene& mScene;
+    Scene* mScene;
     ActorState mActorState;
     Transform2D mTransform;
     
@@ -18,7 +18,7 @@ private:
 
 public:
     Actor(Transform2D location, ActorState state);
-    Actor() = delete;
+    Actor();
     virtual ~Actor() = default;
 
 protected:
@@ -30,14 +30,14 @@ public:
     virtual void Destroy();
     
 public:
-    void AttachScene(const Scene& scene);
+    void AttachScene(Scene& scene);
     void AddComponent(Component* component);
     void RemoveComponent(Component* component);
     void SetActive(ActorState state);
 
 public:
     Vec2 GetLocation();
-    Vec2 GetRotation();
+    float GetRotation();
     Vec2 GetScale();
     Transform2D GetTransform();
     Scene* GetScene();
@@ -54,5 +54,7 @@ public:
         }
         return nullptr;
     }
+
+    void SetLocation(Vec2 loc);
 };
 

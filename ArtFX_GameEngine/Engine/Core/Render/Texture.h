@@ -1,8 +1,9 @@
 ﻿#pragma once
 #include <string>
 
+#include "SDL_image.h"
+
 class Renderer;
-class SDL_Texture;
 
 class Texture
 {
@@ -20,6 +21,7 @@ public:
 public:
     int GetWidht();
     int GetHeight();
+    SDL_Texture* GetSdlTexture();
     
     
 };

@@ -1,14 +1,20 @@
-﻿    #include "Actor.h"
+﻿#include "Actor.h"
 
 #include <algorithm>
 #include "../../../Debug/Log.h"
+#include "Core/Class/Scene/Scene.h"
 
-Actor::Actor(Transform2D location, ActorState state) : mTransform(location), mScene(*Scene::ActiveScene), mActorState(state)
+
+Actor::Actor(Transform2D location, ActorState state) : mTransform(location), mScene(Scene::ActiveScene), mActorState(state)
 {
     Initialize();
 }
 
-void Actor::Initialize()
+Actor::Actor() : mTransform(Transform2D()), mScene(Scene::ActiveScene), mActorState(ActorState::Active)
+{
+}
+
+    void Actor::Initialize()
 {
     Log::Info("Actor Initialize");
 }
@@ -18,9 +24,11 @@ void Actor::Start()
     
 }
 
-void Actor::AttachScene(const Scene& scene)
+void Actor::AttachScene(Scene& scene)
 {
-    mScene = scene;
+    //work please <3
+    mScene = &scene;
+    //<3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 
 }
 
 void Actor::AddComponent(Component* component)
@@ -61,7 +69,7 @@ Vec2 Actor::GetLocation()
     return mTransform.position;
 }
 
-Vec2 Actor::GetRotation()
+float Actor::GetRotation()
 {
     return mTransform.rotation;
 }
@@ -78,10 +86,15 @@ Transform2D Actor::GetTransform()
 
 Scene* Actor::GetScene()
 {
-    return &mScene;
+    return mScene;
 }
 
 std::vector<Component*> Actor::GetComponents()
 {
     return mComponents;
+}
+
+void Actor::SetLocation(Vec2 loc)
+{
+    mTransform.position = loc;
 }

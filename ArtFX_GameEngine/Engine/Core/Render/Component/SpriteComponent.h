@@ -9,6 +9,7 @@ protected:
     Texture mTexture;
     int mDrawOrder;
     int mTexWidth, mTexHeight;
+    
 public:
     SpriteComponent(Actor* pOwner, Texture& pTexture, int pDrawOrder = 100);
     virtual ~SpriteComponent();
@@ -20,7 +21,6 @@ public:
     virtual void Draw(Renderer& pRenderer);
 
 public:
-    //Getters
     int GetDrawOrder() const {return mDrawOrder;}
     int GetTexWidth() const {return mTexWidth;}
     int GetTexHeight() const {return mTexHeight;}

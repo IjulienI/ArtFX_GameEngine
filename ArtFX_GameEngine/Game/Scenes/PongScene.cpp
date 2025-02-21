@@ -4,7 +4,13 @@
 #include "../../Engine/Math/Time.h"
 #include <algorithm>
 
-PongScene::PongScene(): Scene()
+#include "Core/Class/Actor/Actor.h"
+#include "Core/Render/Asset.h"
+#include "Core/Render/Component/SpriteComponent.h"
+#include "Math/Rectangle.h"
+#include "Storage/Assets.h"
+
+PongScene::PongScene(): Scene(nullptr, "Pong")
 {
 }
 
@@ -13,13 +19,19 @@ void PongScene::Start()
     mWindowSize = mCurrentWindow->GetDimensions();
     mInitialPaddleLoc = (mWindowSize.y / 2) - (mPaddleSize.y /2);
     mMaxPosY = mWindowSize.y - mPaddleSize.y;
-    mPlayerRect = new Rectangle{mPaddleOffset,0.0f,mPaddleSize.x,mPaddleSize.y};
-    mEnemyRect = new Rectangle{mWindowSize.x - mPaddleOffset - mPaddleSize.x,0.0f,mPaddleSize.x,mPaddleSize.y};
-    mBallRect = new Rectangle{0.0f,0.0f, mBallSize,mBallSize};
+    mPlayerRect = new Rectangle({mPaddleOffset,0.0f},{mPaddleSize.x,mPaddleSize.y});
+    mEnemyRect = new Rectangle({mWindowSize.x - mPaddleOffset - mPaddleSize.x,0.0f},{mPaddleSize.x,mPaddleSize.y});
+    mBallRect = new Rectangle({0.0f,0.0f},{ mBallSize,mBallSize});
     mBallBaseLoc = { (mWindowSize.x / 2.0f) - mBallSize / 2.0f, (mWindowSize.y / 2.0f) - mBallSize / 2.0f};
     mBallRect->position = mWindowSize / 2.0f;
     mBallSpeed = mBallBaseSpeed;
     ResetPaddleLoc();
+    
+    Asset::LoadTexture(*mRenderer, "Resources/pokeball.png", "ball");
+    Actor* actor = new Actor();
+    AddActor(actor);
+    SpriteComponent* sprite =  new SpriteComponent(actor, Assets::GetTexture("ball"));
+    actor->SetLocation(Vec2{500, 500});
 }
 
 void PongScene::Update()
@@ -29,42 +41,6 @@ void PongScene::Update()
     EnemyUpdate();
     BallUpdate();
     Collisions();
-}
-
-void PongScene::Render() const
-{
-    //Render Outlines
-    Rectangle* playerOutline = new Rectangle{mPlayerRect->position.x - mOutlineScale,
-        mPlayerRect->position.y - mOutlineScale,
-        mPlayerRect->dimensions.x + mOutlineScale * 2
-        ,mPlayerRect->dimensions.y + mOutlineScale * 2};
-    mRenderer->DrawRect(*playerOutline,255,255,255);
-
-    Rectangle* enemyOutline = new Rectangle{mEnemyRect->position.x - mOutlineScale,
-    mEnemyRect->position.y - mOutlineScale,
-    mEnemyRect->dimensions.x + mOutlineScale * 2
-    ,mEnemyRect->dimensions.y + mOutlineScale * 2};
-    mRenderer->DrawRect(*enemyOutline,255,255,255);
-    
-    Rectangle* ballOutline = new Rectangle{mBallRect->position.x - mOutlineScale,
-    mBallRect->position.y - mOutlineScale,
-    mBallRect->dimensions.x + mOutlineScale * 2
-    ,mBallRect->dimensions.y + mOutlineScale * 2};
-    mRenderer->DrawRect(*ballOutline,255,255,255);
-
-    //Draw Middle outline
-    Rectangle* middleScreen = new Rectangle{mWindowSize.x /2 - (mMiddleScreenSize / 2),
-        0.0f, mMiddleScreenSize, mWindowSize.y};
-    mRenderer->DrawRect(*middleScreen,255,255,255);
-    
-    //Draw PlayerPaddle
-    mRenderer->DrawRect(*mPlayerRect,0,0,255);
-
-    //Draw EnemyPaddle
-    mRenderer->DrawRect(*mEnemyRect,255,0,0);
-
-    //Draw Ball 
-    mRenderer->DrawRect(*mBallRect,0,255,0);
 }
 
 void PongScene::OnInput(SDL_Event sdl_event)
@@ -172,23 +148,6 @@ void PongScene::EnemyUpdate()
 
 void PongScene::Collisions()
 {
-    //If ball collider with a paddle, inverse Velocity x and tp for prevent clipping
-    if(mBallRect->HandleCollision(mPlayerRect))
-    {
-        float collisionLoc = mBallRect->position.y - (mPlayerRect->position.y + (mPlayerRect->dimensions.y / 2));
-        float newVelocity = 5 * collisionLoc / mPlayerRect->dimensions.y / 2;
-        mBallVelocity.y = newVelocity;
-        mBallVelocity.x *= -1.0f;
-        mBallRect->position.x = mPlayerRect->position.x + mPlayerRect->dimensions.x;
-    }
-    if(mBallRect->HandleCollision(mEnemyRect))
-    {
-        float collisionLoc = mBallRect->position.y - (mEnemyRect->position.y + (mEnemyRect->dimensions.y / 2));
-        float newVelocity = 5 * collisionLoc / mEnemyRect->dimensions.y / 2;
-        mBallVelocity.y = newVelocity;
-        mBallVelocity.x *= -1.0f;
-        mBallRect->position.x = mEnemyRect->position.x - mBallRect->dimensions.x;
-    }
 }
 
 void PongScene::ResetPaddleLoc()
