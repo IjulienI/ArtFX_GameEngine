@@ -98,3 +98,8 @@ void Actor::SetLocation(Vec2 loc)
 {
     mTransform.position = loc;
 }
+
+void Actor::SetScale(Vec2 scale)
+{
+    mTransform.scale = scale;
+}

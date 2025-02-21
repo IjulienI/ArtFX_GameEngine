@@ -56,5 +56,6 @@ public:
     }
 
     void SetLocation(Vec2 loc);
+    void SetScale(Vec2 scale);
 };
 

@@ -15,7 +15,8 @@ void DebugCollisionScene::Start()
     Actor* actor = new Actor();
     AddActor(actor);
     SpriteComponent* sprite =  new SpriteComponent(actor, Asset::GetTexture("ball"));
-    actor->SetLocation(Vec2{400, 400});
+    actor->SetLocation({800.0f, 800.0f});
+    actor->SetScale({0.5f, 0.5f});
     Scene::Start();
 }
 
