@@ -1,5 +1,7 @@
 ﻿#include "Transform2D.h"
 
+#include "Maths.h"
+
 Transform2D::Transform2D(Vec2 position, Vec2 scale, float rotation) : position(position), scale(scale), rotation(rotation)
 {
 }
@@ -21,4 +23,14 @@ Vec2 Transform2D::GetScale()
 float Transform2D::GetRotation()
 {
     return rotation;
+}
+
+Vec2 Transform2D::Right()
+{
+    return Vec2(Maths::Cos(rotation), -Maths::Sin(rotation));
+}
+
+Vec2 Transform2D::Up()
+{
+    return Vec2(Maths::Sin(rotation), -Maths::Cos(rotation));
 }

@@ -16,4 +16,7 @@ public:
     Vec2 GetPosition();
     Vec2 GetScale();
     float GetRotation();
+
+    Vec2 Right();
+    Vec2 Up();  
 };

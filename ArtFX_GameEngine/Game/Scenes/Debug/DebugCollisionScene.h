@@ -9,5 +9,4 @@ public:
     
     void Start() override;
     void OnInput(SDL_Event) override;
-    
 };
