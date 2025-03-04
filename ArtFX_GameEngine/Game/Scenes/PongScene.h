@@ -51,6 +51,5 @@ public:
 
     void Start() override;
     void Update() override;
-    void OnInput(SDL_Event) override;
     void Close() const override;
 };

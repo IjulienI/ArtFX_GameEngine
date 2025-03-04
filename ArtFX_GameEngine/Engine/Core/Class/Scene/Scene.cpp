@@ -48,10 +48,6 @@ void Scene::Update()
 	}
 }
 
-void Scene::OnInput(SDL_Event) 
-{
-}
-
 void Scene::Close() const
 {
 	for (Actor* actor : mActors)

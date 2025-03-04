@@ -7,6 +7,7 @@
 #include "Core/Render/Component/AnimatedSpriteComponent.h"
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Miscellaneous/Component/MoveComponent.h"
+#include "Miscellaneous/Component/PlayerController.h"
 
 
 DebugCollisionScene::DebugCollisionScene() : Scene(nullptr, "DebugScene")
@@ -44,15 +45,7 @@ void DebugCollisionScene::Start()
     player->SetLocation({50.0f,50.0f});
     playerSprite->SetAnimationFps(8.0f);
     
-    MoveComponent* playerMovement = new MoveComponent(player);
-    playerMovement->SetSpeed({10.0f, 0.0f});
+    PlayerController* playerMovement = new PlayerController(player);
     
     Scene::Start();
 }
-
-void DebugCollisionScene::OnInput(SDL_Event sdl_event)
-{
-    
-}
-
-

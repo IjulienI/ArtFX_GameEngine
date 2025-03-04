@@ -28,7 +28,6 @@ public:
 
 	virtual void Start();
 	virtual void Update();
-	virtual void OnInput(SDL_Event);
 	virtual void Close() const;
 	
 	virtual void Load();

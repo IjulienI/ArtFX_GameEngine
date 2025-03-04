@@ -3,6 +3,7 @@
 
 #include "Game/Scenes/PongScene.h"
 #include "Engine/Math/Time.h"
+#include "Input/InputManager.h"
 
 Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mName(pName), mScenes(pScenes), mLoadedScene(pLoadedScene)
 {
@@ -77,7 +78,7 @@ void Game::CheckInputs()
         default:
             break;
         }
-        mScenes[mLoadedScene]->OnInput(event);
+        InputManager::Instance().HandleInputs(event);
     }    
 }
 

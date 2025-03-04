@@ -43,23 +43,6 @@ void PongScene::Update()
     Collisions();
 }
 
-void PongScene::OnInput(SDL_Event sdl_event)
-{
-    //HandleInputs
-    switch (sdl_event.type) {
-    case SDL_KEYDOWN:
-        if (sdl_event.key.keysym.sym == SDLK_UP)  mGoUp = true;
-        if (sdl_event.key.keysym.sym == SDLK_DOWN)  mGoDown = true;
-        if (sdl_event.key.keysym.sym == SDLK_SPACE) mGameOn = true;
-        break;
-    case SDL_KEYUP:
-        if (sdl_event.key.keysym.sym == SDLK_UP)  mGoUp = false;
-        if (sdl_event.key.keysym.sym == SDLK_DOWN)  mGoDown = false;
-    default:
-        break;
-    }
-}
-
 void PongScene::Close() const
 {
     Scene::Close();

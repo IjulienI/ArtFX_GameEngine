@@ -38,6 +38,7 @@
     <ClCompile Include="Engine\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Math\Vec3.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\MoveComponent.cpp" />
+    <ClCompile Include="Engine\Miscellaneous\Component\PlayerController.cpp" />
     <ClCompile Include="Engine\Physic\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="Engine\Storage\Assets.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -70,6 +71,7 @@
     <ClInclude Include="Engine\Math\Vec2.h" />
     <ClInclude Include="Engine\Math\Vec3.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\MoveComponent.h" />
+    <ClInclude Include="Engine\Miscellaneous\Component\PlayerController.h" />
     <ClInclude Include="Engine\Physic\Components\BoxColliderComponent.h" />
     <ClInclude Include="Engine\Storage\Assets.h" />
     <ClInclude Include="Game.h" />

@@ -31,3 +31,8 @@ void SpriteComponent::Draw(Renderer& pRenderer)
     Vec2 origin {mTexWidth/2.0f, mTexHeight/2.0f};
     pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(), origin, Flip::NONE);
 }
+
+void SpriteComponent::SetFlipX(bool status)
+{
+    mOrientation = status ? Flip::HORIZONTAL : Flip::NONE;
+}

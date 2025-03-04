@@ -13,7 +13,7 @@ public:
     MoveComponent(const MoveComponent&) = delete;
     MoveComponent& operator= (const MoveComponent&) = delete;
 
-    auto GetSpeed() const -> Vec2;
+    Vec2 GetSpeed() const;
     void SetSpeed(Vec2 speed);
 
     void Update() override;

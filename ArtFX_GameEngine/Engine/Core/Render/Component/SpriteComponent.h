@@ -3,12 +3,15 @@
 #include "Core/Render/Texture.h"
 
 
+enum class Flip;
+
 class SpriteComponent : public Component
 {
 protected:
     Texture mTexture;
     int mDrawOrder;
     int mTexWidth, mTexHeight;
+    Flip mOrientation;
     
 public:
     SpriteComponent(Actor* pOwner, Texture& pTexture, int pDrawOrder = 100);
@@ -19,6 +22,7 @@ public:
 
     virtual void SetTexture(const Texture& pTexture);
     virtual void Draw(Renderer& pRenderer);
+    void SetFlipX(bool status);
 
 public:
     int GetDrawOrder() const {return mDrawOrder;}

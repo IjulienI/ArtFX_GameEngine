@@ -79,7 +79,7 @@ void Renderer::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, 
 	   &destinationRect,
 	   -Maths::ToDeg(transform.GetRotation()),
 	   nullptr,
-	   SDL_FLIP_NONE);
+	   static_cast<SDL_RendererFlip>(orientation));
 
 	delete sourceSDL;
 

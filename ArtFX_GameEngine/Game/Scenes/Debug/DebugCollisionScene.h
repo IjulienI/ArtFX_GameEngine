@@ -8,5 +8,4 @@ public:
     ~DebugCollisionScene() override = default;
     
     void Start() override;
-    void OnInput(SDL_Event) override;
 };
