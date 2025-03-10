@@ -31,8 +31,8 @@ public:
 	void DrawSprites() override;
 
 public:
-	void AddSprite(SpriteComponent* component);
-	void RemoveSprite(SpriteComponent* component);
+	void AddSprite(SpriteComponent* component) override;
+	void RemoveSprite(SpriteComponent* component) override;
 
 	RendererType GetType() override;
 

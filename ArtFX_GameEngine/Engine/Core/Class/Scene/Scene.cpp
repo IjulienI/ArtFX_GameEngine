@@ -57,7 +57,7 @@ void Scene::Close() const
 	Assets::Clear();
 }
 
-void Scene::SetRenderer(RendererSdl* pRenderer)
+void Scene::SetRenderer(IRenderer* pRenderer)
 {
 	mRenderer = pRenderer;
 }
@@ -118,7 +118,7 @@ std::deque<Actor*> Scene::GetActors()
 	return mActors;
 }
 
-RendererSdl* Scene::GetRenderer()
+IRenderer* Scene::GetRenderer()
 {
 	return mRenderer;
 }

@@ -26,6 +26,7 @@
     <ClCompile Include="Engine\Core\Render\Asset.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\SpriteComponent.cpp" />
+    <ClCompile Include="Engine\Core\Render\OpenGL\RendererGL.cpp" />
     <ClCompile Include="Engine\Core\Render\OpenGL\VertexArray.cpp" />
     <ClCompile Include="Engine\Core\Render\RendererSdl.cpp" />
     <ClCompile Include="Engine\Core\Render\Texture.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="Engine\Core\Render\Component\AnimatedSpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\SpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Interface\IRenderer.h" />
+    <ClInclude Include="Engine\Core\Render\OpenGL\RendererGL.h" />
     <ClInclude Include="Engine\Core\Render\OpenGL\VertexArray.h" />
     <ClInclude Include="Engine\Core\Render\RendererSdl.h" />
     <ClInclude Include="Engine\Core\Render\Texture.h" />

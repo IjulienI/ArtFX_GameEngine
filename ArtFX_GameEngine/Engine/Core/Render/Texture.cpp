@@ -1,9 +1,10 @@
 ﻿#include "Texture.h"
 
 #include "RendererSdl.h"
+#include "SDL.h"
 #include "Debug/Log.h"
 
-bool Texture::LoadTexture(RendererSdl& renderer, const std::string& filePath)
+bool Texture::LoadTexture(IRenderer& renderer, const std::string& filePath)
 {
     mFilePath = filePath;
     SDL_Surface* surface = IMG_Load(mFilePath.c_str());
@@ -15,7 +16,7 @@ bool Texture::LoadTexture(RendererSdl& renderer, const std::string& filePath)
     mWidth = surface->w;
     mHeight = surface->h;
 
-    mTexture = SDL_CreateTextureFromSurface(renderer.ToSdlRenderer(), surface);
+    mTexture = SDL_CreateTextureFromSurface(dynamic_cast<RendererSdl*>(&renderer), surface);
     SDL_FreeSurface(surface);
     if(!mTexture)
     {

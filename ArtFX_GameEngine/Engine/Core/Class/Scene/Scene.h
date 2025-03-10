@@ -10,7 +10,7 @@ class Scene
 public:
 	static Scene* ActiveScene;
 	
-	RendererSdl* mRenderer = nullptr;	
+	IRenderer* mRenderer = nullptr;	
 	Window* mCurrentWindow = nullptr;
 	
 protected: 
@@ -33,7 +33,7 @@ public:
 	virtual void Load();
 	virtual void Unload();
 
-	void SetRenderer(RendererSdl* pRenderer);
+	void SetRenderer(IRenderer* pRenderer);
 	void SetWindow(Window* pWindow);
 
 public:
@@ -43,5 +43,5 @@ public:
 
 public:
 	std::deque<Actor*> GetActors();
-	RendererSdl* GetRenderer();
+	IRenderer* GetRenderer();
 };

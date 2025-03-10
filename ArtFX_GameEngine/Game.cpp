@@ -1,6 +1,7 @@
 ﻿#include "Game.h"
 #include <iostream>
 
+#include "Core/Render/OpenGL/RendererGL.h"
 #include "Game/Scenes/PongScene.h"
 #include "Engine/Math/Time.h"
 #include "Input/InputManager.h"

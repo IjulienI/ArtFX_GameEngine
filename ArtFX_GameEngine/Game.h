@@ -16,7 +16,7 @@ private:
     std::string mName = "hello world";
 
     Window* mWindow;
-    RendererSdl* mRenderer;
+    IRenderer* mRenderer;
 
     std::vector<Scene*> mScenes;
     int mLoadedScene;

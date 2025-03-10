@@ -3,6 +3,7 @@
 #include "../Engine/Core/Render/Window.h"
 #include "Math/Rectangle.h"
 
+class SpriteComponent;
 class Actor;
 class Texture;
 
@@ -31,6 +32,9 @@ public:
     virtual void EndDraw() = 0;
     virtual void Close() = 0;
     virtual RendererType GetType() = 0;
+
+    virtual void AddSprite(SpriteComponent* sprite);
+    virtual void RemoveSprite(SpriteComponent* sprite);
 
     virtual void DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation) = 0;
 };
