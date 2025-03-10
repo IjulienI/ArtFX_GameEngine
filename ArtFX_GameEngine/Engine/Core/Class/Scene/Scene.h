@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Render/Renderer.h"
+#include "../../Render/RendererSdl.h"
 #include <string>
 #include <deque>
 
@@ -10,7 +10,7 @@ class Scene
 public:
 	static Scene* ActiveScene;
 	
-	Renderer* mRenderer = nullptr;	
+	RendererSdl* mRenderer = nullptr;	
 	Window* mCurrentWindow = nullptr;
 	
 protected: 
@@ -23,7 +23,7 @@ private:
 	
 public:
 	Scene();
-	Scene(Renderer* pRenderer, std::string pTitle = "NoName");
+	Scene(RendererSdl* pRenderer, std::string pTitle = "NoName");
 	virtual ~Scene();
 
 	virtual void Start();
@@ -33,7 +33,7 @@ public:
 	virtual void Load();
 	virtual void Unload();
 
-	void SetRenderer(Renderer* pRenderer);
+	void SetRenderer(RendererSdl* pRenderer);
 	void SetWindow(Window* pWindow);
 
 public:
@@ -43,5 +43,5 @@ public:
 
 public:
 	std::deque<Actor*> GetActors();
-	Renderer* GetRenderer();
+	RendererSdl* GetRenderer();
 };

@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Engine/Core/Render/Renderer.h"
+#include "Engine/Core/Render/RendererSdl.h"
 #include "Engine/Core/Render/Window.h"
 #include <string>
 #include <vector>
@@ -16,7 +16,7 @@ private:
     std::string mName = "hello world";
 
     Window* mWindow;
-    Renderer* mRenderer;
+    RendererSdl* mRenderer;
 
     std::vector<Scene*> mScenes;
     int mLoadedScene;

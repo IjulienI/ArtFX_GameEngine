@@ -21,7 +21,7 @@ void Game::Initialize()
 {
     mWindow = new Window(800,800, mName);
 
-    mRenderer = new Renderer();    
+    mRenderer = new RendererSdl();    
 
     if(mWindow->Open() && mRenderer->Initialize(*mWindow))
     {

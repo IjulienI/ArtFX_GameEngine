@@ -3,7 +3,7 @@
 
 #include "SDL_image.h"
 
-class Renderer;
+class RendererSdl;
 
 class Texture
 {
@@ -13,7 +13,7 @@ protected:
     int mWidth,mHeight;
     
 public:
-    bool LoadTexture(Renderer& renderer, const std::string& filePath);
+    bool LoadTexture(RendererSdl& renderer, const std::string& filePath);
     void unload();
     
     void UpdateInfo(int& width, int& height);

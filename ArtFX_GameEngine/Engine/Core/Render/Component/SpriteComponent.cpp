@@ -2,7 +2,6 @@
 
 #include "../Engine/Core/Class/Actor/Actor.h"
 #include "../Engine/Core/Class/Scene/Scene.h"
-#include "Math/Rectangle.h"
 
 
 SpriteComponent::SpriteComponent(Actor* owner, Texture& texture, int drawOrder):
@@ -26,13 +25,13 @@ void SpriteComponent::SetTexture(const Texture& pTexture)
     mTexture.UpdateInfo(mTexWidth, mTexHeight);
 }
 
-void SpriteComponent::Draw(Renderer& pRenderer)
+void SpriteComponent::Draw(RendererSdl& pRenderer)
 {
     Vec2 origin {mTexWidth/2.0f, mTexHeight/2.0f};
-    pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(), origin, Flip::NONE);
+    pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(), origin, mOrientation);
 }
 
 void SpriteComponent::SetFlipX(bool status)
 {
-    mOrientation = status ? Flip::HORIZONTAL : Flip::NONE;
+    mOrientation = status ? IRenderer::Flip::Horizontal : IRenderer::Flip::None;
 }

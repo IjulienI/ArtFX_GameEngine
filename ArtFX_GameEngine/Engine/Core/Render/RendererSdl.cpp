@@ -1,17 +1,16 @@
-#include "Renderer.h"
+#include "RendererSdl.h"
 #include "../../Debug/Log.h"
 #include <SDL_image.h>	
 
 #include "Component/SpriteComponent.h"
 #include "Core/Class/Actor/Actor.h"
 #include "Math/Maths.h"
-#include "Math/Rectangle.h"
 
-Renderer::Renderer(): mSdlRenderer(nullptr)
+RendererSdl::RendererSdl(): mSdlRenderer(nullptr)
 {
 }
 
-bool Renderer::Initialize(Window& rWindow)
+bool RendererSdl::Initialize(Window& rWindow)
 {
 	mSdlRenderer = SDL_CreateRenderer(rWindow.GetSldWindow(), -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	if (!mSdlRenderer)
@@ -27,35 +26,35 @@ bool Renderer::Initialize(Window& rWindow)
 	return true;
 }
 
-void Renderer::BeginDraw()
+void RendererSdl::BeginDraw()
 {
 	SDL_SetRenderDrawColor(mSdlRenderer, 32, 32, 32, 255);
 	SDL_RenderClear(mSdlRenderer);
 }
 
-void Renderer::Draw()
+void RendererSdl::Draw()
 {
 	DrawSprites();
 }
 
-void Renderer::EndDraw()
+void RendererSdl::EndDraw()
 {
 	SDL_RenderPresent(mSdlRenderer);
 }
 
-void Renderer::Close()
+void RendererSdl::Close()
 {
 	SDL_DestroyRenderer(mSdlRenderer);
 }
 
-void Renderer::DrawRect(Rectangle& rRect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+void RendererSdl::DrawRect(Rectangle& rRect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
 	SDL_SetRenderDrawColor(mSdlRenderer, r, g, b, a);
 	SDL_Rect sdlRect = rRect.ToSdlRect();
 	SDL_RenderFillRect(mSdlRenderer, &sdlRect);
 }
 
-void Renderer::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
+void RendererSdl::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
 {
 	SDL_Rect destinationRect;
 	Transform2D transform = actor.GetTransform();
@@ -85,7 +84,7 @@ void Renderer::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, 
 
 }
 
-void Renderer::DrawSprites()
+void RendererSdl::DrawSprites()
 {
 	for(auto it : mSprites)
 	{
@@ -93,7 +92,7 @@ void Renderer::DrawSprites()
 	}
 }
 
-void Renderer::AddSprite(SpriteComponent* component)
+void RendererSdl::AddSprite(SpriteComponent* component)
 {
 	int spriteDrawOrder = component->GetDrawOrder();
 	std::vector<SpriteComponent*>::iterator sc;
@@ -104,14 +103,19 @@ void Renderer::AddSprite(SpriteComponent* component)
 	mSprites.insert(sc, component);
 }
 
-void Renderer::RemoveSprite(SpriteComponent* component)
+void RendererSdl::RemoveSprite(SpriteComponent* component)
 {
 	std::vector<SpriteComponent*>::iterator sc;
 	sc = std::find(mSprites.begin(), mSprites.end(), component);
 	mSprites.erase(sc);
 }
 
-SDL_Renderer* Renderer::ToSdlRenderer()
+IRenderer::RendererType RendererSdl::GetType()
+{
+	return RendererType::SDL;
+}
+
+SDL_Renderer* RendererSdl::ToSdlRenderer()
 {
 	return mSdlRenderer;
 }

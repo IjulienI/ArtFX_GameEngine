@@ -1,9 +1,8 @@
 ﻿#pragma once
+
 #include "Core/Class/Component/Component.h"
 #include "Core/Render/Texture.h"
-
-
-enum class Flip;
+#include "Core/Render/Interface/IRenderer.h"
 
 class SpriteComponent : public Component
 {
@@ -11,17 +10,17 @@ protected:
     Texture mTexture;
     int mDrawOrder;
     int mTexWidth, mTexHeight;
-    Flip mOrientation;
+    IRenderer::Flip mOrientation;
     
 public:
     SpriteComponent(Actor* pOwner, Texture& pTexture, int pDrawOrder = 100);
-    virtual ~SpriteComponent();
+    virtual ~SpriteComponent() override;
     SpriteComponent() = delete;
     SpriteComponent(const SpriteComponent&) = delete;
     SpriteComponent& operator= (const SpriteComponent&) = delete;
 
     virtual void SetTexture(const Texture& pTexture);
-    virtual void Draw(Renderer& pRenderer);
+    virtual void Draw(RendererSdl& pRenderer);
     void SetFlipX(bool status);
 
 public:

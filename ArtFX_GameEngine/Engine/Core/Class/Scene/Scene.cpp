@@ -23,7 +23,7 @@ Scene::Scene(): mTitle(""), mRenderer(nullptr)
 {
 }
 
-Scene::Scene(Renderer* pRenderer, std::string pTitle): mRenderer(pRenderer), mTitle(pTitle)
+Scene::Scene(RendererSdl* pRenderer, std::string pTitle): mRenderer(pRenderer), mTitle(pTitle)
 {
 }
 
@@ -57,7 +57,7 @@ void Scene::Close() const
 	Assets::Clear();
 }
 
-void Scene::SetRenderer(Renderer* pRenderer)
+void Scene::SetRenderer(RendererSdl* pRenderer)
 {
 	mRenderer = pRenderer;
 }
@@ -118,7 +118,7 @@ std::deque<Actor*> Scene::GetActors()
 	return mActors;
 }
 
-Renderer* Scene::GetRenderer()
+RendererSdl* Scene::GetRenderer()
 {
 	return mRenderer;
 }
