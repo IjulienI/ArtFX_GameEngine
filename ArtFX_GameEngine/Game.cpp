@@ -22,7 +22,7 @@ void Game::Initialize()
 {
     mWindow = new Window(800,800, mName);
 
-    mRenderer = new RendererSdl();    
+    mRenderer = new RendererGL();
 
     if(mWindow->Open() && mRenderer->Initialize(*mWindow))
     {

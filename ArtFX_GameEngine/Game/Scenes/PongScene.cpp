@@ -8,7 +8,6 @@
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Math/Rectangle.h"
-#include "Storage/Assets.h"
 
 PongScene::PongScene(): Scene(nullptr, "Pong")
 {
@@ -30,7 +29,7 @@ void PongScene::Start()
     Asset::LoadTexture(*mRenderer, "Resources/pokeball.png", "ball");
     Actor* actor = new Actor();
     AddActor(actor);
-    SpriteComponent* sprite =  new SpriteComponent(actor, Assets::GetTexture("ball"));
+    SpriteComponent* sprite =  new SpriteComponent(actor, Asset::GetTexture("ball"));
     actor->SetLocation(Vec2{500, 500});
 }
 

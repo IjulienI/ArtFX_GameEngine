@@ -16,7 +16,7 @@ bool Texture::LoadTexture(IRenderer& renderer, const std::string& filePath)
     mWidth = surface->w;
     mHeight = surface->h;
 
-    mTexture = SDL_CreateTextureFromSurface(dynamic_cast<RendererSdl*>(&renderer), surface);
+    mTexture = SDL_CreateTextureFromSurface(dynamic_cast<RendererSdl*>(&renderer)->ToSdlRenderer(), surface);
     SDL_FreeSurface(surface);
     if(!mTexture)
     {

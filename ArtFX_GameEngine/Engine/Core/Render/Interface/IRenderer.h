@@ -33,8 +33,8 @@ public:
     virtual void Close() = 0;
     virtual RendererType GetType() = 0;
 
-    virtual void AddSprite(SpriteComponent* sprite);
-    virtual void RemoveSprite(SpriteComponent* sprite);
+    virtual void AddSprite(SpriteComponent* sprite) = 0;
+    virtual void RemoveSprite(SpriteComponent* sprite) = 0;
 
     virtual void DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation) = 0;
 };

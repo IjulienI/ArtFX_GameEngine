@@ -46,7 +46,6 @@
     <ClCompile Include="Engine\Miscellaneous\Component\MoveComponent.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\PlayerController.cpp" />
     <ClCompile Include="Engine\Physic\Components\BoxColliderComponent.cpp" />
-    <ClCompile Include="Engine\Storage\Assets.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game\Actor\NDebugCollisions.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
@@ -86,11 +85,13 @@
     <ClInclude Include="Engine\Miscellaneous\Component\MoveComponent.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\PlayerController.h" />
     <ClInclude Include="Engine\Physic\Components\BoxColliderComponent.h" />
-    <ClInclude Include="Engine\Storage\Assets.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game\Actor\NDebugCollisions.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
     <ClInclude Include="Game\Scenes\PongScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Engine\Core\Render\Shader\Simple.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

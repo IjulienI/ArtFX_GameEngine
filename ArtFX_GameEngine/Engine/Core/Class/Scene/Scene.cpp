@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include "../../Class/Actor/Actor.h"
-#include "Storage/Assets.h"
+#include "Core/Render/Asset.h"
 
 Scene* Scene::ActiveScene = nullptr;
 
@@ -16,7 +16,7 @@ void Scene::Unload()
 	{
 		delete mActors.back();
 	}
-	Assets::Clear();
+	Asset::Clear();
 }
 
 Scene::Scene(): mTitle(""), mRenderer(nullptr)
@@ -54,7 +54,7 @@ void Scene::Close() const
 	{
 		delete actor;
 	}
-	Assets::Clear();
+	Asset::Clear();
 }
 
 void Scene::SetRenderer(IRenderer* pRenderer)

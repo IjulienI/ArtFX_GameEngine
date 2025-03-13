@@ -15,7 +15,7 @@ private:
     std::vector<SpriteComponent*> mSprites;
 public:
     RendererGL();
-    virtual ~RendererGL();
+    virtual ~RendererGL() override;
     RendererGL(const RendererGL&) = delete;
     RendererGL& operator =(const RendererGL&) = delete;
 
