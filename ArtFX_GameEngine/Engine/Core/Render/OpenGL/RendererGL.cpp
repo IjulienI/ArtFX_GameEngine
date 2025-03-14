@@ -54,6 +54,12 @@ void RendererGL::BeginDraw()
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    if (mShaderProgram != nullptr)
+    {
+        mShaderProgram->Use();
+    }
+    mVao->SetActive();
 }
 
 void RendererGL::Draw()
@@ -71,6 +77,7 @@ void RendererGL::EndDraw()
 
 void RendererGL::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
 {
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
 
 void RendererGL::AddSprite(SpriteComponent* sprite)

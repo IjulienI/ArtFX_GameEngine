@@ -29,6 +29,8 @@
     <ClCompile Include="Engine\Core\Render\OpenGL\RendererGL.cpp" />
     <ClCompile Include="Engine\Core\Render\OpenGL\VertexArray.cpp" />
     <ClCompile Include="Engine\Core\Render\RendererSdl.cpp" />
+    <ClCompile Include="Engine\Core\Render\Shader\Shader.cpp" />
+    <ClCompile Include="Engine\Core\Render\Shader\ShaderProgram.cpp" />
     <ClCompile Include="Engine\Core\Render\Texture.cpp" />
     <ClCompile Include="Engine\Core\Render\Window.cpp" />
     <ClCompile Include="Engine\Debug\Log.cpp" />
@@ -66,6 +68,8 @@
     <ClInclude Include="Engine\Core\Render\OpenGL\RendererGL.h" />
     <ClInclude Include="Engine\Core\Render\OpenGL\VertexArray.h" />
     <ClInclude Include="Engine\Core\Render\RendererSdl.h" />
+    <ClInclude Include="Engine\Core\Render\Shader\Shader.h" />
+    <ClInclude Include="Engine\Core\Render\Shader\ShaderProgram.h" />
     <ClInclude Include="Engine\Core\Render\Texture.h" />
     <ClInclude Include="Engine\Core\Render\Window.h" />
     <ClInclude Include="Engine\Debug\Log.h" />
@@ -91,6 +95,7 @@
     <ClInclude Include="Game\Scenes\PongScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Engine\Core\Render\Shader\Simple.frag" />
     <Content Include="Engine\Core\Render\Shader\Simple.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

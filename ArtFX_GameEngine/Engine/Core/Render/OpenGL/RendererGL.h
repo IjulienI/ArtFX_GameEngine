@@ -4,6 +4,8 @@
 #include "VertexArray.h"
 #include <vector>
 
+#include "Core/Render/Shader/ShaderProgram.h"
+
 class SpriteComponent;
 
 class RendererGL : public IRenderer
@@ -13,6 +15,7 @@ private:
     VertexArray* mVao;
     SDL_GLContext mContext;
     std::vector<SpriteComponent*> mSprites;
+    ShaderProgram* mShaderProgram;
 public:
     RendererGL();
     virtual ~RendererGL() override;
