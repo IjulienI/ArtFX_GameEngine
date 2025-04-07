@@ -51,6 +51,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game\Actor\NDebugCollisions.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
+    <ClCompile Include="Game\Scenes\Debug\GLTestScene.cpp" />
     <ClCompile Include="Game\Scenes\PongScene.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -92,6 +93,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game\Actor\NDebugCollisions.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
+    <ClInclude Include="Game\Scenes\Debug\GLTestScene.h" />
     <ClInclude Include="Game\Scenes\PongScene.h" />
   </ItemGroup>
   <ItemGroup>

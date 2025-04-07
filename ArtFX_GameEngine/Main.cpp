@@ -2,12 +2,11 @@
 #include "Game.h"
 #include <SDL.h>
 
-#include "Game/Scenes/PongScene.h"
-#include "Scenes/Debug/DebugCollisionScene.h"
+#include "Scenes/Debug/GLTestScene.h"
 
 int main(int argc, char* argv[])
 {
-	Game* game = new Game("Hello World",{new DebugCollisionScene()});
+	Game* game = new Game("Hello World",{new GLTestScene});
 	game->Initialize();
 	return 0;
 }
