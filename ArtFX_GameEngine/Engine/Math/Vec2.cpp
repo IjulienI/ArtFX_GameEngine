@@ -74,7 +74,7 @@ float Vec2::Distance(const Vec2& v) const
 {
 	float difX = x - v.x;
 	float difY = y - v.y;
-	return sqrt((difX * difX) + (difY * difY));
+	return static_cast<float>(sqrt((difX * difX) + (difY * difY)));
 }
 
 Vec2 Vec2::Zero()

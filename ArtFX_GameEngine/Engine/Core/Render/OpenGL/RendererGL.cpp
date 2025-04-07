@@ -6,7 +6,7 @@
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Debug/Log.h"
 
-RendererGL::RendererGL() : mWindow(nullptr), mVao(nullptr), mContext(nullptr)
+RendererGL::RendererGL() : mWindow(nullptr), mVao(nullptr), mContext(nullptr), mShaderProgram(nullptr)
 {
 }
 
@@ -104,6 +104,11 @@ void RendererGL::Close()
     delete mVao;
 }
 
+void RendererGL::SetShaderProgram(ShaderProgram* shaderProgram)
+{
+    mShaderProgram = shaderProgram;
+}
+    
 IRenderer::RendererType RendererGL::GetType()
 {
     return RendererType::OPENGL;

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../Engine/Core/Render/Window.h"
+#include "Core/Render/Shader/ShaderProgram.h"
 #include "Math/Rectangle.h"
 
 class SpriteComponent;
@@ -35,6 +36,7 @@ public:
 
     virtual void AddSprite(SpriteComponent* sprite) = 0;
     virtual void RemoveSprite(SpriteComponent* sprite) = 0;
+    virtual void SetShaderProgram(ShaderProgram* shaderProgram) = 0;
 
     virtual void DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation) = 0;
 };

@@ -4,8 +4,6 @@
 #include "VertexArray.h"
 #include <vector>
 
-#include "Core/Render/Shader/ShaderProgram.h"
-
 class SpriteComponent;
 
 class RendererGL : public IRenderer
@@ -32,6 +30,7 @@ public:
     void AddSprite(SpriteComponent* sprite) override;
     void RemoveSprite(SpriteComponent* sprite) override;
     void Close() override;
+    void SetShaderProgram(ShaderProgram* shaderProgram) override;
     RendererType GetType() override;
     
     

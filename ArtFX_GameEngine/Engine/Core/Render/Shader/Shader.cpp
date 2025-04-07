@@ -3,7 +3,7 @@
 #include <glew.h>
 #include "Debug/Log.h"
 
-const std::string Shader::SHADER_PATH = "Resources/Shaders/";
+const std::string Shader::SHADER_PATH = "Engine/Core/Render/Shader/";
 
 Shader::Shader() : mId(0), mCode(""), mType(VERTEX)
 {

@@ -23,7 +23,7 @@ Scene::Scene(): mTitle(""), mRenderer(nullptr)
 {
 }
 
-Scene::Scene(RendererSdl* pRenderer, std::string pTitle): mRenderer(pRenderer), mTitle(pTitle)
+Scene::Scene(IRenderer* pRenderer, std::string pTitle): mRenderer(pRenderer), mTitle(pTitle)
 {
 }
 

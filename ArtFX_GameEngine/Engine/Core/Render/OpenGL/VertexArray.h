@@ -11,7 +11,6 @@ constexpr unsigned int indices[] = {
     2, 3, 0
     };
 
-
 class VertexArray
 {
 private:

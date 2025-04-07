@@ -25,7 +25,7 @@ void SpriteComponent::SetTexture(const Texture& pTexture)
     mTexture.UpdateInfo(mTexWidth, mTexHeight);
 }
 
-void SpriteComponent::Draw(RendererSdl& pRenderer)
+void SpriteComponent::Draw(IRenderer& pRenderer)
 {
     Vec2 origin {static_cast<float>(mTexWidth)/2.0f, static_cast<float>(mTexHeight)/2.0f};
     pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(), origin, mOrientation);

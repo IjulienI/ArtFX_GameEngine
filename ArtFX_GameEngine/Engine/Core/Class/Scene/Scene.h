@@ -23,7 +23,7 @@ private:
 	
 public:
 	Scene();
-	Scene(RendererSdl* pRenderer, std::string pTitle = "NoName");
+	Scene(IRenderer* pRenderer, std::string pTitle = "NoName");
 	virtual ~Scene();
 
 	virtual void Start();

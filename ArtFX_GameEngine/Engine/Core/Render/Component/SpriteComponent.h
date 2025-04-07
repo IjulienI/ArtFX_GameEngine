@@ -20,7 +20,7 @@ public:
     SpriteComponent& operator= (const SpriteComponent&) = delete;
 
     virtual void SetTexture(const Texture& pTexture);
-    virtual void Draw(RendererSdl& pRenderer);
+    virtual void Draw(IRenderer& pRenderer);
     void SetFlipX(bool status);
 
 public:

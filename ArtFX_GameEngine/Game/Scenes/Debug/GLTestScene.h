@@ -6,7 +6,8 @@
 class GLTestScene : public Scene
 {
 private:
-    Shader mVertexShader, mFragmentShader;
+    Shader* mVertexShader = new Shader();
+    Shader* mFragmentShader = new Shader();
     ShaderProgram mSimpleProgram;
 public:
     GLTestScene();
@@ -15,4 +16,5 @@ public:
     void Start() override;
     void Update() override;
     void Close() const override;
+    void Load() override;
 };
