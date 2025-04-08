@@ -3,7 +3,7 @@
 
 #include "ActorState.h"
 #include "../Scene/Scene.h"
-#include "../../../Math/Transform2D.h"
+#include "../../../Math/Transform.h"
 #include "../Component/Component.h"
 
 class Actor
@@ -11,13 +11,13 @@ class Actor
 protected:
     Scene* mScene;
     ActorState mActorState;
-    Transform2D mTransform;
+    Transform mTransform;
     
 private:
     std::vector<Component*> mComponents;
 
 public:
-    Actor(Transform2D location, ActorState state);
+    Actor(Transform location, ActorState state);
     Actor();
     virtual ~Actor() = default;
 
@@ -34,12 +34,13 @@ public:
     void AddComponent(Component* component);
     void RemoveComponent(Component* component);
     void SetActive(ActorState state);
+    void UpdateComponentsTransform();
 
 public:
-    Vec2 GetLocation();
-    float GetRotation();
-    Vec2 GetScale();
-    Transform2D GetTransform();
+    Vec3 GetLocation();
+    Quaternion GetRotation();
+    Vec3 GetScale();
+    Transform GetTransform();
     Scene* GetScene();
     std::vector<Component*> GetComponents();
     template<typename T>T* GetComponent()
@@ -55,7 +56,7 @@ public:
         return nullptr;
     }
 
-    void SetLocation(Vec2 loc);
-    void SetScale(Vec2 scale);
+    void SetLocation(Vec3 loc);
+    void SetScale(Vec3 scale);
 };
 

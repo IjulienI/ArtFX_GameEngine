@@ -9,12 +9,15 @@ private:
     Shader* mVertexShader = new Shader();
     Shader* mFragmentShader = new Shader();
     ShaderProgram mSimpleProgram;
+
+    Actor* Square;
 public:
     GLTestScene();
     ~GLTestScene() override = default;
     
     void Start() override;
     void Update() override;
+    void Render() override;
     void Close() const override;
     void Load() override;
 };

@@ -5,12 +5,12 @@
 #include "Core/Class/Scene/Scene.h"
 
 
-Actor::Actor(Transform2D location, ActorState state) : mTransform(location), mScene(Scene::ActiveScene), mActorState(state)
+Actor::Actor(Transform location, ActorState state) : mTransform(location), mScene(Scene::ActiveScene), mActorState(state)
 {
     Initialize();
 }
 
-Actor::Actor() : mTransform(Transform2D()), mScene(Scene::ActiveScene), mActorState(ActorState::Active)
+Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mTransform(Transform(this))
 {
 }
 
@@ -51,6 +51,14 @@ void Actor::SetActive(ActorState state)
     mActorState = state;
 }
 
+void Actor::UpdateComponentsTransform()
+{
+    for(Component* component : mComponents)
+    {
+        component->SetTransform();
+    }
+}
+
 void Actor::Update()
 {
     for(Component* component : mComponents)
@@ -64,22 +72,22 @@ void Actor::Destroy()
     
 }
 
-Vec2 Actor::GetLocation()
+Vec3 Actor::GetLocation()
 {
     return mTransform.position;
 }
 
-float Actor::GetRotation()
+Quaternion Actor::GetRotation()
 {
     return mTransform.rotation;
 }
 
-Vec2 Actor::GetScale()
+Vec3 Actor::GetScale()
 {
     return mTransform.scale;
 }
 
-Transform2D Actor::GetTransform()
+Transform Actor::GetTransform()
 {
     return mTransform;
 }
@@ -94,12 +102,12 @@ std::vector<Component*> Actor::GetComponents()
     return mComponents;
 }
 
-void Actor::SetLocation(Vec2 loc)
+void Actor::SetLocation(Vec3 loc)
 {
     mTransform.position = loc;
 }
 
-void Actor::SetScale(Vec2 scale)
+void Actor::SetScale(Vec3 scale)
 {
     mTransform.scale = scale;
 }

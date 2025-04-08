@@ -12,17 +12,23 @@ GLTestScene::GLTestScene()
 void GLTestScene::Start()
 {
     Scene::Start();
-    Actor* Square = new Actor();
+    Square = new Actor();
     AddActor(Square);
 
-    //SpriteComponent* sprite =  new SpriteComponent(Square, Asset::GetTexture("ball") );
     Square->SetLocation({800.0f, 800.0f});
-    Square->SetScale({0.5f, 0.5f});
+    Square->SetScale({1, 1});
+
+    SpriteComponent* sprite = new SpriteComponent(Square, Asset::GetTexture("TUTUTUTU"));
 }
 
 void GLTestScene::Update()
 {
     Scene::Update();
+}
+
+void GLTestScene::Render()
+{
+    Scene::Render();
 }
 
 void GLTestScene::Close() const
@@ -33,10 +39,10 @@ void GLTestScene::Close() const
 void GLTestScene::Load()
 {
     Scene::Load();
-    Asset::LoadTexture(*mRenderer, "Resources/pokeball.png", "ball");
+    Asset::LoadTexture(*mRenderer, "Resources/TUTUTUTU.png", "TUTUTUTU");
     
-    mFragmentShader->Load("Simple.frag", FRAGMENT);
-    mVertexShader->Load("Simple.vert", VERTEX);
+    mFragmentShader->Load("SpriteShader.frag", FRAGMENT);
+    mVertexShader->Load("SpriteShader.vert", VERTEX);
 
     mSimpleProgram.Compose({mFragmentShader, mVertexShader});
 

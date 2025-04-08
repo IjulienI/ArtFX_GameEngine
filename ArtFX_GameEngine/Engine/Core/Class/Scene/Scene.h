@@ -28,6 +28,7 @@ public:
 
 	virtual void Start();
 	virtual void Update();
+	virtual void Render();
 	virtual void Close() const;
 	
 	virtual void Load();

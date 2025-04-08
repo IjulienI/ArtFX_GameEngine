@@ -125,6 +125,7 @@ public:
 	static Vec3 Transform(const Vec3& v, const class Quaternion& q);
 
 	static const Vec3 zero;
+	static const Vec3 one;
 	static const Vec3 unitX;
 	static const Vec3 unitY;
 	static const Vec3 unitZ;

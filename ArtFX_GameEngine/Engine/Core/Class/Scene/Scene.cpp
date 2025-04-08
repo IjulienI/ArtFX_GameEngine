@@ -48,6 +48,10 @@ void Scene::Update()
 	}
 }
 
+void Scene::Render()
+{
+}
+
 void Scene::Close() const
 {
 	for (Actor* actor : mActors)

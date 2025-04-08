@@ -12,6 +12,11 @@ Component::~Component()
     mOwner->RemoveComponent(this);
 }
 
+void Component::SetTransform(Matrix4Row pWorldTransform)
+{
+    mWorldTransform = pWorldTransform;
+}
+
 void Component::OnStart()
 {
     

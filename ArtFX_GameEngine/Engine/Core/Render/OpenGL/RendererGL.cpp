@@ -64,6 +64,10 @@ void RendererGL::BeginDraw()
 
 void RendererGL::Draw()
 {
+    for(auto it : mSprites)
+    {
+        it->Draw(*this);
+    }
 }
 
 void RendererGL::DrawSprites()

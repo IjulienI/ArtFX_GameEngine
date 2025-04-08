@@ -54,6 +54,7 @@ void Game::Render()
     mRenderer->BeginDraw();
 
     mRenderer->Draw();
+    mScenes[mLoadedScene]->Render();
 
     mRenderer->EndDraw();
 }

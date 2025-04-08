@@ -1,8 +1,57 @@
 ﻿#include "Texture.h"
 
 #include "RendererSdl.h"
+#include "OpenGL/RendererGL.h"
 #include "SDL.h"
 #include "Debug/Log.h"
+
+
+Texture::Texture()
+{
+    
+}
+
+bool Texture::LoadSdl(RendererSdl* renderer, const std::string& filePath, SDL_Surface* surface)
+{
+    //Create texture from surface
+    mSdlTexture = SDL_CreateTextureFromSurface(renderer->ToSdlRenderer(), surface);
+    SDL_FreeSurface(surface);
+    if(!mSdlTexture)
+    {
+        Log::Error(LogType::Render, "Failed to convert surface to texture :"+filePath);
+        return false;
+    }
+    Log::Info("Loaded SDL texture : "+filePath);
+    return true;
+}
+
+bool Texture::LoadGl(RendererGL* Renderer, const std::string& FileName, SDL_Surface* Surface)
+{
+    int format = 0;
+    if(Surface->format->format == SDL_PIXELFORMAT_RGB24)
+    {
+        format = GL_RGB;
+    } else if (Surface->format->format == SDL_PIXELFORMAT_RGBA32)
+    {
+        format = GL_RGBA;
+    }
+    glGenTextures(1, &mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+    glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, format, GL_UNSIGNED_BYTE, Surface->pixels);
+    SDL_FreeSurface(Surface);
+    Log::Info("Loaded GL texture : "+FileName);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  
+    return true;
+}
+
+void Texture::SetActive() const
+{
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+
+}
 
 bool Texture::LoadTexture(IRenderer& renderer, const std::string& filePath)
 {
@@ -16,23 +65,18 @@ bool Texture::LoadTexture(IRenderer& renderer, const std::string& filePath)
     mWidth = surface->w;
     mHeight = surface->h;
 
-    mTexture = SDL_CreateTextureFromSurface(dynamic_cast<RendererSdl*>(&renderer)->ToSdlRenderer(), surface); //TOFIX
-    SDL_FreeSurface(surface);
-    if(!mTexture)
+    if(renderer.GetType() == IRenderer::RendererType::SDL)
     {
-        Log::Error(LogType::Render, "Failed to convert surface to texture : " + mFilePath);
-        return false;
+        return LoadSdl(dynamic_cast<RendererSdl*>(&renderer), filePath, surface);
     }
-    Log::Info("Loaded texture : " + mFilePath);
-    return true;
+    return LoadGl(dynamic_cast<RendererGL*>(&renderer), filePath, surface);
 }
 
 void Texture::unload()
 {
-    if(mTexture)
-    {
-        SDL_DestroyTexture(mTexture);
-    }
+    if(mSdlTexture) SDL_DestroyTexture(mSdlTexture);
+    else glDeleteTextures(1, &mTextureID);
+
 }
 
 void Texture::UpdateInfo(int& width, int& height)
@@ -53,5 +97,5 @@ int Texture::GetHeight()
 
 SDL_Texture* Texture::GetSdlTexture()
 {
-    return mTexture;
+    return mSdlTexture;
 }

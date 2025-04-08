@@ -41,6 +41,7 @@
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
     <ClCompile Include="Engine\Math\Rectangle.cpp" />
     <ClCompile Include="Engine\Math\Time.cpp" />
+    <ClCompile Include="Engine\Math\Transform.cpp" />
     <ClCompile Include="Engine\Math\Transform2D.cpp" />
     <ClCompile Include="Engine\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Math\Vec3.cpp" />
@@ -83,6 +84,7 @@
     <ClInclude Include="Engine\Math\Quaternion.h" />
     <ClInclude Include="Engine\Math\Rectangle.h" />
     <ClInclude Include="Engine\Math\Time.h" />
+    <ClInclude Include="Engine\Math\Transform.h" />
     <ClInclude Include="Engine\Math\Transform2D.h" />
     <ClInclude Include="Engine\Math\Vec2.h" />
     <ClInclude Include="Engine\Math\Vec3.h" />
@@ -99,6 +101,8 @@
   <ItemGroup>
     <Content Include="Engine\Core\Render\Shader\Simple.frag" />
     <Content Include="Engine\Core\Render\Shader\Simple.vert" />
+    <Content Include="Engine\Core\Render\Shader\SpriteShader.frag" />
+    <Content Include="Engine\Core\Render\Shader\SpriteShader.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
