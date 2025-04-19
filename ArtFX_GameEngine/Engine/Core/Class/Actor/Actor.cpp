@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "../../../Debug/Log.h"
 #include "Core/Class/Scene/Scene.h"
+#include "Math/Transform.h"
 
 
 Actor::Actor(Transform location, ActorState state) : mTransform(location), mScene(Scene::ActiveScene), mActorState(state)
@@ -14,7 +15,7 @@ Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mT
 {
 }
 
-    void Actor::Initialize()
+void Actor::Initialize()
 {
     Log::Info("Actor Initialize");
 }
@@ -26,9 +27,7 @@ void Actor::Start()
 
 void Actor::AttachScene(Scene& scene)
 {
-    //work please <3
     mScene = &scene;
-    //<3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 <3 
 }
 
 void Actor::AddComponent(Component* component)
@@ -55,7 +54,7 @@ void Actor::UpdateComponentsTransform()
 {
     for(Component* component : mComponents)
     {
-        component->SetTransform();
+        component->SetTransform(mTransform);
     }
 }
 

@@ -1,10 +1,11 @@
 ﻿#pragma once
-#include <vector>
 
+#include <vector>
 #include "ActorState.h"
 #include "../Scene/Scene.h"
-#include "../../../Math/Transform.h"
 #include "../Component/Component.h"
+
+class Transform;
 
 class Actor
 {

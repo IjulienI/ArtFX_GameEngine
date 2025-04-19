@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "Matrix4Row.h"
 #include "Quaternion.h"
 #include "Vec3.h"

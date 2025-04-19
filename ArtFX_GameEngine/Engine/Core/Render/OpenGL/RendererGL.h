@@ -31,7 +31,5 @@ public:
     void RemoveSprite(SpriteComponent* sprite) override;
     void Close() override;
     void SetShaderProgram(ShaderProgram* shaderProgram) override;
-    RendererType GetType() override;
-    
-    
+    RendererType GetType() override;      
 };
