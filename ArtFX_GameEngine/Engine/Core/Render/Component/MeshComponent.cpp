@@ -6,8 +6,7 @@
 
 MeshComponent::MeshComponent(Actor* pOwner) : Component(pOwner), mMesh(nullptr), mTextureIndex(0)
 {
-    mMesh = new Mesh();
-    Scene::ActiveScene->GetRenderer().AddMesh(this);
+    glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
 
 MeshComponent::~MeshComponent()
@@ -28,7 +27,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
         texture->SetActive();
     }
     mMesh->GetVertexArray()->SetActive();
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(mMesh->GetVertexArray()->GetIndicesCount()), GL_UNSIGNED_INT, nullptr);
+    glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVerticesCount());
 }
 
 void MeshComponent::SetMesh(Mesh& mesh)
@@ -40,4 +39,9 @@ void MeshComponent::SetMesh(Mesh& mesh)
 void MeshComponent::SetTextureIndex(size_t pTextureIndex)
 {
     mTextureIndex = pTextureIndex;
+}
+
+void MeshComponent::AddTexture(Texture& pTexture)
+{
+    mMesh->AddTexture(&pTexture);
 }

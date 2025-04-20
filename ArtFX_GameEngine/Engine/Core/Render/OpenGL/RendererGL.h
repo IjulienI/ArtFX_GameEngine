@@ -12,7 +12,7 @@ private:
     Window* mWindow;
     VertexArray* mSpriteVAO;
     SDL_GLContext mContext;
-    ShaderProgram* mSpriteShaderProgram;
+    ShaderProgram mSpriteShaderProgram;
     Shader mSpriteVertexShader, mSpriteFragmentShader;
     Matrix4Row mSpriteViewProj;
     Matrix4Row mView;

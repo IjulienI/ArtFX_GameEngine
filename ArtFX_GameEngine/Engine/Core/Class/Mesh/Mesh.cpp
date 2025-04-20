@@ -5,15 +5,20 @@
 
 Mesh::Mesh() : mVertexArray(nullptr)
 {
-    mVertexArray = new VertexArray(cubeVertices, 28, cubeIndices, 36);
     mVertexShader.Load("BasicMesh.vert", ShaderType::VERTEX);
     mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
-    mTextures.emplace_back(&Asset::GetTexture("TUTUTUTU"));
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVertexArray(nullptr)
 {
+    float* verticeInfo = ToVerticeArray();
+    mVertexArray = new VertexArray(verticeInfo, mVertices.size());
+    delete[] verticeInfo;
+    verticeInfo = nullptr;
+    mVertexShader.Load("BasicMesh.vert", ShaderType::VERTEX);
+    mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
+    mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
 }
 
 void Mesh::Unload()
@@ -49,4 +54,28 @@ Texture* Mesh::GetTexture(size_t index)
         return nullptr;
     }
     return mTextures[index];
+}
+
+void Mesh::SetRadius(float radius)
+{
+    mRadius = radius;
+}
+
+float* Mesh::ToVerticeArray()
+{
+    float* array = new float[mVertices.size() * 8];
+    int counter = 0;
+    for (int i = 0; i < mVertices.size(); i++)
+    {
+        array[counter] = mVertices[i].position.x;
+        array[counter + 1] = mVertices[i].position.y;
+        array[counter + 2] = mVertices[i].position.z;
+        array[counter + 3] = mVertices[i].normal.x;
+        array[counter + 4] = mVertices[i].normal.y;
+        array[counter + 5] = mVertices[i].normal.z;
+        array[counter + 6] = mVertices[i].texCoord.x;
+        array[counter + 7] = mVertices[i].texCoord.y;
+        counter += 8;
+    }
+    return array;
 }

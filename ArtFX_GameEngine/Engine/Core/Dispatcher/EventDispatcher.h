@@ -13,6 +13,5 @@ public:
 
     void BindEvent(IObserver* listener);
     void UnbindEvent(IObserver* listener);
-    void CallEvent();
-    
+    void CallEvent();    
 };

@@ -9,7 +9,7 @@
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Debug/Log.h"
 
-RendererGL::RendererGL() : mWindow(nullptr), mSpriteVAO(nullptr), mContext(nullptr), mSpriteShaderProgram(nullptr),
+RendererGL::RendererGL() : mWindow(nullptr), mSpriteVAO(nullptr), mContext(nullptr),
 mSpriteViewProj(Matrix4Row::CreateSimpleViewProj(Window::Dimensions.x, Window::Dimensions.y)),
 mView(Matrix4Row::CreateLookAt(Vec3(0,0,5), Vec3::unitX, Vec3::unitZ)),
 mProj(Matrix4Row::CreatePerspectiveFOV(70.0f, mWindow->GetDimensions().x , mWindow->GetDimensions().y, 0.01f, 10000.0f))
@@ -50,6 +50,13 @@ bool RendererGL::Initialize(Window& rWindow)
     {
         Log::Error(LogType::Video, "Failed to initialize SDL_Image");
     }
+    mSpriteVertexShader.Load("SpriteShader.vert", ShaderType::VERTEX);
+    mSpriteFragmentShader.Load("SpriteShader.frag", ShaderType::FRAGMENT);
+    mSpriteShaderProgram.Compose({
+        &mSpriteVertexShader,
+        &mSpriteFragmentShader
+    });
+    mSpriteVAO = new VertexArray(spriteVertices, 4);
     
     return true;
 }
@@ -63,7 +70,7 @@ void RendererGL::BeginDraw()
 void RendererGL::Draw()
 {
     DrawMeshes();
-    //DrawSprites();
+    DrawSprites();
 }
 
 void RendererGL::DrawSprites()
@@ -73,8 +80,8 @@ void RendererGL::DrawSprites()
     glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    mSpriteShaderProgram->Use();
-    mSpriteShaderProgram->setMatrix4Row("uViewProj", mSpriteViewProj);
+    mSpriteShaderProgram.Use();
+    mSpriteShaderProgram.setMatrix4Row("uViewProj", mSpriteViewProj);
     mSpriteVAO->SetActive();
 
     for (SpriteComponent* sprite : mSprites)
@@ -112,20 +119,15 @@ void RendererGL::EndDraw()
 
 void RendererGL::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
 {
-    glDisable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  
-    if(mSpriteShaderProgram != nullptr) mSpriteShaderProgram->Use();
-    mSpriteShaderProgram->setMatrix4Row("uViewProj", mSpriteViewProj);
-    mSpriteVAO->SetActive();
-  
-    for(SpriteComponent* sprite : mSprites)
-    {
-        sprite->Draw(*this);
-    }
-
+    mSpriteShaderProgram.Use();
+    Matrix4Row scaleMat = Matrix4Row::CreateScale(
+    static_cast<float>(tex.GetWidht()),
+    static_cast<float>(tex.GetHeight()),
+    1.0f);
+    Matrix4Row world = scaleMat * actor.GetTransform().GetWorldTransform();
+    mSpriteShaderProgram.setMatrix4Row("uWorldTransform", world);
+    tex.SetActive();
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void RendererGL::AddSprite(SpriteComponent* sprite)
@@ -166,8 +168,8 @@ void RendererGL::Close()
 
 void RendererGL::SetSpriteShaderProgram(ShaderProgram* shaderProgram)
 {
-    mSpriteShaderProgram = shaderProgram;
-    mSpriteShaderProgram->Use();
+    mSpriteShaderProgram = *shaderProgram;
+    mSpriteShaderProgram.Use();
 }
 
 void RendererGL::SetViewMatrix(Matrix4Row matrix)

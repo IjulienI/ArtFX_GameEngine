@@ -11,6 +11,9 @@ public:
     MeshComponent(Actor* pOwner);
     virtual ~MeshComponent();
     virtual void Draw(Matrix4Row viewProj);
+
+    //Getter Setters
     virtual void SetMesh(Mesh& mesh);
     void SetTextureIndex(size_t pTextureIndex);
+    void AddTexture(Texture& pTexture);
 };

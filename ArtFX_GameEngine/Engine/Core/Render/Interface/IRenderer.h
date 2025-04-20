@@ -48,7 +48,5 @@ public:
     virtual void AddMesh(MeshComponent* mesh) = 0;
     virtual void RemoveMesh(MeshComponent* mesh) = 0;
 
-    virtual void SetViewMatrix(Matrix4Row matrix) = 0;
-
-    
+    virtual void SetViewMatrix(Matrix4Row matrix) = 0;    
 };

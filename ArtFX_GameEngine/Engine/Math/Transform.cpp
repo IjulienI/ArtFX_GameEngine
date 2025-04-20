@@ -46,17 +46,17 @@ void Transform::Rotate(Vec3 pRotation)
     Quaternion increment;
     if(pRotation.z != 0)
     {
-        increment = Quaternion(Vec3::unitZ, pRotation.z);
+        increment = Quaternion(Vec3::unitZ, Maths::ToRad(pRotation.z));
         newRotation = Quaternion::Concatenate(newRotation, increment);
     }
     if(pRotation.y != 0)
     {
-        increment = Quaternion(Vec3::unitY, pRotation.y);
+        increment = Quaternion(Vec3::unitY, Maths::ToRad(pRotation.y));
         newRotation = Quaternion::Concatenate(newRotation, increment);
     }
     if(pRotation.x != 0)
     {
-        increment = Quaternion(Vec3::unitX, pRotation.x);
+        increment = Quaternion(Vec3::unitX, Maths::ToRad(pRotation.x));
         newRotation = Quaternion::Concatenate(newRotation, increment);
     }
     rotation = newRotation;    
