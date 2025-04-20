@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "../../Class/Actor/Actor.h"
 #include "Core/Render/Asset.h"
+#include "Miscellaneous/Actor/Camera.h"
 
 Scene* Scene::ActiveScene = nullptr;
 
@@ -19,12 +20,11 @@ void Scene::Unload()
 	Asset::Clear();
 }
 
-Scene::Scene(): mTitle(""), mRenderer(nullptr)
+Scene::Scene(): mTitle(""), mRenderer(nullptr), mUpdatingActors(false)
 {
-}
-
-Scene::Scene(IRenderer* pRenderer, std::string pTitle): mRenderer(pRenderer), mTitle(pTitle)
-{
+	ActiveScene = this;
+	mCamera = new Camera();
+	AddActor(mCamera);
 }
 
 Scene::~Scene()
@@ -122,7 +122,7 @@ std::deque<Actor*> Scene::GetActors()
 	return mActors;
 }
 
-IRenderer* Scene::GetRenderer()
+IRenderer& Scene::GetRenderer()
 {
-	return mRenderer;
+	return *mRenderer;
 }

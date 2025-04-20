@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory.h>
 #include "Vec3.h"
 #include "Quaternion.h"
 

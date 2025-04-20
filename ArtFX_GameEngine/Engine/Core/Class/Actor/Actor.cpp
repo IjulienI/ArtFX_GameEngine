@@ -5,12 +5,6 @@
 #include "Core/Class/Scene/Scene.h"
 #include "Math/Transform.h"
 
-
-Actor::Actor(Transform location, ActorState state) : mTransform(location), mScene(Scene::ActiveScene), mActorState(state)
-{
-    Initialize();
-}
-
 Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mTransform(Transform(this))
 {
 }
@@ -54,7 +48,7 @@ void Actor::UpdateComponentsTransform()
 {
     for(Component* component : mComponents)
     {
-        component->SetTransform(mTransform);
+        component->OnUpdateWorldTransform();
     }
 }
 
@@ -64,6 +58,12 @@ void Actor::Update()
     {
         component->Update();
     }
+    UpdateActor();
+    mTransform.ComputeWorldTransform();
+}
+
+void Actor::UpdateActor()
+{
 }
 
 void Actor::Destroy()
@@ -86,9 +86,14 @@ Vec3 Actor::GetScale()
     return mTransform.scale;
 }
 
-Transform Actor::GetTransform()
+Transform& Actor::GetTransform()
 {
     return mTransform;
+}
+
+Matrix4Row Actor::GetWorldTransform()
+{
+    return mTransform.GetWorldTransform();
 }
 
 Scene* Actor::GetScene()
@@ -109,4 +114,29 @@ void Actor::SetLocation(Vec3 loc)
 void Actor::SetScale(Vec3 scale)
 {
     mTransform.scale = scale;
+}
+
+void Actor::SetRotation(Quaternion rotation)
+{
+    mTransform.rotation = rotation;
+}
+
+void Actor::Rotate(Vec3 rotation)
+{
+    mTransform.Rotate(rotation);
+}
+
+void Actor::RotateX(float rotation)
+{
+    mTransform.RotateX(rotation);
+}
+
+void Actor::RotateY(float rotation)
+{
+    mTransform.RotateY(rotation);
+}
+
+void Actor::RotateZ(float rotation)
+{
+    mTransform.RotateZ(rotation);
 }

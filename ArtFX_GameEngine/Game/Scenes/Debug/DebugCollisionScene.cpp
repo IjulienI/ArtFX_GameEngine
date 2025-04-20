@@ -6,11 +6,10 @@
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/AnimatedSpriteComponent.h"
 #include "Core/Render/Component/SpriteComponent.h"
-#include "Miscellaneous/Component/MoveComponent.h"
 #include "Miscellaneous/Component/PlayerController.h"
 
 
-DebugCollisionScene::DebugCollisionScene() : Scene(nullptr, "DebugScene")
+DebugCollisionScene::DebugCollisionScene() : Scene()
 {
 }
 
@@ -35,14 +34,14 @@ void DebugCollisionScene::Start()
     AddActor(pokeball);
     
     SpriteComponent* sprite =  new SpriteComponent(pokeball, Asset::GetTexture("ball"));
-    pokeball->SetLocation({800.0f, 800.0f});
-    pokeball->SetScale({0.5f, 0.5f});
+    pokeball->SetLocation(Vec3(800.0f, 800.0f, 0.0f));
+    pokeball->SetScale(Vec3(0.5f, 0.5f, 0.0f));
     
     Actor* player = new Actor();
     AddActor(player);
     
     AnimatedSpriteComponent* playerSprite = new AnimatedSpriteComponent(player, spellAnim);
-    player->SetLocation({50.0f,50.0f});
+    player->SetLocation(Vec3(50.0f,50.0f, 0.0f));
     playerSprite->SetAnimationFps(8.0f);
     
     PlayerController* playerMovement = new PlayerController(player);

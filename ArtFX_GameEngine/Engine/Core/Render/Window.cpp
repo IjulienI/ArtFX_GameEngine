@@ -1,11 +1,13 @@
 ﻿#include "Window.h"
 #include "../../Debug/Log.h"
 
+Vec2 Window::Dimensions= { 1080.0f, 720.0f};
+
 Window::Window(int pWitdh, int pHeight, std::string pTitle)
 {
     mSdlWindow = nullptr;
     mTitle = pTitle;
-    mDimensions = {static_cast<float>(pWitdh), static_cast<float>(pHeight)};
+    Dimensions = {static_cast<float>(pWitdh), static_cast<float>(pHeight)};
 }
 
 Window::Window(const Window&)
@@ -20,7 +22,7 @@ bool Window::Open()
         return false;
     }
     mSdlWindow = SDL_CreateWindow(mTitle.data(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-    static_cast<int>(mDimensions.x), static_cast<int>(mDimensions.y), SDL_WINDOW_OPENGL);
+    static_cast<int>(Dimensions.x), static_cast<int>(Dimensions.y), SDL_WINDOW_OPENGL);
     if(!mSdlWindow)
     {
         Log::Error(LogType::System, "Failed to create window");

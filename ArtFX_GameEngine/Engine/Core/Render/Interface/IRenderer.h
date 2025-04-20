@@ -4,12 +4,16 @@
 #include "Core/Render/Shader/ShaderProgram.h"
 #include "Math/Rectangle.h"
 
+class MeshComponent;
 class SpriteComponent;
 class Actor;
 class Texture;
 
 class IRenderer
 {
+protected:
+    std::vector<SpriteComponent*> mSprites;
+    std::vector<MeshComponent*> mMeshes;
 public:
     enum class Flip
     {
@@ -30,13 +34,21 @@ public:
     virtual void BeginDraw() = 0;
     virtual void Draw() = 0;
     virtual void DrawSprites() = 0;
+    virtual void DrawMeshes() = 0;
     virtual void EndDraw() = 0;
     virtual void Close() = 0;
     virtual RendererType GetType() = 0;
 
+    virtual void DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation) = 0;
+
+    //Getter Setters
     virtual void AddSprite(SpriteComponent* sprite) = 0;
     virtual void RemoveSprite(SpriteComponent* sprite) = 0;
-    virtual void SetShaderProgram(ShaderProgram* shaderProgram) = 0;
 
-    virtual void DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation) = 0;
+    virtual void AddMesh(MeshComponent* mesh) = 0;
+    virtual void RemoveMesh(MeshComponent* mesh) = 0;
+
+    virtual void SetViewMatrix(Matrix4Row matrix) = 0;
+
+    
 };

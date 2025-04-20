@@ -57,7 +57,7 @@ void RendererSdl::DrawRect(Rectangle& rRect, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 void RendererSdl::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
 {
 	SDL_Rect destinationRect;
-	Transform2D transform = actor.GetTransform();
+	Transform transform = actor.GetTransform();
 	destinationRect.w = static_cast<int>(static_cast<float>(tex.GetWidht()) * transform.GetScale().x);
 	destinationRect.h = static_cast<int>(static_cast<float>(tex.GetWidht()) * transform.GetScale().y);
 	destinationRect.x = static_cast<int>(transform.GetPosition().x - pos.x);
@@ -76,7 +76,7 @@ void RendererSdl::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 po
 	   tex.GetSdlTexture(),
 	   sourceSDL,
 	   &destinationRect,
-	   -Maths::ToDeg(transform.GetRotation()),
+	   -Maths::ToDeg(transform.GetRotation().z),
 	   nullptr,
 	   static_cast<SDL_RendererFlip>(orientation));
 

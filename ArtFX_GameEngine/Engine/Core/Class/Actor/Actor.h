@@ -4,10 +4,9 @@
 #include "ActorState.h"
 #include "../Scene/Scene.h"
 #include "../Component/Component.h"
+#include "Math/Transform.h"
 
-class Transform;
-
-class Actor
+class  Actor
 {
 protected:
     Scene* mScene;
@@ -18,7 +17,6 @@ private:
     std::vector<Component*> mComponents;
 
 public:
-    Actor(Transform location, ActorState state);
     Actor();
     virtual ~Actor() = default;
 
@@ -28,6 +26,7 @@ protected:
 public:
     virtual void Start();
     virtual void Update();
+    virtual void UpdateActor();
     virtual void Destroy();
     
 public:
@@ -41,7 +40,8 @@ public:
     Vec3 GetLocation();
     Quaternion GetRotation();
     Vec3 GetScale();
-    Transform GetTransform();
+    Transform& GetTransform();
+    Matrix4Row GetWorldTransform();
     Scene* GetScene();
     std::vector<Component*> GetComponents();
     template<typename T>T* GetComponent()
@@ -59,5 +59,11 @@ public:
 
     void SetLocation(Vec3 loc);
     void SetScale(Vec3 scale);
+    void SetRotation(Quaternion rotation);
+
+    void Rotate(Vec3 rotation);
+    void RotateX(float angle);
+    void RotateY(float angle);
+    void RotateZ(float angle);
 };
 

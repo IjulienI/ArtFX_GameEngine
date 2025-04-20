@@ -24,5 +24,6 @@ public:
 
 	static void Info(const std::string& message);
 	static void Error(LogType category, const std::string& message);
+	static void Warning(LogType category, const std::string& message);
 };
 

@@ -11,10 +11,11 @@ PlayerController::PlayerController(Actor* owner, int updateOrder) : MoveComponen
 
 void PlayerController::OnStart()
 {
-    InputManager::Instance().BindTo(SDL_SCANCODE_W, this);
-    InputManager::Instance().BindTo(SDL_SCANCODE_S, this);
-    InputManager::Instance().BindTo(SDL_SCANCODE_A, this);
-    InputManager::Instance().BindTo(SDL_SCANCODE_D, this);
+    InputManager& InputManager = InputManager::Instance();
+    InputManager.BindTo(SDL_SCANCODE_W, this);
+    InputManager.BindTo(SDL_SCANCODE_S, this);
+    InputManager.BindTo(SDL_SCANCODE_A, this);
+    InputManager.BindTo(SDL_SCANCODE_D, this);
     
     MoveComponent::OnStart();
 }
@@ -38,5 +39,5 @@ void PlayerController::OnCall(SDL_Event& event)
         break;
     default:
         break;
-    }    
+    }
 }

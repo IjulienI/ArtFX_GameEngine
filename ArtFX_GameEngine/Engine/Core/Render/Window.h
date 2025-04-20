@@ -8,14 +8,15 @@ class Window
 private:
     std::string mTitle;
     SDL_Window* mSdlWindow = nullptr;
-    Vec2 mDimensions;
     
 public:
+    static Vec2 Dimensions;
+    
     Window(int pWitdh, int pHeight, std::string pTitle);
     Window(const Window&);
-    Window& operator=(const Window&) = delete;
+    Window& operator=(const Window&) = delete;   
 
-    Vec2 GetDimensions() const { return mDimensions;}
+    Vec2 GetDimensions() const { return Dimensions;}
 
     SDL_Window* GetSldWindow() const {return mSdlWindow;}
     

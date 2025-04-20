@@ -3,6 +3,7 @@
 #include <string>
 #include <deque>
 
+class Camera;
 class Actor;
 
 class Scene
@@ -17,13 +18,13 @@ protected:
 	std::string mTitle;
 	std::deque<Actor*> mActors;
 	std::deque<Actor*> mPendingActors;
+	Camera* mCamera;
 
 private:
 	bool mUpdatingActors;
 	
 public:
 	Scene();
-	Scene(IRenderer* pRenderer, std::string pTitle = "NoName");
 	virtual ~Scene();
 
 	virtual void Start();
@@ -44,5 +45,5 @@ public:
 
 public:
 	std::deque<Actor*> GetActors();
-	IRenderer* GetRenderer();
+	IRenderer& GetRenderer();
 };

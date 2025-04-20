@@ -38,6 +38,13 @@ void Vec3::Normalize()
 	z /= len;
 }
 
+float Vec3::Distance(Vec3 v)
+{
+	float difX = x - v.x;
+	float difY = y - v.y;
+	float difZ = z - v.z;
+	return static_cast<float>(Maths::Sqrt((difX * difX) + (difY * difY) + (difZ * difZ)));
+}
 
 
 Vec3 Vec3::Transform(Vec3& vec, Matrix4& mat, float w)

@@ -2,7 +2,7 @@
 
 #include "Core/Class/Actor/Actor.h"
 
-Component::Component(Actor* owner, int updateOrder) : mOwner(owner), mUpdateOrder(updateOrder), mWorldTransform(Transform(owner))
+Component::Component(Actor* owner, int updateOrder) : mOwner(owner), mUpdateOrder(updateOrder)
 {
     mOwner->AddComponent(this);
 }
@@ -10,11 +10,6 @@ Component::Component(Actor* owner, int updateOrder) : mOwner(owner), mUpdateOrde
 Component::~Component()
 {
     mOwner->RemoveComponent(this);
-}
-
-void Component::SetTransform(Transform pWorldTransform)
-{
-    mWorldTransform = pWorldTransform;
 }
 
 void Component::OnStart()

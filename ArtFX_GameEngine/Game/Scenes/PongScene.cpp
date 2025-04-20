@@ -9,7 +9,7 @@
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Math/Rectangle.h"
 
-PongScene::PongScene(): Scene(nullptr, "Pong")
+PongScene::PongScene(): Scene()
 {
 }
 
@@ -30,7 +30,7 @@ void PongScene::Start()
     Actor* actor = new Actor();
     AddActor(actor);
     SpriteComponent* sprite =  new SpriteComponent(actor, Asset::GetTexture("ball"));
-    actor->SetLocation(Vec2{500, 500});
+    actor->SetLocation(Vec3(500, 500, 0.0f));
 }
 
 void PongScene::Update()

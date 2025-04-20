@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Core/Render/OpenGL/RendererGL.h"
+#include "Debug/Log.h"
 #include "Game/Scenes/PongScene.h"
 #include "Engine/Math/Time.h"
 #include "Input/InputManager.h"
@@ -20,7 +21,7 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
 
 void Game::Initialize()
 {
-    mWindow = new Window(800,800, mName);
+    mWindow = new Window(1080,720, mName);
 
     mRenderer = new RendererGL();
 
@@ -69,7 +70,8 @@ void Game::CheckInputs()
     if(!mIsRunning) return;
     
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
+    while (SDL_PollEvent(&event)) {        
+        InputManager::Instance().HandleInputs(event);
         switch (event.type) {
         case SDL_QUIT:
             mIsRunning = false;
@@ -78,9 +80,9 @@ void Game::CheckInputs()
             if (event.key.keysym.sym == SDLK_ESCAPE) mIsRunning = false;
             break;
         default:
+            Log::Warning(LogType::Input, "Unknown event type");
             break;
         }
-        InputManager::Instance().HandleInputs(event);
     }    
 }
 

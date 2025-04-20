@@ -13,7 +13,7 @@ public:
     void Initialize();
     
 private:
-    std::string mName = "hello world";
+    std::string mName = "XCore - DebugEngine";
 
     Window* mWindow;
     IRenderer* mRenderer;

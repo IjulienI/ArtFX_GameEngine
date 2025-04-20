@@ -9,8 +9,6 @@ private:
     Shader* mVertexShader = new Shader();
     Shader* mFragmentShader = new Shader();
     ShaderProgram mSimpleProgram;
-
-    Actor* Square;
 public:
     GLTestScene();
     ~GLTestScene() override = default;

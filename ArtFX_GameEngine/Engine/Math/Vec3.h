@@ -17,6 +17,7 @@ public:
 	float LengthSq() const;
 	float Length() const;
 	void Normalize();
+	float Distance(Vec3 v);
 
 	const float* GetAsFloatPtr() const
 	{

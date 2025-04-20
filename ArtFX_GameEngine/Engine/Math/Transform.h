@@ -3,12 +3,13 @@
 #include "Matrix4Row.h"
 #include "Quaternion.h"
 #include "Vec3.h"
-#include "Core/Class/Actor/Actor.h"
+
+class Actor;
 
 class Transform
 {
 private:
-    bool computeWorldTransform;
+    bool mNeedsUpdate;
     
 public:
     Vec3 position;
@@ -28,19 +29,29 @@ public:
     Vec3 GetPosition();
     Vec3 GetScale();
     Quaternion GetRotation();
-
-    Vec3 Right() const
+    Matrix4Row& GetWorldTransform()
     {
-        return Vec3::Transform(Vec3::unitX, rotation);
+        return worldTransform;
     }
 
-    Vec3 Up() const
+    Vec3 Right() const
     {
         return Vec3::Transform(Vec3::unitY, rotation);
     }
 
-    Vec3 Forward() const
+    Vec3 Up() const
     {
         return Vec3::Transform(Vec3::unitZ, rotation);
     }
+
+    Vec3 Forward() const
+    {
+        return Vec3::Transform(Vec3::unitX, rotation);
+    }
+
+    void Rotate(Vec3 pRotation);
+    void Rotate(float pRotation, Vec3 pAxis);
+    void RotateX(float pRotation);
+    void RotateY(float pRotation);
+    void RotateZ(float pRotation);
 };

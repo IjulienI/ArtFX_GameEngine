@@ -22,7 +22,7 @@ void MoveComponent::Update()
 {
     if(!Maths::NearZero(mSpeed.MagnitudeSquared()))
     {
-        Vec2 newPosition = mOwner->GetTransform().GetPosition() +
+        Vec3 newPosition = mOwner->GetTransform().GetPosition() +
             (mOwner->GetTransform().Right() * mSpeed.x +
             mOwner->GetTransform().Up() * mSpeed.y) * Time::deltaTime;
         mOwner->SetLocation(newPosition);

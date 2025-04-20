@@ -25,8 +25,10 @@ void BoxColliderComponent::Update()
         
         BoxColliderComponent* boxCollider = actor->GetComponent<BoxColliderComponent>();
         if(!boxCollider) return;
+
+        Vec3 position = actor->GetLocation();
         
-        if(Collision(boxCollider, actor->GetLocation()))
+        if(Collision(boxCollider, Vec2(position.x,position.y)))
         {
             OnCollision(actor);
         }

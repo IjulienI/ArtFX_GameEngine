@@ -11,12 +11,12 @@ mDrawOrder(drawOrder),
 mTexWidth(texture.GetWidht()),
 mTexHeight(texture.GetHeight())
 {
-    mOwner->GetScene()->GetRenderer()->AddSprite(this);
+    Scene::ActiveScene->GetRenderer().AddSprite(this);
 }
 
 SpriteComponent::~SpriteComponent()
 {
-    mOwner->GetScene()->GetRenderer()->RemoveSprite(this);
+    Scene::ActiveScene->GetRenderer().RemoveSprite(this);
 }
 
 void SpriteComponent::SetTexture(const Texture& pTexture)
