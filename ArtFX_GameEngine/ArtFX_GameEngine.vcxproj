@@ -27,6 +27,7 @@
     <ClCompile Include="Engine\Core\Render\Asset.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\MeshComponent.cpp" />
+    <ClCompile Include="Engine\Core\Render\Component\RigidbodyComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\OpenGL\RendererGL.cpp" />
     <ClCompile Include="Engine\Core\Render\OpenGL\VertexArray.cpp" />
@@ -54,6 +55,9 @@
     <ClCompile Include="Engine\Miscellaneous\Component\PlayerController.cpp" />
     <ClCompile Include="Engine\Physic\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Game\Actor\Skybox.cpp" />
+    <ClCompile Include="Game\Scenes\Base\BaseScene.cpp" />
+    <ClCompile Include="Game\Scenes\BowlingScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\GLTestScene.cpp" />
     <ClCompile Include="Game\Scenes\PongScene.cpp" />
@@ -70,6 +74,7 @@
     <ClInclude Include="Engine\Core\Render\Asset.h" />
     <ClInclude Include="Engine\Core\Render\Component\AnimatedSpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\MeshComponent.h" />
+    <ClInclude Include="Engine\Core\Render\Component\RigidbodyComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\SpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Interface\IRenderer.h" />
     <ClInclude Include="Engine\Core\Render\OpenGL\RendererGL.h" />
@@ -100,6 +105,9 @@
     <ClInclude Include="Engine\Miscellaneous\Component\PlayerController.h" />
     <ClInclude Include="Engine\Physic\Components\BoxColliderComponent.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Game\Actor\Skybox.h" />
+    <ClInclude Include="Game\Scenes\Base\BaseScene.h" />
+    <ClInclude Include="Game\Scenes\BowlingScene.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
     <ClInclude Include="Game\Scenes\Debug\GLTestScene.h" />
     <ClInclude Include="Game\Scenes\PongScene.h" />
@@ -111,9 +119,6 @@
     <Content Include="Engine\Core\Render\Shader\Simple.vert" />
     <Content Include="Engine\Core\Render\Shader\SpriteShader.frag" />
     <Content Include="Engine\Core\Render\Shader\SpriteShader.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\Actor\" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

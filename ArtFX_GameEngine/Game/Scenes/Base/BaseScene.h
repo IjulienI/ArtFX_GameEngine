@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "Core/Class/Scene/Scene.h"
 
-class GLTestScene : public Scene
+class BaseScene : public Scene
 {
 public:
-    GLTestScene();
-    ~GLTestScene() override = default;
+    BaseScene();
+    ~BaseScene() override = default;
     
     void Start() override;
     void Update() override;

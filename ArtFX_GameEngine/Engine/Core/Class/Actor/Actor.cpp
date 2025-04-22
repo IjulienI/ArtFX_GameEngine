@@ -7,6 +7,7 @@
 
 Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mTransform(Transform(this))
 {
+    Actor::Start();
 }
 
 void Actor::Initialize()
@@ -109,16 +110,19 @@ std::vector<Component*> Actor::GetComponents()
 void Actor::SetLocation(Vec3 loc)
 {
     mTransform.position = loc;
+    mTransform.SetNeedsUpdate(true);
 }
 
 void Actor::SetScale(Vec3 scale)
 {
     mTransform.scale = scale;
+    mTransform.SetNeedsUpdate(true);
 }
 
 void Actor::SetRotation(Quaternion rotation)
 {
     mTransform.rotation = rotation;
+    mTransform.SetNeedsUpdate(true);
 }
 
 void Actor::Rotate(Vec3 rotation)

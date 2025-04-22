@@ -70,8 +70,7 @@ void Game::CheckInputs()
     if(!mIsRunning) return;
     
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {        
-        InputManager::Instance().HandleInputs(event);
+    while (SDL_PollEvent(&event)) {
         switch (event.type) {
         case SDL_QUIT:
             mIsRunning = false;
@@ -82,7 +81,8 @@ void Game::CheckInputs()
         default:
             Log::Warning(LogType::Input, "Unknown event type");
             break;
-        }
+        }        
+        InputManager::Instance().HandleInputs(event);
     }    
 }
 

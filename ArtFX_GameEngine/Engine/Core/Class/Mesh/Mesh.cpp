@@ -8,6 +8,7 @@ Mesh::Mesh() : mVertexArray(nullptr)
     mVertexShader.Load("BasicMesh.vert", ShaderType::VERTEX);
     mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    AddTexture(&Asset::GetTexture("BaseTexture"));
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVertexArray(nullptr)
@@ -19,6 +20,7 @@ Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVert
     mVertexShader.Load("BasicMesh.vert", ShaderType::VERTEX);
     mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    AddTexture(&Asset::GetTexture("BaseTexture"));
 }
 
 void Mesh::Unload()
@@ -29,6 +31,13 @@ void Mesh::Unload()
 
 void Mesh::AddTexture(Texture* pTexture)
 {
+    if (!mTextures.empty())
+    {        
+        if (mTextures[0] == &Asset::GetTexture("BaseTexture"))
+        {
+            mTextures.clear();
+        }
+    }
     mTextures.emplace_back(pTexture);
 }
 

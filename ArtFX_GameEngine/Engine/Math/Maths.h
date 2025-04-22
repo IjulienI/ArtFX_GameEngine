@@ -10,6 +10,7 @@ namespace Maths
     const float PI_HALVED = PI / 2.0f;
     const float INFINITY_POS = std::numeric_limits<float>::infinity();
     const float INFINITY_NEG = -INFINITY_POS;
+    const float GRAVITY = 9.81f;
 
     inline float ToRad(float degrees)
     {

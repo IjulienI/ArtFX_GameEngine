@@ -1,4 +1,4 @@
-﻿#include "GLTestScene.h"
+﻿#include "Scenes/Base/BaseScene.h"
 
 #include "Actor/Skybox.h"
 #include "Core/Class/Actor/Actor.h"
@@ -9,14 +9,13 @@
 #include "Debug/Log.h"
 #include "Math/Time.h"
 
-GLTestScene::GLTestScene()
+BaseScene::BaseScene()
 {
 }
 
-void GLTestScene::Start()
+void BaseScene::Start()
 {
     Scene::Start();
-    
     //SkyBox
     Skybox* skybox = new Skybox();
     AddActor(skybox);
@@ -31,46 +30,31 @@ void GLTestScene::Start()
     MeshComponent* floorMeshComponent = new MeshComponent(floor);
     floorMeshComponent->SetMesh(Asset::GetMesh("Floor"));
     floorMeshComponent->AddTexture(Asset::GetTexture("Floor"));
-
-    //DebugBox
-    Actor* debugBox = new Actor();
-    AddActor(debugBox);
-
-    debugBox->SetLocation(Vec3(0.0f, 0.0f, 10.0f));
-
-    MeshComponent* debugBoxMeshComponent = new MeshComponent(debugBox);
-    debugBoxMeshComponent->SetMesh(Asset::GetMesh("Box"));
-    debugBoxMeshComponent->AddTexture(Asset::GetTexture("Floor"));
-
-    RigidbodyComponent* debugBoxRigidbody = new RigidbodyComponent(debugBox);
-
 }
 
-void GLTestScene::Update()
+void BaseScene::Update()
 {
     Scene::Update();
-    //mActors[1]->Rotate(Vec3(Maths::ToRad(10) * Time::deltaTime, Maths::ToRad(10) * Time::deltaTime, Maths::ToRad(10) * Time::deltaTime));
+    
 }
 
-void GLTestScene::Render()
+void BaseScene::Render()
 {
     Scene::Render();
 }
 
-void GLTestScene::Close() const
+void BaseScene::Close() const
 {
     Scene::Close();
 }
 
-void GLTestScene::Load()
+void BaseScene::Load()
 {
     Scene::Load();
     //Load Textures
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Floor.png", "Floor");
-    Asset::LoadTexture(*mRenderer, "Resources/Textures/Bowling/BowlingPist.png", "BowlingPist");
     
     //Load Meshes
     Asset::LoadMesh("Box.obj", "Box");
     Asset::LoadMesh("Floor.obj", "Floor");
-    Asset::LoadMesh("BowlingPist.obj", "BowlingPist");
 }

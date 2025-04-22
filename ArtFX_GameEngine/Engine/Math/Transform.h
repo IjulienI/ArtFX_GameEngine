@@ -49,6 +49,11 @@ public:
         return Vec3::Transform(Vec3::unitX, rotation);
     }
 
+    void SetNeedsUpdate(bool needsUpdate)
+    {
+        mNeedsUpdate = needsUpdate;
+    }
+
     void Rotate(Vec3 pRotation);
     void Rotate(float pRotation, Vec3 pAxis);
     void RotateX(float pRotation);

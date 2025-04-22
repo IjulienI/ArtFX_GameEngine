@@ -10,8 +10,10 @@ private:
     Camera* mCamera;
     Vec3 mVelocity;
     float mSpeed;
+    float mSprintSpeed;
     int mMouseDeltaX, mMouseDeltaY;
     float mPitch, mYaw;
+    bool mSprint;
 
 public:
     FpsCameraMovement(Camera* camera);

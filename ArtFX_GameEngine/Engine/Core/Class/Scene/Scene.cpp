@@ -9,6 +9,7 @@ Scene* Scene::ActiveScene = nullptr;
 
 void Scene::Load()
 {
+	Asset::LoadTexture(*mRenderer, "Resources/Textures/BaseTexture.png", "BaseTexture");
 }
 
 void Scene::Unload()
