@@ -17,7 +17,7 @@ void BowlingScene::Start()
     Scene::Start();
     
     //BowlingPists
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < PIST_AMOUNT; i++)
     {
         Actor* bowlingPist = new Actor();
         AddActor(bowlingPist);

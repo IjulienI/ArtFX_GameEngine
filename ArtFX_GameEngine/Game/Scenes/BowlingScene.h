@@ -4,7 +4,9 @@
 class BowlingScene : public Scene
 {
 private:
+    const int PIST_AMOUNT = 12;
     const float PIST_OFFSET = 6.33f;
+    
 public:
     BowlingScene();
     ~BowlingScene() override = default;
