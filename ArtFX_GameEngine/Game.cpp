@@ -21,7 +21,7 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
 
 void Game::Initialize()
 {
-    mWindow = new Window(1080,720, mName);
+    mWindow = new Window(1920,1080, mName);
 
     mRenderer = new RendererGL();
 

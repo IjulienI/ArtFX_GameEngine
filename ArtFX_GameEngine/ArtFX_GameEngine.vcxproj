@@ -24,6 +24,10 @@
     <ClCompile Include="Engine\Core\Class\Mesh\Mesh.cpp" />
     <ClCompile Include="Engine\Core\Class\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Core\Dispatcher\EventDispatcher.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Body.cpp" />
+    <ClCompile Include="Engine\Core\Physic\CollisionDetection.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Constraint.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Force.cpp" />
     <ClCompile Include="Engine\Core\Render\Asset.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\MeshComponent.cpp" />
@@ -71,6 +75,11 @@
     <ClInclude Include="Engine\Core\Class\Scene\Scene.h" />
     <ClInclude Include="Engine\Core\Dispatcher\EventDispatcher.h" />
     <ClInclude Include="Engine\Core\Dispatcher\IObserver.h" />
+    <ClInclude Include="Engine\Core\Physic\Body.h" />
+    <ClInclude Include="Engine\Core\Physic\CollisionDetection.h" />
+    <ClInclude Include="Engine\Core\Physic\Constraint.h" />
+    <ClInclude Include="Engine\Core\Physic\Contact.h" />
+    <ClInclude Include="Engine\Core\Physic\Force.h" />
     <ClInclude Include="Engine\Core\Render\Asset.h" />
     <ClInclude Include="Engine\Core\Render\Component\AnimatedSpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\MeshComponent.h" />

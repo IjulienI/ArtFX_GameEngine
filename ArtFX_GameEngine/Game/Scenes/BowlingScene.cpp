@@ -1,5 +1,6 @@
 ﻿#include "BowlingScene.h"
 
+#include "Actor/Skybox.h"
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
@@ -15,6 +16,17 @@ BowlingScene::BowlingScene()
 void BowlingScene::Start()
 {
     Scene::Start();
+
+    //SkyBox
+    Skybox* skybox = new Skybox();
+    AddActor(skybox);
+
+    //BowlingRoom
+    Actor* BowlingRoom = new Actor();
+    AddActor(BowlingRoom);
+
+    MeshComponent* bowlingRoomMeshComponent = new MeshComponent(BowlingRoom);
+    bowlingRoomMeshComponent->SetMesh(Asset::GetMesh("BowlingRoom"));
     
     //BowlingPists
     for (int i = 0; i < PIST_AMOUNT; i++)
@@ -22,8 +34,7 @@ void BowlingScene::Start()
         Actor* bowlingPist = new Actor();
         AddActor(bowlingPist);
 
-        bowlingPist->SetLocation(Vec3(PIST_OFFSET * i, 0.0f, 0.0f));
-        bowlingPist->Rotate(Vec3(90.0f, 0.0f, 0.0f));
+        bowlingPist->SetLocation(Vec3(-PIST_OFFSET * i, 0.0f, 0.0f));
 
         MeshComponent* bowlingPistMeshComponent = new MeshComponent(bowlingPist);
         bowlingPistMeshComponent->SetMesh(Asset::GetMesh("BowlingPist"));
@@ -35,7 +46,6 @@ void BowlingScene::Start()
     AddActor(bowlingPin);
 
     bowlingPin->SetLocation(Vec3(0.0f, -5.0f, 0.0f));
-    bowlingPin->Rotate(Vec3(90.0f, 0.0f, 0.0f));
 
     MeshComponent* bowlingPistMeshComponent = new MeshComponent(bowlingPin);
     bowlingPistMeshComponent->SetMesh(Asset::GetMesh("BowlingPin"));
@@ -45,6 +55,7 @@ void BowlingScene::Start()
 void BowlingScene::Update()
 {
     Scene::Update();
+    Log::Info("FPS : " + std::to_string( 1.0f / Time::deltaTime));
 }
 
 void BowlingScene::Render()
@@ -67,4 +78,5 @@ void BowlingScene::Load()
     //Load Meshes
     Asset::LoadMesh("Bowling/BowlingPist.obj", "BowlingPist");
     Asset::LoadMesh("Bowling/BowlingPin.obj", "BowlingPin");
+    Asset::LoadMesh("Bowling/BowlingRoom.obj", "BowlingRoom");
 }

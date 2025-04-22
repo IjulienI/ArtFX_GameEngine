@@ -8,8 +8,8 @@ Skybox::Skybox() : Actor()
     Asset::LoadMesh("Box.obj", "Skybox");
     Asset::LoadTexture(mScene->GetRenderer(), "Resources/Textures/Skybox/Basic.png", "Skybox");
     
-    SetScale(Vec3(10000.0f, 10000.0f, 10000.0f));
-    Rotate(Vec3(-90.0f, 0.0f, 0.0f));
+    SetScale(Vec3(1000.0f, 1000.0f, 1000.0f));
+    Rotate(Vec3(45.0f, 0.0f, 0.0f));
     
     Skybox::Start();
 }

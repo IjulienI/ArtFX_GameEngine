@@ -1,0 +1,19 @@
+#ifndef FORCE_H
+#define FORCE_H
+
+#include "./Vec2.h"
+#include "./body.h"
+#include <algorithm>
+
+struct Force {
+	static Vec2 GenerateDragForce(const Body& body, float k);
+
+	static Vec2 GenerateFrictionForce(const Body& body, float k);
+
+	static Vec2 GenerateGravitationForce(const Body& a, const Body& b, float G, float minDistance, float maxDistance);
+
+	static Vec2 GenerateSpringForce(const Body& body, Vec2 anchor, float restLenght, float k);
+	static Vec2 GenerateSpringForce(const Body& a, const Body& b, float restLenght, float k);
+};
+
+#endif

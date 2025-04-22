@@ -12,7 +12,7 @@
 RendererGL::RendererGL() : mWindow(nullptr), mSpriteVAO(nullptr), mContext(nullptr),
 mSpriteViewProj(Matrix4Row::CreateSimpleViewProj(Window::Dimensions.x, Window::Dimensions.y)),
 mView(Matrix4Row::CreateLookAt(Vec3(0,0,5), Vec3::unitX, Vec3::unitZ)),
-mProj(Matrix4Row::CreatePerspectiveFOV(70.0f, mWindow->GetDimensions().x , mWindow->GetDimensions().y, 0.01f, 100000.0f))
+mProj(Matrix4Row::CreatePerspectiveFOV(70.0f, mWindow->GetDimensions().x , mWindow->GetDimensions().y, 0.01f, 10000.0f))
 {
 }
 
