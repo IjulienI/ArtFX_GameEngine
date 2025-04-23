@@ -2,6 +2,8 @@
 
 #include "Actor/Skybox.h"
 #include "Core/Class/Actor/Actor.h"
+#include "Core/Physic/Component/PolyCollisionComponent.h"
+#include "Core/Physic/Component/SphereCollisionComponent.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
 #include "Core/Render/Component/RigidbodyComponent.h"
@@ -26,23 +28,42 @@ void GLTestScene::Start()
     AddActor(floor);
 
     floor->SetLocation(Vec3(0.0f, 0.0f, -10.0f));
-    floor->Rotate(Vec3(90.0f, 0.0f, 0.0f));
+    //floor->Rotate(Vec3(45.0f, 0.0f, 0.0f));
 
     MeshComponent* floorMeshComponent = new MeshComponent(floor);
     floorMeshComponent->SetMesh(Asset::GetMesh("Floor"));
     floorMeshComponent->AddTexture(Asset::GetTexture("Floor"));
 
+    RigidbodyComponent* floorRigidbody = new RigidbodyComponent(floor);
+    floorRigidbody->SetMass(0.0f);
+
+    BoxCollisionComponent* floorPolyCollision = new BoxCollisionComponent(floor);
+
     //DebugBox
     Actor* debugBox = new Actor();
     AddActor(debugBox);
 
-    debugBox->SetLocation(Vec3(0.0f, 0.0f, 10.0f));
+    debugBox->SetLocation(Vec3(10.0f, 1.2f, 10.0f));
 
     MeshComponent* debugBoxMeshComponent = new MeshComponent(debugBox);
     debugBoxMeshComponent->SetMesh(Asset::GetMesh("Box"));
     debugBoxMeshComponent->AddTexture(Asset::GetTexture("Floor"));
 
     RigidbodyComponent* debugBoxRigidbody = new RigidbodyComponent(debugBox);
+
+    BoxCollisionComponent* debugBoxPolyCollision = new BoxCollisionComponent(debugBox);
+
+    Actor* debugBoxActor = new Actor();
+    AddActor(debugBoxActor);
+
+    debugBoxActor->SetLocation(Vec3(10.0f, 0.0f, 15.0f));
+
+    MeshComponent* debugBoxActorComponent = new MeshComponent(debugBoxActor);
+    debugBoxActorComponent->SetMesh(Asset::GetMesh("monkey"));
+
+    RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
+
+    SphereCollisionComponent* debugBoxActorPolyCollision = new SphereCollisionComponent(debugBoxActor);
 
 }
 
@@ -67,10 +88,9 @@ void GLTestScene::Load()
     Scene::Load();
     //Load Textures
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Floor.png", "Floor");
-    Asset::LoadTexture(*mRenderer, "Resources/Textures/Bowling/BowlingPist.png", "BowlingPist");
     
     //Load Meshes
     Asset::LoadMesh("Box.obj", "Box");
     Asset::LoadMesh("Floor.obj", "Floor");
-    Asset::LoadMesh("BowlingPist.obj", "BowlingPist");
+    Asset::LoadMesh("monkey.obj", "monkey");
 }

@@ -1,41 +1,24 @@
-#ifndef CONSTRAINT_H
-#define CONSTRAINT_H
+#pragma once
 
-#include "Body.h"
-#include "MatMN.h"
-#include "VecN.h"
-#include "algorithm"
+#include "Core/Render/Component/RigidbodyComponent.h"
+#include "Math/MatMN.h"
 
 class Constraint {
 public:
-	Body* a;
-	Body* b;
+	RigidbodyComponent* a;
+	RigidbodyComponent* b;
 
-	Vec2 aPoint;
-	Vec2 bPoint;
+	Vec3 aPoint;
+	Vec3 bPoint;
 
 	virtual ~Constraint() = default;
 
 	MatMN GetInvM() const;
 	VecN GetVelocities() const;
 
-	virtual void PreSolve(const float dt) {};
+	virtual void PreSolve() {};
 	virtual void Solve() {};
 	virtual void PostSolve() {};
-};
-
-class JointConstraint : public Constraint {
-private:
-	MatMN jacobian;
-	VecN cachedLambda;
-	float bias;
-
-public:
-	JointConstraint();
-	JointConstraint(Body* a, Body* b, const Vec2& anchorPoint);
-	void PreSolve(const float dt) override;
-	void Solve() override;
-	void PostSolve() override;
 };
 
 class PenetrationConstraint : public Constraint {
@@ -44,15 +27,13 @@ private:
 	VecN cachedLambda;
 	float bias;
 
-	Vec2 normal;
+	Vec3 normal;
 	float friction;
 
 public:
 	PenetrationConstraint();
-	PenetrationConstraint(Body* a, Body* b, const Vec2& aCollisionPoint, const Vec2& bCollisionPoint, const Vec2& normal);
-	void PreSolve(const float dt) override;
+	PenetrationConstraint(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& aCollisionPoint, const Vec3& bCollisionPoint, const Vec3& normal);
+	void PreSolve() override;
 	void Solve() override;
 	void PostSolve() override;
 };
-
-#endif

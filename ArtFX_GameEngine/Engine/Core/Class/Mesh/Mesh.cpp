@@ -1,5 +1,7 @@
 ﻿#include "Mesh.h"
 
+#include <algorithm>
+
 #include "Core/Render/Asset.h"
 #include "Core/Render/OpenGL/VertexArray.h"
 
@@ -9,6 +11,8 @@ Mesh::Mesh() : mVertexArray(nullptr)
     mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
     AddTexture(&Asset::GetTexture("BaseTexture"));
+    CalculateRadius();
+    CalculateBoundingBox();
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVertexArray(nullptr)
@@ -21,6 +25,8 @@ Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVert
     mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
     AddTexture(&Asset::GetTexture("BaseTexture"));
+    CalculateRadius();
+    CalculateBoundingBox();
 }
 
 void Mesh::Unload()
@@ -87,4 +93,46 @@ float* Mesh::ToVerticeArray()
         counter += 8;
     }
     return array;
+}
+
+void Mesh::CalculateRadius()
+{
+    Vec3 center = Vec3::zero;
+
+    for (const Vertex& vertex : mVertices)
+    {
+        center += vertex.position;
+    }
+    center /= static_cast<float>(mVertices.size());
+    
+    float maxDistanceSquared = 0.0f;
+    for (const Vertex& vertex : mVertices)
+    {
+        float distanceSquared = (vertex.position - center).LengthSq();
+        maxDistanceSquared = std::max(distanceSquared, maxDistanceSquared);
+    }
+
+    mRadius = sqrtf(maxDistanceSquared);
+}
+
+void Mesh::CalculateBoundingBox()
+{
+    Box boundingBox;
+    float maxFloat = std::numeric_limits<float>::max();
+    float minFloat = std::numeric_limits<float>::lowest();
+    boundingBox.min = Vec3(maxFloat, maxFloat, maxFloat);
+    boundingBox.max = Vec3(minFloat, minFloat, minFloat);
+
+    for (const auto& vertex : mVertices)
+    {
+        boundingBox.min.x = std::min(boundingBox.min.x, vertex.position.x);
+        boundingBox.min.y = std::min(boundingBox.min.y, vertex.position.y);
+        boundingBox.min.z = std::min(boundingBox.min.z, vertex.position.z);
+
+        boundingBox.max.x = std::max(boundingBox.max.x, vertex.position.x);
+        boundingBox.max.y = std::max(boundingBox.max.y, vertex.position.y);
+        boundingBox.max.z = std::max(boundingBox.max.z, vertex.position.z);
+    }
+
+    mBoundingBox = boundingBox;
 }

@@ -17,6 +17,12 @@ public:
     Vec2 texCoord;
 };
 
+struct Box
+{
+    Vec3 min;
+    Vec3 max;
+};
+
 class Mesh
 {
 private:
@@ -26,6 +32,10 @@ private:
     Shader mVertexShader, mFragmentShader;
     ShaderProgram mShaderProgram;
     float mRadius{};
+    Box mBoundingBox;
+
+    void CalculateRadius();
+    void CalculateBoundingBox();
     
 public:
     Mesh();
@@ -47,6 +57,10 @@ public:
         return mShaderProgram;
     }
     int GetVerticesCount() const;
+    std::vector<Vertex> GetVertices() const
+    {
+        return mVertices;
+    }
     Texture* GetTexture(size_t index);
     void SetRadius(float radius);
     float GetRadius() const
@@ -54,4 +68,9 @@ public:
         return mRadius;
     }
     float* ToVerticeArray();
+    
+    Box GetBoundingBox() const
+    {
+        return mBoundingBox;
+    }
 };

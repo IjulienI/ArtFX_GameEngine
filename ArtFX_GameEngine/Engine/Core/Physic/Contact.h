@@ -1,19 +1,14 @@
-#ifndef CONTACT_H
-#define CONTACT_H
+#pragma once
 
-#include "./Vec2.h"
-#include "Body.h"
-#include <algorithm>
+#include "Core/Render/Component/RigidbodyComponent.h"
 
 struct Contact {
-	Body* a;
-	Body* b;
+	RigidbodyComponent* a;
+	RigidbodyComponent* b;
 
-	Vec2 start;
-	Vec2 end;
+	Vec3 start;
+	Vec3 end;
 
-	Vec2 normal;
+	Vec3 normal;
 	float depth;
 };
-
-#endif

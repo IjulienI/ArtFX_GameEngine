@@ -1,15 +1,22 @@
-#ifndef COLLISIONDETECTION_H
-#define COLLISIONDETECTION_H
+#pragma once
 
-#include "./Body.h"
+#include <vector>
 #include "./Contact.h"
-#include "../Graphics.h"
+#include "Core/Render/Component/RigidbodyComponent.h"
+
+struct Vertex;
 
 struct CollisionDetection {
-	static bool IsColliding(Body* a, Body* b, std::vector<Contact>& contacts);
-	static bool IsCollidingCircleCircle(Body* a, Body* b, std::vector<Contact>& contacts);
-	static bool IsCollidingPolygonPolygon(Body* a, Body* b, std::vector<Contact>& contacts);
-	static bool IsCollidingPolygonCircle(Body* polygon, Body* circle, std::vector<Contact>& contacts);
-};
+public:
+	static bool IsColliding(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts);
+	static bool IsCollidingSphereSphere(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts);
+	static bool IsCollidingPolygonPolygon(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts);
+	static bool IsCollidingBoxBox(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts);
+	static bool IsCollidingBoxSphere(RigidbodyComponent* box, RigidbodyComponent* sphere, std::vector<Contact>& contacts);
+	static bool IsCollidingBoxPolygon(RigidbodyComponent* box, RigidbodyComponent* polygon, std::vector<Contact>& contacts);
+	static bool IsCollidingPolygonSphere(RigidbodyComponent* polygon, RigidbodyComponent* sphere, std::vector<Contact>& contacts);
 
-#endif
+private:
+	static bool OverlapOnAxis(const std::vector<Vec3>& aVertices, const std::vector<Vec3>& bVertices, const Vec3& axis, float& overlap);
+	static bool OverlapOnAxis(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& axis, float& overlap);
+};

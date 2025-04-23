@@ -18,6 +18,7 @@ public:
 	float Length() const;
 	void Normalize();
 	float Distance(Vec3 v);
+	Vec3 UnitVector() const;
 
 	const float* GetAsFloatPtr() const
 	{
@@ -78,6 +79,16 @@ public:
 		x -= right.x;
 		y -= right.y;
 		z -= right.z;
+		return *this;
+	}
+
+	Vec3& operator/=(float scalar)
+	{
+		if (scalar != 0.0f) {
+			x /= scalar;
+			y /= scalar;
+			z /= scalar;
+		}
 		return *this;
 	}
 

@@ -16,4 +16,8 @@ public:
     virtual void SetMesh(Mesh& mesh);
     void SetTextureIndex(size_t pTextureIndex);
     void AddTexture(Texture& pTexture);
+    Mesh* GetMesh()
+    {
+        return mMesh;
+    }
 };

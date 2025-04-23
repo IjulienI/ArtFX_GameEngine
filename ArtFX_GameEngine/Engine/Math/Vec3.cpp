@@ -46,6 +46,14 @@ float Vec3::Distance(Vec3 v)
 	return static_cast<float>(Maths::Sqrt((difX * difX) + (difY * difY) + (difZ * difZ)));
 }
 
+Vec3 Vec3::UnitVector() const
+{
+	float magnitude = sqrt(LengthSq());
+	if (magnitude == 0.0f) {
+		return Vec3(0.0f, 0.0f, 0.0f);
+	}
+	return Vec3(x / magnitude, y / magnitude, z / magnitude);
+}
 
 Vec3 Vec3::Transform(Vec3& vec, Matrix4& mat, float w)
 {

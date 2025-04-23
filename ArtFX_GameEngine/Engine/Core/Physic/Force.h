@@ -1,19 +1,14 @@
-#ifndef FORCE_H
-#define FORCE_H
+#pragma once
 
-#include "./Vec2.h"
-#include "./body.h"
-#include <algorithm>
+#include "Core/Render/Component/RigidbodyComponent.h"
 
 struct Force {
-	static Vec2 GenerateDragForce(const Body& body, float k);
+	static Vec3 GenerateDragForce(const RigidbodyComponent& body, float k);
 
-	static Vec2 GenerateFrictionForce(const Body& body, float k);
+	static Vec3 GenerateFrictionForce(const RigidbodyComponent& body, float k);
 
-	static Vec2 GenerateGravitationForce(const Body& a, const Body& b, float G, float minDistance, float maxDistance);
+	static Vec3 GenerateGravitationForce(const RigidbodyComponent& a, const RigidbodyComponent& b, float G, float minDistance, float maxDistance);
 
-	static Vec2 GenerateSpringForce(const Body& body, Vec2 anchor, float restLenght, float k);
-	static Vec2 GenerateSpringForce(const Body& a, const Body& b, float restLenght, float k);
+	static Vec3 GenerateSpringForce(const RigidbodyComponent& body, Vec3 anchor, float restLenght, float k);
+	static Vec3 GenerateSpringForce(const RigidbodyComponent& a, const RigidbodyComponent& b, float restLenght, float k);
 };
-
-#endif

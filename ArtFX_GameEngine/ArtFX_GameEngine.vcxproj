@@ -24,10 +24,14 @@
     <ClCompile Include="Engine\Core\Class\Mesh\Mesh.cpp" />
     <ClCompile Include="Engine\Core\Class\Scene\Scene.cpp" />
     <ClCompile Include="Engine\Core\Dispatcher\EventDispatcher.cpp" />
-    <ClCompile Include="Engine\Core\Physic\Body.cpp" />
     <ClCompile Include="Engine\Core\Physic\CollisionDetection.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Component\BaseCollisionComponent.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Component\BoxCollisionComponent.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Component\PolyCollisionComponent.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Component\SphereCollisionComponent.cpp" />
     <ClCompile Include="Engine\Core\Physic\Constraint.cpp" />
     <ClCompile Include="Engine\Core\Physic\Force.cpp" />
+    <ClCompile Include="Engine\Core\Physic\PhysicEngine.cpp" />
     <ClCompile Include="Engine\Core\Render\Asset.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\MeshComponent.cpp" />
@@ -43,6 +47,7 @@
     <ClCompile Include="Engine\Debug\Log.cpp" />
     <ClCompile Include="Engine\Input\InputEvent.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
+    <ClCompile Include="Engine\Math\MatMN.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\Matrix4Row.cpp" />
     <ClCompile Include="Engine\Math\Quaternion.cpp" />
@@ -53,11 +58,11 @@
     <ClCompile Include="Engine\Math\Vec2.cpp" />
     <ClCompile Include="Engine\Math\Vec3.cpp" />
     <ClCompile Include="Engine\Math\Vec4.cpp" />
+    <ClCompile Include="Engine\Math\VecN.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Actor\Camera.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\FpsCameraMovement.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\MoveComponent.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\PlayerController.cpp" />
-    <ClCompile Include="Engine\Physic\Components\BoxColliderComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game\Actor\Skybox.cpp" />
     <ClCompile Include="Game\Scenes\Base\BaseScene.cpp" />
@@ -75,11 +80,15 @@
     <ClInclude Include="Engine\Core\Class\Scene\Scene.h" />
     <ClInclude Include="Engine\Core\Dispatcher\EventDispatcher.h" />
     <ClInclude Include="Engine\Core\Dispatcher\IObserver.h" />
-    <ClInclude Include="Engine\Core\Physic\Body.h" />
     <ClInclude Include="Engine\Core\Physic\CollisionDetection.h" />
+    <ClInclude Include="Engine\Core\Physic\Component\BaseCollisionComponent.h" />
+    <ClInclude Include="Engine\Core\Physic\Component\BoxCollisionComponent.h" />
+    <ClInclude Include="Engine\Core\Physic\Component\PolyCollisionComponent.h" />
+    <ClInclude Include="Engine\Core\Physic\Component\SphereCollisionComponent.h" />
     <ClInclude Include="Engine\Core\Physic\Constraint.h" />
     <ClInclude Include="Engine\Core\Physic\Contact.h" />
     <ClInclude Include="Engine\Core\Physic\Force.h" />
+    <ClInclude Include="Engine\Core\Physic\PhysicEngine.h" />
     <ClInclude Include="Engine\Core\Render\Asset.h" />
     <ClInclude Include="Engine\Core\Render\Component\AnimatedSpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\MeshComponent.h" />
@@ -98,6 +107,7 @@
     <ClInclude Include="Engine\Input\InputEvent.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
     <ClInclude Include="Engine\Math\Maths.h" />
+    <ClInclude Include="Engine\Math\MatMN.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
     <ClInclude Include="Engine\Math\Matrix4Row.h" />
     <ClInclude Include="Engine\Math\Quaternion.h" />
@@ -108,11 +118,11 @@
     <ClInclude Include="Engine\Math\Vec2.h" />
     <ClInclude Include="Engine\Math\Vec3.h" />
     <ClInclude Include="Engine\Math\Vec4.h" />
+    <ClInclude Include="Engine\Math\VecN.h" />
     <ClInclude Include="Engine\Miscellaneous\Actor\Camera.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\FpsCameraMovement.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\MoveComponent.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\PlayerController.h" />
-    <ClInclude Include="Engine\Physic\Components\BoxColliderComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game\Actor\Skybox.h" />
     <ClInclude Include="Game\Scenes\Base\BaseScene.h" />
@@ -122,6 +132,7 @@
     <ClInclude Include="Game\Scenes\PongScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Engine\Core\Physic\PhysicConstants.h" />
     <Content Include="Engine\Core\Render\Shader\BasicMesh.frag" />
     <Content Include="Engine\Core\Render\Shader\BasicMesh.vert" />
     <Content Include="Engine\Core\Render\Shader\Simple.frag" />
