@@ -46,12 +46,12 @@ void GLTestScene::Start()
     debugBox->SetLocation(Vec3(10.0f, 1.2f, 10.0f));
 
     MeshComponent* debugBoxMeshComponent = new MeshComponent(debugBox);
-    debugBoxMeshComponent->SetMesh(Asset::GetMesh("Box"));
+    debugBoxMeshComponent->SetMesh(Asset::GetMesh("monkey"));
     debugBoxMeshComponent->AddTexture(Asset::GetTexture("Floor"));
 
     RigidbodyComponent* debugBoxRigidbody = new RigidbodyComponent(debugBox);
 
-    BoxCollisionComponent* debugBoxSphere = new BoxCollisionComponent(debugBox);
+    PolyCollisionComponent* debugBoxSphere = new PolyCollisionComponent(debugBox);
 
     Actor* debugBoxActor = new Actor();
     AddActor(debugBoxActor);
@@ -65,14 +65,14 @@ void GLTestScene::Start()
 
     RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
 
-    BoxCollisionComponent* debugBoxActorPolyCollision = new BoxCollisionComponent(debugBoxActor);
+    PolyCollisionComponent* debugBoxActorPolyCollision = new PolyCollisionComponent(debugBoxActor);
 
 }
 
 void GLTestScene::Update()
 {
     Scene::Update();
-    //mActors[1]->Rotate(Vec3(Maths::ToRad(10) * Time::deltaTime, Maths::ToRad(10) * Time::deltaTime, Maths::ToRad(10) * Time::deltaTime));
+    Log::Info("FPS : " + std::to_string( 1.0f / Time::deltaTime));
 }
 
 void GLTestScene::Render()

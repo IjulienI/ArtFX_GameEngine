@@ -1,6 +1,7 @@
 #include "Constraint.h"
 
 #include <algorithm>
+#include <numbers>
 
 MatMN Constraint::GetInvM() const {
     MatMN invM(12, 12);
@@ -78,12 +79,12 @@ VecN Constraint::GetVelocities() const {
     return V;
 }
 
-PenetrationConstraint::PenetrationConstraint() : Constraint(), jacobian(2, 12), cachedLambda(2), bias(0.0f) {
+PenetrationConstraint::PenetrationConstraint() : Constraint(), jacobian(3, 12), cachedLambda(3), bias(0.0f) {
     cachedLambda.Zero();
     friction = 0.0f;
 }
 
-PenetrationConstraint::PenetrationConstraint(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& aCollisionPoint, const Vec3& bCollisionPoint, const Vec3& normal) : Constraint(), jacobian(2, 12), cachedLambda(2), bias(0.0f) {
+PenetrationConstraint::PenetrationConstraint(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& aCollisionPoint, const Vec3& bCollisionPoint, const Vec3& normal) : Constraint(), jacobian(3, 12), cachedLambda(3), bias(0.0f) {
     this->a = a;
     this->b = b;
     this->aPoint = a->WorldSpaceToLocalSpace(aCollisionPoint);
@@ -96,53 +97,45 @@ PenetrationConstraint::PenetrationConstraint(RigidbodyComponent* a, RigidbodyCom
 void PenetrationConstraint::PreSolve() {
     const Vec3 pa = a->LocalSpaceToWorldSpace(aPoint);
     const Vec3 pb = b->LocalSpaceToWorldSpace(bPoint);
-    Vec3 n = Vec3::Normalize(a->LocalSpaceToWorldSpace(normal)); // Normalisation
+    Vec3 n = Vec3::Normalize(a->LocalSpaceToWorldSpace(normal));
 
     const Vec3 ra = pa - a->GetLocation();
     const Vec3 rb = pb - b->GetLocation();
+    
+    Vec3 t1;
+    if (std::abs(n.x) < std::numbers::egamma_v<float>)
+        t1 = Vec3::Cross(n, Vec3::unitX);
+    else
+        t1 = Vec3::Cross(n, Vec3::unitY);
+    t1 = Vec3::Normalize(t1);
+    Vec3 t2 = Vec3::Cross(n, t1);
 
-    jacobian.Zero();
+    jacobian = MatMN(3, 12);
+    cachedLambda = VecN(3);
+    cachedLambda.Zero();
 
-    const Vec3 crossRaN = Vec3::Cross(ra, n);
-    const Vec3 crossRbN = Vec3::Cross(rb, n);
+    Vec3 dirs[3] = { n, t1, t2 };
 
-    jacobian.rows[0][0] = -n.x;
-    jacobian.rows[0][1] = -n.y;
-    jacobian.rows[0][2] = -n.z;
-    jacobian.rows[0][3] = -crossRaN.x;
-    jacobian.rows[0][4] = -crossRaN.y;
-    jacobian.rows[0][5] = -crossRaN.z;
-    jacobian.rows[0][6] = n.x;
-    jacobian.rows[0][7] = n.y;
-    jacobian.rows[0][8] = n.z;
-    jacobian.rows[0][9] = crossRbN.x;
-    jacobian.rows[0][10] = crossRbN.y;
-    jacobian.rows[0][11] = crossRbN.z;
+    for (int row = 0; row < 3; ++row) {
+        const Vec3& dir = dirs[row];
+        Vec3 raCross = Vec3::Cross(ra, dir);
+        Vec3 rbCross = Vec3::Cross(rb, dir);
 
-    friction = std::max(a->GetFriction(), b->GetFriction());
-    if (friction > 0.0f) {
-        Vec3 t = Vec3::Normalize(Vec3::Cross(n, Vec3::unitX)); // Normalisation
-        if (Maths::NearZero(t.Length())) {
-            t = Vec3::Normalize(Vec3::Cross(n, Vec3::unitY)); // Normalisation
-        }
+        jacobian[row][0]  = -dir.x;
+        jacobian[row][1]  = -dir.y;
+        jacobian[row][2]  = -dir.z;
+        jacobian[row][3]  = -raCross.x;
+        jacobian[row][4]  = -raCross.y;
+        jacobian[row][5]  = -raCross.z;
 
-        const Vec3 crossRaT = Vec3::Cross(ra, t);
-        const Vec3 crossRbT = Vec3::Cross(rb, t);
-
-        jacobian.rows[1][0] = -t.x;
-        jacobian.rows[1][1] = -t.y;
-        jacobian.rows[1][2] = -t.z;
-        jacobian.rows[1][3] = -crossRaT.x;
-        jacobian.rows[1][4] = -crossRaT.y;
-        jacobian.rows[1][5] = -crossRaT.z;
-        jacobian.rows[1][6] = t.x;
-        jacobian.rows[1][7] = t.y;
-        jacobian.rows[1][8] = t.z;
-        jacobian.rows[1][9] = crossRbT.x;
-        jacobian.rows[1][10] = crossRbT.y;
-        jacobian.rows[1][11] = crossRbT.z;
+        jacobian[row][6]  =  dir.x;
+        jacobian[row][7]  =  dir.y;
+        jacobian[row][8]  =  dir.z;
+        jacobian[row][9]  =  rbCross.x;
+        jacobian[row][10] =  rbCross.y;
+        jacobian[row][11] =  rbCross.z;
     }
-
+    
     const MatMN Jt = jacobian.Transpose();
     VecN impulses = Jt * cachedLambda;
 
@@ -150,7 +143,9 @@ void PenetrationConstraint::PreSolve() {
     a->ApplyImpulseAngular(Vec3(impulses[3], impulses[4], impulses[5]));
     b->ApplyImpulseLinear(Vec3(impulses[6], impulses[7], impulses[8]));
     b->ApplyImpulseAngular(Vec3(impulses[9], impulses[10], impulses[11]));
-
+    
+    friction = std::max(a->GetFriction(), b->GetFriction());
+    
     const float beta = 0.2f;
     float C = Vec3::Dot(pb - pa, n);
     C = std::min(0.0f, C + 0.01f);
@@ -160,7 +155,6 @@ void PenetrationConstraint::PreSolve() {
     float vrelDotNormal = Vec3::Dot(va - vb, n);
 
     float e = std::min(a->GetRestitution(), b->GetRestitution());
-
     bias = (beta / DELTA_STEP) * C + (e * vrelDotNormal);
 }
 
@@ -169,26 +163,37 @@ void PenetrationConstraint::Solve() {
     const MatMN invM = GetInvM();
 
     const MatMN J = jacobian;
-    const MatMN Jt = jacobian.Transpose();
+    const MatMN Jt = J.Transpose();
 
     MatMN lhs = J * invM * Jt;
     VecN rhs = J * V * -1.0f;
     rhs[0] -= bias;
+
     VecN lambda = MatMN::SolveGaussSeidel(lhs, rhs);
 
     VecN oldLambda = cachedLambda;
     cachedLambda += lambda;
-    cachedLambda[0] = (cachedLambda[0] < 0.0f) ? 0.0f : cachedLambda[0];
 
-    if (friction > 0.0) {
-        const float maxFriction = cachedLambda[0] * friction;
+    // Clamp pour la normale
+    cachedLambda[0] = std::max(0.0f, cachedLambda[0]);
+
+    // Gestion de la friction
+    if (friction > 0.0f) {
+        float maxFriction = cachedLambda[0] * friction;
+
+        // Clamp des composantes tangentielles
         cachedLambda[1] = std::clamp(cachedLambda[1], -maxFriction, maxFriction);
+        cachedLambda[2] = std::clamp(cachedLambda[2], -maxFriction, maxFriction);
+    } else {
+        cachedLambda[1] = 0.0f;
+        cachedLambda[2] = 0.0f;
     }
 
+    // Calcul des impulsions
     lambda = cachedLambda - oldLambda;
-
     VecN impulses = Jt * lambda;
 
+    // Application des impulsions
     a->ApplyImpulseLinear(Vec3(impulses[0], impulses[1], impulses[2]));
     a->ApplyImpulseAngular(Vec3(impulses[3], impulses[4], impulses[5]));
     b->ApplyImpulseLinear(Vec3(impulses[6], impulses[7], impulses[8]));

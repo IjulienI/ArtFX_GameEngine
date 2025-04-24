@@ -28,19 +28,3 @@ void BaseCollisionComponent::Draw(Matrix4Row viewProj)
         Vec3 max;
     };
 }
-
-std::vector<Vec3> BaseCollisionComponent::GetVerticesInWorldSpace() const
-{
-    std::vector<Vec3> worldVertices;
-    const std::vector<Vertex>& localVertices = mOwner->GetComponent<MeshComponent>()->GetMesh()->GetVertices();
-
-    Vec3 worldPosition = mOwner->GetLocation();
-    Quaternion worldRotation = mOwner->GetRotation();
-
-    for (const Vertex& vertex : localVertices) {
-        Vec3 worldVertex = worldRotation * vertex.position + worldPosition;
-        worldVertices.push_back(worldVertex);
-    }
-
-    return worldVertices;
-}

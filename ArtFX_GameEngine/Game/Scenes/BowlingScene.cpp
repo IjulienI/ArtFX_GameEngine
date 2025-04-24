@@ -47,8 +47,7 @@ void BowlingScene::Start()
             RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPist);
             bowlingPistRigidbodyComponent->SetMass(0.0f);
 
-            BoxCollisionComponent* bowlingPistCollisionComponent = new BoxCollisionComponent(bowlingPist,
-                Asset::GetMesh("BowlingPistCollisionFloor").GetBoundingBox());
+            PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPist);
         }
     }
 

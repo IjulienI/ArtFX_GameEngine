@@ -121,3 +121,8 @@ void SphereCollisionComponent::SetRadius(float radius)
     mRadius = radius;
     GenerateSphere(mRadius);
 }
+
+std::vector<Vec3> SphereCollisionComponent::GetVerticesInWorldSpace() const
+{
+    return std::vector<Vec3>();
+}

@@ -25,5 +25,5 @@ public:
         return mCollisionType;
     }
 
-    virtual std::vector<Vec3> GetVerticesInWorldSpace() const;
+    virtual std::vector<Vec3> GetVerticesInWorldSpace() const = 0;
 };

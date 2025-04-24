@@ -17,7 +17,7 @@ BoxCollisionComponent::BoxCollisionComponent(Actor* owner) : BaseCollisionCompon
 BoxCollisionComponent::BoxCollisionComponent(Actor* owner, const Box box) : BaseCollisionComponent(owner)
 {
     mCollisionType = CollisionType::Box;
-    mBoundingBox = box;
+    mBoundingBox = box;                                                              
     GenerateBox();
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
@@ -43,6 +43,7 @@ void BoxCollisionComponent::Draw(Matrix4Row viewProj)
 void BoxCollisionComponent::SetBoundingBox(const Box& box)
 {
     mBoundingBox = box;
+    GenerateBox();
 }
 
 void BoxCollisionComponent::GenerateBox()
@@ -94,17 +95,15 @@ std::vector<Vec3> BoxCollisionComponent::GetVerticesInWorldSpace() const
 {
     std::vector<Vec3> worldVertices;
 
-    Box localBox = mOwner->GetComponent<MeshComponent>()->GetMesh()->GetBoundingBox();
-
     Vec3 corners[8] = {
-        { Vec3(localBox.min.x, localBox.min.y, localBox.min.z) },
-        { Vec3(localBox.max.x, localBox.min.y, localBox.min.z) },
-        { Vec3(localBox.max.x, localBox.max.y, localBox.min.z) },
-        { Vec3(localBox.min.x, localBox.max.y, localBox.min.z) },
-        { Vec3(localBox.min.x, localBox.min.y, localBox.max.z) },
-        { Vec3(localBox.max.x, localBox.min.y, localBox.max.z) },
-        { Vec3(localBox.max.x, localBox.max.y, localBox.max.z) },
-        { Vec3(localBox.min.x, localBox.max.y, localBox.max.z) }
+        { Vec3(mBoundingBox.min.x, mBoundingBox.min.y, mBoundingBox.min.z) },
+        { Vec3(mBoundingBox.max.x, mBoundingBox.min.y, mBoundingBox.min.z) },
+        { Vec3(mBoundingBox.max.x, mBoundingBox.max.y, mBoundingBox.min.z) },
+        { Vec3(mBoundingBox.min.x, mBoundingBox.max.y, mBoundingBox.min.z) },
+        { Vec3(mBoundingBox.min.x, mBoundingBox.min.y, mBoundingBox.max.z) },
+        { Vec3(mBoundingBox.max.x, mBoundingBox.min.y, mBoundingBox.max.z) },
+        { Vec3(mBoundingBox.max.x, mBoundingBox.max.y, mBoundingBox.max.z) },
+        { Vec3(mBoundingBox.min.x, mBoundingBox.max.y, mBoundingBox.max.z) }
     };
 
     Quaternion rotation = mOwner->GetRotation();

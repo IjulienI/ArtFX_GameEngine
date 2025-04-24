@@ -77,9 +77,17 @@ public:
         return mInverseMomentOfInertia;
     }
     Mat3 GetWorldInverseIntertia() const;
+    void SetRestitution(float pRestitution)
+    {
+        mRestitution = pRestitution;
+    }
     float GetRestitution() const
     {
         return mRestitution;
+    }
+    void SetFriction(float pFriction)
+    {
+        mFriction = pFriction;
     }
     float GetFriction() const
     {

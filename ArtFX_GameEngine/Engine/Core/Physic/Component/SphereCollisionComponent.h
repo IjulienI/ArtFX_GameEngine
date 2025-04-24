@@ -26,4 +26,6 @@ public:
     {
         return mRadius;
     }
+
+    std::vector<Vec3> GetVerticesInWorldSpace() const override;
 };

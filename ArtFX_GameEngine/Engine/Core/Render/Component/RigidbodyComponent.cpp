@@ -12,7 +12,7 @@ RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelo
                                                         mSumForces(Vec3::zero), mSumTorques(Vec3::zero)
 {
     mRestitution = 0.0f;
-    mFriction = 0.5f;
+    mFriction = 1.0f;
     SetMass(100.0f);
     CalcMomentOfInertia();
 }
@@ -164,10 +164,10 @@ void RigidbodyComponent::IntegrateForces()
     if (mStatic) return;
 
     mAcceleration = mSumForces * mInverseMass;
-    mVelocity += mAcceleration * Time::deltaTime;
+    mVelocity += mAcceleration * DELTA_STEP;
     
     mAngularAcceleration = mInverseMomentOfInertia * mSumTorques;
-    mAngularVelocity += mAngularAcceleration * Time::deltaTime;
+    mAngularVelocity += mAngularAcceleration * DELTA_STEP;
 
     ClearForces();
     ClearTorques();
@@ -178,14 +178,11 @@ void RigidbodyComponent::IntegrateVelocity()
     if (mStatic) return;
 
     Vec3 location = mOwner->GetLocation();
-    location += mVelocity * Time::deltaTime;
+    location += mVelocity * DELTA_STEP;
     mOwner->SetLocation(location);
 
-    mVelocity *= 0.98f; //TEMP
-    mAngularVelocity *= 0.98f; //TEMP
-
     Quaternion currentRotation = mOwner->GetRotation();
-    Vec3 angularIncrement = mAngularVelocity * Time::deltaTime;
+    Vec3 angularIncrement = mAngularVelocity * DELTA_STEP;
     Quaternion rotationDelta(Vec3::Normalize(angularIncrement), angularIncrement.Length());
     Quaternion rotation = Quaternion::Concatenate(currentRotation, rotationDelta);
     mOwner->SetRotation(rotation);
