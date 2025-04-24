@@ -1,4 +1,6 @@
 #pragma once
+#include <algorithm>
+
 #include "Core/Physic/PhysicConstants.h"
 
 class Vec3
@@ -37,6 +39,11 @@ public:
 	friend Vec3 operator-(const Vec3& a, const Vec3& b)
 	{
 		return Vec3(a.x - b.x, a.y - b.y, a.z - b.z);
+	}
+
+	Vec3 operator-() const
+	{
+		return Vec3(-x,-y,-z);
 	}
 
 	// Component-wise multiplication
@@ -92,6 +99,26 @@ public:
 			z /= scalar;
 		}
 		return *this;
+	}
+
+	bool operator<(const Vec3& right) const
+	{
+		return (x < right.x && y < right.y && z < right.z);
+	}
+
+	bool operator>(const Vec3& right) const
+	{
+		return (x > right.x && y > right.y && z > right.z);
+	}
+
+	static Vec3 Min(const Vec3& a, const Vec3& b)
+	{
+		return a < b ? b : a;
+	}
+
+	static Vec3 Max(const Vec3& a, const Vec3& b)
+	{
+		return a > b ? b: a;
 	}
 
 	// Normalize the provided vector

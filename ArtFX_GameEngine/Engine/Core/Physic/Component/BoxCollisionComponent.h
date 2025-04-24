@@ -24,4 +24,6 @@ public:
     }
 
     void GenerateBox();
+
+    std::vector<Vec3> GetVerticesInWorldSpace() const override;
 };

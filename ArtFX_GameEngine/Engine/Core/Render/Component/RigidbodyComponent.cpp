@@ -11,9 +11,9 @@ RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelo
                                                         mAngularVelocity(Vec3::zero), mAcceleration(Vec3::zero), mAngularAcceleration(Vec3::zero),
                                                         mSumForces(Vec3::zero), mSumTorques(Vec3::zero)
 {
-    mRestitution = 0.5f;
-    mFriction = 1.0f;
-    SetMass(1.0f);
+    mRestitution = 0.0f;
+    mFriction = 0.5f;
+    SetMass(100.0f);
     CalcMomentOfInertia();
 }
 
@@ -180,6 +180,9 @@ void RigidbodyComponent::IntegrateVelocity()
     Vec3 location = mOwner->GetLocation();
     location += mVelocity * Time::deltaTime;
     mOwner->SetLocation(location);
+
+    mVelocity *= 0.98f; //TEMP
+    mAngularVelocity *= 0.98f; //TEMP
 
     Quaternion currentRotation = mOwner->GetRotation();
     Vec3 angularIncrement = mAngularVelocity * Time::deltaTime;

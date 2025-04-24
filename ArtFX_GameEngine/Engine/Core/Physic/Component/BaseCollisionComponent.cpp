@@ -22,6 +22,11 @@ BaseCollisionComponent::~BaseCollisionComponent()
 
 void BaseCollisionComponent::Draw(Matrix4Row viewProj)
 {
+    struct Box
+    {
+        Vec3 min;
+        Vec3 max;
+    };
 }
 
 std::vector<Vec3> BaseCollisionComponent::GetVerticesInWorldSpace() const

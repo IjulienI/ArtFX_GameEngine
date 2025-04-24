@@ -90,3 +90,34 @@ void BoxCollisionComponent::GenerateBox()
     mVertexArray = new VertexArray(vertices.data(), static_cast<unsigned int>(vertices.size() / 8));
 }
 
+std::vector<Vec3> BoxCollisionComponent::GetVerticesInWorldSpace() const
+{
+    std::vector<Vec3> worldVertices;
+
+    Box localBox = mOwner->GetComponent<MeshComponent>()->GetMesh()->GetBoundingBox();
+
+    Vec3 corners[8] = {
+        { Vec3(localBox.min.x, localBox.min.y, localBox.min.z) },
+        { Vec3(localBox.max.x, localBox.min.y, localBox.min.z) },
+        { Vec3(localBox.max.x, localBox.max.y, localBox.min.z) },
+        { Vec3(localBox.min.x, localBox.max.y, localBox.min.z) },
+        { Vec3(localBox.min.x, localBox.min.y, localBox.max.z) },
+        { Vec3(localBox.max.x, localBox.min.y, localBox.max.z) },
+        { Vec3(localBox.max.x, localBox.max.y, localBox.max.z) },
+        { Vec3(localBox.min.x, localBox.max.y, localBox.max.z) }
+    };
+
+    Quaternion rotation = mOwner->GetRotation();
+    Vec3 position = mOwner->GetLocation();
+    Vec3 scale = mOwner->GetScale();
+
+    for (Vec3 corner : corners)
+    {
+        Vec3 scaledCorner = corner * scale;
+        Vec3 worldCorner = rotation * scaledCorner + position;
+        worldVertices.push_back(worldCorner);
+    }
+
+    return worldVertices;
+}
+

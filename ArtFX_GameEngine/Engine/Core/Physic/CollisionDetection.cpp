@@ -146,29 +146,63 @@ bool CollisionDetection::IsCollidingPolygonPolygon(RigidbodyComponent* a, Rigidb
 
 bool CollisionDetection::IsCollidingBoxBox(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts)
 {
-    auto aVerts = a->GetCollisionComponent()->GetVerticesInWorldSpace();
-    auto bVerts = b->GetCollisionComponent()->GetVerticesInWorldSpace();
+    const std::vector<Vec3> aVerts = a->GetCollisionComponent()->GetVerticesInWorldSpace();
+    const std::vector<Vec3> bVerts = b->GetCollisionComponent()->GetVerticesInWorldSpace();
 
     std::vector<Vec3> axes;
-    for (auto& axis : a->GetLocalAxes()) axes.push_back(Vec3::Normalize(axis));
-    for (auto& axis : b->GetLocalAxes()) axes.push_back(Vec3::Normalize(axis));
+    
+    const std::vector<Vec3>& aAxes = a->GetLocalAxes();
+    const std::vector<Vec3>& bAxes = b->GetLocalAxes();
 
-    for (auto& aAxis : a->GetLocalAxes()) {
-        for (auto& bAxis : b->GetLocalAxes()) {
+    for (const Vec3& axis : aAxes) axes.push_back(Vec3::Normalize(axis));
+    for (const Vec3& axis : bAxes) axes.push_back(Vec3::Normalize(axis));
+    
+    for (const Vec3& aAxis : aAxes) {
+        for (const Vec3& bAxis : bAxes) {
             Vec3 cross = Vec3::Cross(aAxis, bAxis);
-            if (cross.LengthSq() > EPSILON) axes.push_back(Vec3::Normalize(cross));
+            if (cross.LengthSq() > EPSILON) {
+                axes.push_back(Vec3::Normalize(cross));
+            }
         }
     }
 
     float minOverlap = std::numeric_limits<float>::max();
     Vec3 collisionNormal;
-
+    
     for (const Vec3& axis : axes) {
         float overlap;
-        if (!OverlapOnAxis(aVerts, bVerts, axis, overlap)) return false;
+        if (!OverlapOnAxis(aVerts, bVerts, axis, overlap)) {
+            return false; 
+        }
         if (overlap < minOverlap) {
             minOverlap = overlap;
             collisionNormal = axis;
+        }
+    }
+    
+    Vec3 direction = b->GetLocation() - a->GetLocation();
+    if (Vec3::Dot(direction, collisionNormal) < 0.0f) {
+        collisionNormal = -collisionNormal;
+    }
+    
+    Vec3 contactPointA = a->GetLocation() + collisionNormal * (minOverlap * 0.5f);
+    Vec3 contactPointB = b->GetLocation() - collisionNormal * (minOverlap * 0.5f);
+    
+    float maxProjectionA = std::numeric_limits<float>::lowest();
+    for (const Vec3& vertex : aVerts) {
+        float projection = Vec3::Dot(vertex, collisionNormal);
+        if (projection > maxProjectionA) {
+            maxProjectionA = projection;
+            contactPointA = vertex;
+        }
+    }
+    
+    float maxProjectionB = std::numeric_limits<float>::lowest();
+    for (const Vec3& vertex : bVerts) {
+        float projection = Vec3::Dot(vertex, -collisionNormal);
+        if (projection > maxProjectionB) {
+            maxProjectionB = projection;
+            contactPointB = vertex;
         }
     }
 
@@ -177,8 +211,8 @@ bool CollisionDetection::IsCollidingBoxBox(RigidbodyComponent* a, RigidbodyCompo
     contact.b = b;
     contact.normal = collisionNormal;
     contact.depth = minOverlap;
-    contact.start = a->GetLocation() + collisionNormal * (minOverlap * 0.5f);
-    contact.end = b->GetLocation() - collisionNormal * (minOverlap * 0.5f);
+    contact.start = contactPointA;
+    contact.end = contactPointB;
 
     contacts.push_back(contact);
     return true;
