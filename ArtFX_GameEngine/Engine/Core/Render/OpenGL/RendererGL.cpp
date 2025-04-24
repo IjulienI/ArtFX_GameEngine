@@ -121,7 +121,8 @@ void RendererGL::DrawMeshes()
     glDisable(GL_BLEND);
     for (MeshComponent* mesh : mMeshes)
     {
-        mesh->Draw(mView * mProj);
+        if (mesh->GetVisible())
+            mesh->Draw(mView * mProj);
     }
 }
 

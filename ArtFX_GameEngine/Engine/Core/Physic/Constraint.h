@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Core/Render/Component/RigidbodyComponent.h"
+#include "Component/RigidbodyComponent.h"
 #include "Math/MatMN.h"
 
 class Constraint {

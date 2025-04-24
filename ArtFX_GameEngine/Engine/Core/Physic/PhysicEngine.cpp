@@ -35,7 +35,7 @@ void PhysicEngine::Update()
             rigidbody->AddTorque(torque);
         }
     }
-    for (RigidbodyComponent* rigidbody : mRigidbodyComponents)
+    for (RigidbodyComponent* rigidbody : mRigidbodyComponents) 
     {
         rigidbody->IntegrateForces();
     }

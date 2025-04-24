@@ -28,6 +28,84 @@
     <ClCompile Include="Engine\Core\Physic\Component\BaseCollisionComponent.cpp" />
     <ClCompile Include="Engine\Core\Physic\Component\BoxCollisionComponent.cpp" />
     <ClCompile Include="Engine\Core\Physic\Component\PolyCollisionComponent.cpp" />
+    <ClCompile Include="Engine\Core\Physic\Component\RigidbodyComponent.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>Debug\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <EnableVectorLength>NotSet</EnableVectorLength>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
+      <ModuleOutputFile>Debug\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>Debug\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>Debug\ArtFX_GameEngine.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>Debug\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>Debug\ArtFX_GameEngine.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <BuildStlModules>false</BuildStlModules>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <EnablePREfast>false</EnablePREfast>
+      <OmitFramePointers>false</OmitFramePointers>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>E:\Git\ArtFX_GameEngine\\Dependencies\GL\SDL\include;E:\Git\ArtFX_GameEngine\\Dependencies\glew-2.2.0-win32\glew-2.2.0\include\GL;E:\Git\ArtFX_GameEngine\\Dependencies\TinyObjLoader\Include;E:\Git\ArtFX_GameEngine\\Dependencies\SDL2_image-2.8.2\include;E:\Git\ArtFX_GameEngine\\ArtFX_GameEngine\Engine;E:\Git\ArtFX_GameEngine\\ArtFX_GameEngine\Game;</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
     <ClCompile Include="Engine\Core\Physic\Component\SphereCollisionComponent.cpp" />
     <ClCompile Include="Engine\Core\Physic\Constraint.cpp" />
     <ClCompile Include="Engine\Core\Physic\Force.cpp" />
@@ -35,7 +113,6 @@
     <ClCompile Include="Engine\Core\Render\Asset.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\MeshComponent.cpp" />
-    <ClCompile Include="Engine\Core\Render\Component\RigidbodyComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\SpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\OpenGL\RendererGL.cpp" />
     <ClCompile Include="Engine\Core\Render\OpenGL\VertexArray.cpp" />
@@ -85,6 +162,7 @@
     <ClInclude Include="Engine\Core\Physic\Component\BaseCollisionComponent.h" />
     <ClInclude Include="Engine\Core\Physic\Component\BoxCollisionComponent.h" />
     <ClInclude Include="Engine\Core\Physic\Component\PolyCollisionComponent.h" />
+    <ClInclude Include="Engine\Core\Physic\Component\RigidbodyComponent.h" />
     <ClInclude Include="Engine\Core\Physic\Component\SphereCollisionComponent.h" />
     <ClInclude Include="Engine\Core\Physic\Constraint.h" />
     <ClInclude Include="Engine\Core\Physic\Contact.h" />
@@ -93,7 +171,6 @@
     <ClInclude Include="Engine\Core\Render\Asset.h" />
     <ClInclude Include="Engine\Core\Render\Component\AnimatedSpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\MeshComponent.h" />
-    <ClInclude Include="Engine\Core\Render\Component\RigidbodyComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\SpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Interface\IRenderer.h" />
     <ClInclude Include="Engine\Core\Render\OpenGL\DrawType.h" />

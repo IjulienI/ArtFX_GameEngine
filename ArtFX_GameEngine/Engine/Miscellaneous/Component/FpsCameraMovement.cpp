@@ -1,12 +1,11 @@
 ﻿#include "FpsCameraMovement.h"
 
 #include "Core/Class/Actor/Actor.h"
-#include "Core/Physic/Component/BoxCollisionComponent.h"
 #include "Core/Physic/Component/PolyCollisionComponent.h"
+#include "Core/Physic/Component/RigidbodyComponent.h"
 #include "Core/Physic/Component/SphereCollisionComponent.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
-#include "Core/Render/Component/RigidbodyComponent.h"
 #include "Debug/Log.h"
 #include "Input/InputManager.h"
 #include "Math/Time.h"
@@ -98,12 +97,11 @@ void FpsCameraMovement::OnCall(SDL_Event& event)
         Actor* debugBoxActor = new Actor();
         Scene::ActiveScene->AddActor(debugBoxActor);
 
-        debugBoxActor->SetLocation(Vec3(0.0f, 0.0f, 10.0f));
-        debugBoxActor->Rotate(Vec3(45.0f, 0.0f, 0.0f));
+        debugBoxActor->SetLocation(Vec3(-37.98f, 10.0f, 1.0f));
 
         MeshComponent* debugBoxActorComponent = new MeshComponent(debugBoxActor);
-        debugBoxActorComponent->SetMesh(Asset::GetMesh("monkey"));
-        debugBoxActorComponent->AddTexture(Asset::GetTexture("Floor"));
+        debugBoxActorComponent->SetMesh(Asset::GetMesh("BowlingPin"));
+        debugBoxActorComponent->AddTexture(Asset::GetTexture("BowlingPin"));
 
         RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
         debugBoxActorRigidbody->SetMass(2.0f);

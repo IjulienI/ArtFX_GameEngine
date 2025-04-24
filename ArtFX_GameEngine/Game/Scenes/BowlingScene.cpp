@@ -3,10 +3,10 @@
 #include "Actor/Skybox.h"
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Physic/Component/PolyCollisionComponent.h"
+#include "Core/Physic/Component/RigidbodyComponent.h"
 #include "Core/Physic/Component/SphereCollisionComponent.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
-#include "Core/Render/Component/RigidbodyComponent.h"
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Debug/Log.h"
 #include "Math/Time.h"
@@ -43,28 +43,43 @@ void BowlingScene::Start()
         bowlingPistMeshComponent->AddTexture(Asset::GetTexture("BowlingPist"));
 
         if (i == 6)
-        {
-            RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPist);
-            bowlingPistRigidbodyComponent->SetMass(0.0f);
-
-            PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPist);
+        {            
+            // RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPist);
+            // bowlingPistRigidbodyComponent->SetMass(0.0f);
+            //
+            // PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPist);
         }
     }
 
+    Actor* floor = new Actor();
+    AddActor(floor);
+
+    floor->SetLocation(Vec3(0.0f, 0.0f, -10.0f));
+    //floor->Rotate(Vec3(45.0f, 0.0f, 0.0f));
+
+    MeshComponent* floorMeshComponent = new MeshComponent(floor);
+    floorMeshComponent->SetMesh(Asset::GetMesh("Floor"));
+    floorMeshComponent->AddTexture(Asset::GetTexture("Floor"));
+
+    RigidbodyComponent* floorRigidbody = new RigidbodyComponent(floor);
+    floorRigidbody->SetMass(0.0f);
+
+    BoxCollisionComponent* floorPolyCollision = new BoxCollisionComponent(floor);
+
     //BowlingPins
-    Actor* bowlingPin = new Actor();
-    AddActor(bowlingPin);
-
-    bowlingPin->SetLocation(Vec3(-37.98f, 10.0f, 1.0f));
-
-    MeshComponent* bowlingPistMeshComponent = new MeshComponent(bowlingPin);
-    bowlingPistMeshComponent->SetMesh(Asset::GetMesh("BowlingPin"));
-    bowlingPistMeshComponent->AddTexture(Asset::GetTexture("BowlingPin"));
-
-    RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPin);
-    bowlingPistRigidbodyComponent->SetMass(10.0f);
-
-    BoxCollisionComponent* bowlingPistCollisionComponent = new BoxCollisionComponent(bowlingPin);
+    // Actor* bowlingPin = new Actor();
+    // AddActor(bowlingPin);
+    //
+    // bowlingPin->SetLocation(Vec3(-37.98f, 10.0f, 1.0f));
+    //
+    // MeshComponent* bowlingPistMeshComponent = new MeshComponent(bowlingPin);
+    // bowlingPistMeshComponent->SetMesh(Asset::GetMesh("BowlingPin"));
+    // bowlingPistMeshComponent->AddTexture(Asset::GetTexture("BowlingPin"));
+    //
+    // RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPin);
+    // bowlingPistRigidbodyComponent->SetMass(0.0f);
+    //
+    // PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPin);
 }
 
 void BowlingScene::Update()
@@ -89,10 +104,13 @@ void BowlingScene::Load()
     //Load Textures
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Bowling/BowlingPist.png", "BowlingPist");
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Bowling/BowlingPin.png", "BowlingPin");
+    Asset::LoadTexture(*mRenderer, "Resources/Textures/Floor.png", "Floor");
     
     //Load Meshes
+    Asset::LoadMesh("Floor.obj", "Floor");
     Asset::LoadMesh("Bowling/BowlingPist.obj", "BowlingPist");
     Asset::LoadMesh("Bowling/BowlingPin.obj", "BowlingPin");
     Asset::LoadMesh("Bowling/BowlingRoom.obj", "BowlingRoom");
     Asset::LoadMesh("Bowling/Collision/BowlingPistCollisionFloor.obj", "BowlingPistCollisionFloor");
+    Asset::LoadMesh("monkey.obj", "monkey");
 }

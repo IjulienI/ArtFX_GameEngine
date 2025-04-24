@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "./Contact.h"
-#include "Core/Render/Component/RigidbodyComponent.h"
 
 struct Vertex;
 
@@ -19,4 +18,5 @@ public:
 private:
 	static bool OverlapOnAxis(const std::vector<Vec3>& aVertices, const std::vector<Vec3>& bVertices, const Vec3& axis, float& overlap);
 	static bool OverlapOnAxis(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& axis, float& overlap);
+	static void ComputeContactManifold(const std::vector<Vec3>& aVerts, const std::vector<Vec3>& bVerts, const Vec3& collisionNormal, std::vector<Vec3>& contactPoints);
 };

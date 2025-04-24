@@ -8,6 +8,7 @@ class SphereCollisionComponent : public BaseCollisionComponent
 {
 private:
     float mRadius;
+    Vec3 mCenter;
 
     VertexArray* mVertexArray;
     ShaderProgram mShaderProgram;

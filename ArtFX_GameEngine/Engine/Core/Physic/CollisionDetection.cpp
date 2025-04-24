@@ -93,39 +93,40 @@ bool CollisionDetection::IsCollidingSphereSphere(RigidbodyComponent* a, Rigidbod
 bool CollisionDetection::IsCollidingPolygonPolygon(RigidbodyComponent* a, RigidbodyComponent* b,
     std::vector<Contact>& contacts)
 {
-    PolyCollisionComponent* aPolyComponent = dynamic_cast<PolyCollisionComponent*>(a->GetCollisionComponent());
-    PolyCollisionComponent* bPolyComponent = dynamic_cast<PolyCollisionComponent*>(b->GetCollisionComponent());
-
-    // Broad phase avec AABB
-    Box aBox = aPolyComponent->GetBoundingBox();
-    Box bBox = bPolyComponent->GetBoundingBox();
-
-    if (aBox.max.x < bBox.min.x || aBox.min.x > bBox.max.x ||
-        aBox.max.y < bBox.min.y || aBox.min.y > bBox.max.y ||
-        aBox.max.z < bBox.min.z || aBox.min.z > bBox.max.z) {
-        return false;
-    }
-
     const std::vector<Vec3>& aVerts = a->GetCollisionComponent()->GetVerticesInWorldSpace();
     const std::vector<Vec3>& bVerts = b->GetCollisionComponent()->GetVerticesInWorldSpace();
 
-    // Récupérer les normales des triangles
-    std::vector<Vec3> axes;
+    if (aVerts.empty() || bVerts.empty()) return false;
+
+    std::vector<Vec3> aAxes, bAxes;
+
     for (size_t i = 0; i + 2 < aVerts.size(); i += 3) {
         Vec3 normal = Vec3::Normalize(Vec3::Cross(aVerts[i + 1] - aVerts[i], aVerts[i + 2] - aVerts[i]));
         if (normal.LengthSq() > EPSILON)
-            axes.push_back(normal);
+            aAxes.push_back(normal);
     }
+
     for (size_t i = 0; i + 2 < bVerts.size(); i += 3) {
         Vec3 normal = Vec3::Normalize(Vec3::Cross(bVerts[i + 1] - bVerts[i], bVerts[i + 2] - bVerts[i]));
         if (normal.LengthSq() > EPSILON)
-            axes.push_back(normal);
+            bAxes.push_back(normal);
+    }
+
+    std::vector<Vec3> axes = aAxes;
+    axes.insert(axes.end(), bAxes.begin(), bAxes.end());
+
+    for (const Vec3& axisA : aAxes) {
+        for (const Vec3& axisB : bAxes) {
+            Vec3 cross = Vec3::Cross(axisA, axisB);
+            if (cross.LengthSq() > EPSILON) {
+                axes.push_back(Vec3::Normalize(cross));
+            }
+        }
     }
 
     float minOverlap = std::numeric_limits<float>::max();
     Vec3 collisionNormal;
 
-    // SAT
     for (const Vec3& axis : axes) {
         float overlap;
         if (!OverlapOnAxis(aVerts, bVerts, axis, overlap)) {
@@ -137,43 +138,27 @@ bool CollisionDetection::IsCollidingPolygonPolygon(RigidbodyComponent* a, Rigidb
         }
     }
 
-    // Orienter la normale
     Vec3 direction = b->GetLocation() - a->GetLocation();
     if (Vec3::Dot(direction, collisionNormal) < 0.0f) {
         collisionNormal = -collisionNormal;
     }
+    
+    std::vector<Vec3> clippedPoints;
+    ComputeContactManifold(aVerts, bVerts, collisionNormal, clippedPoints);
 
-    // Trouver les points les plus profonds
-    Vec3 deepestPointA;
-    float maxProjA = std::numeric_limits<float>::lowest();
-    for (const Vec3& v : aVerts) {
-        float proj = Vec3::Dot(v, collisionNormal);
-        if (proj > maxProjA) {
-            maxProjA = proj;
-            deepestPointA = v;
-        }
+    if (clippedPoints.empty()) return false;
+
+    for (const Vec3& p : clippedPoints) {
+        Contact contact;
+        contact.a = a;
+        contact.b = b;
+        contact.normal = collisionNormal;
+        contact.depth = minOverlap;
+        contact.start = p;
+        contact.end = p - collisionNormal * minOverlap;
+        contacts.push_back(contact);
     }
 
-    Vec3 deepestPointB;
-    float maxProjB = std::numeric_limits<float>::lowest();
-    for (const Vec3& v : bVerts) {
-        float proj = Vec3::Dot(v, -collisionNormal);
-        if (proj > maxProjB) {
-            maxProjB = proj;
-            deepestPointB = v;
-        }
-    }
-
-    // Créer le contact
-    Contact contact;
-    contact.a = a;
-    contact.b = b;
-    contact.normal = collisionNormal;
-    contact.depth = minOverlap;
-    contact.start = deepestPointA;
-    contact.end = deepestPointB;
-
-    contacts.push_back(contact);
     return true;
 }
 
@@ -325,13 +310,11 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
     const std::vector<Vec3>& boxAxes = box->GetLocalAxes();
 
     std::vector<Vec3> axes;
-    axes.reserve(boxAxes.size() + polyVerts.size());  // Optimisation allocation
-
-    // Ajouter les axes de la box
+    axes.reserve(boxAxes.size() + polyVerts.size());
+    
     for (const Vec3& axis : boxAxes)
         axes.push_back(Vec3::Normalize(axis));
-
-    // Ajouter les normales des triangles du mesh (polygon)
+    
     for (size_t i = 0; i + 2 < polyVerts.size(); i += 3) {
         Vec3 normal = Vec3::Normalize(Vec3::Cross(polyVerts[i + 1] - polyVerts[i], polyVerts[i + 2] - polyVerts[i]));
         if (normal.LengthSq() > EPSILON)
@@ -340,8 +323,7 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
 
     float minOverlap = std::numeric_limits<float>::max();
     Vec3 collisionNormal;
-
-    // SAT test
+    
     for (const Vec3& axis : axes) {
         float overlap;
         if (!OverlapOnAxis(boxVerts, polyVerts, axis, overlap))
@@ -352,14 +334,12 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
             collisionNormal = axis;
         }
     }
-
-    // Orientation du normal
+    
     Vec3 direction = polygon->GetLocation() - box->GetLocation();
     if (Vec3::Dot(direction, collisionNormal) < 0.0f) {
         collisionNormal = -collisionNormal;
     }
-
-    // Trouver les points les plus enfoncés (profonds) sur l'axe de collision
+    
     Vec3 deepestPointA;
     float maxProjA = std::numeric_limits<float>::lowest();
     for (const Vec3& v : boxVerts) {
@@ -373,14 +353,13 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
     Vec3 deepestPointB;
     float maxProjB = std::numeric_limits<float>::lowest();
     for (const Vec3& v : polyVerts) {
-        float proj = Vec3::Dot(v, -collisionNormal); // inversé pour aller dans l'autre sens
+        float proj = Vec3::Dot(v, -collisionNormal); 
         if (proj > maxProjB) {
             maxProjB = proj;
             deepestPointB = v;
         }
     }
-
-    // Construire le contact
+    
     Contact contact;
     contact.a = box;
     contact.b = polygon;
@@ -452,7 +431,6 @@ bool CollisionDetection::IsCollidingPolygonSphere(RigidbodyComponent* polygon, R
 
 bool CollisionDetection::OverlapOnAxis(const std::vector<Vec3>& aVertices, const std::vector<Vec3>& bVertices, const Vec3& axis, float& overlap)
 {
-    // Projections des sommets de la boîte sur l'axe
     float minBox = std::numeric_limits<float>::max();
     float maxBox = std::numeric_limits<float>::lowest();
     for (const Vec3& vertex : aVertices) {
@@ -460,8 +438,7 @@ bool CollisionDetection::OverlapOnAxis(const std::vector<Vec3>& aVertices, const
         minBox = std::min(minBox, projection);
         maxBox = std::max(maxBox, projection);
     }
-
-    // Projections des sommets du polygone sur l'axe
+    
     float minPoly = std::numeric_limits<float>::max();
     float maxPoly = std::numeric_limits<float>::lowest();
     for (const Vec3& vertex : bVertices) {
@@ -469,13 +446,11 @@ bool CollisionDetection::OverlapOnAxis(const std::vector<Vec3>& aVertices, const
         minPoly = std::min(minPoly, projection);
         maxPoly = std::max(maxPoly, projection);
     }
-
-    // Vérifier s'il y a un chevauchement
+    
     if (maxBox < minPoly || maxPoly < minBox) {
-        return false;  // Pas de chevauchement sur cet axe
+        return false; 
     }
-
-    // Calculer l'overlap
+    
     overlap = std::min(maxBox, maxPoly) - std::max(minBox, minPoly);
     return true; 
 }
@@ -508,4 +483,68 @@ bool CollisionDetection::OverlapOnAxis(RigidbodyComponent* a, RigidbodyComponent
 
     overlap = std::min(aMax, bMax) - std::max(aMin, bMin);
     return true;
+}
+
+void CollisionDetection::ComputeContactManifold(const std::vector<Vec3>& aVerts, const std::vector<Vec3>& bVerts, const Vec3& collisionNormal, std::vector<Vec3>& contactPoints)
+{
+    auto GetReferenceFace = [](const std::vector<Vec3>& verts, const Vec3& normal) -> std::vector<Vec3> {
+        float minDot = FLT_MAX;
+        std::vector<Vec3> bestFace;
+
+        for (size_t i = 0; i + 2 < verts.size(); i += 3) {
+            Vec3 n = Vec3::Normalize(Vec3::Cross(verts[i + 1] - verts[i], verts[i + 2] - verts[i]));
+            float dot = Vec3::Dot(n, normal);
+            if (dot < minDot) {
+                minDot = dot;
+                bestFace = { verts[i], verts[i + 1], verts[i + 2] };
+            }
+        }
+        return bestFace;
+    };
+
+    std::vector<Vec3> refFace = GetReferenceFace(aVerts, collisionNormal);
+    std::vector<Vec3> incFace = GetReferenceFace(bVerts, -collisionNormal);
+
+    if (refFace.size() < 3 || incFace.size() < 3) return;
+    
+    Vec3 refNormal = Vec3::Normalize(Vec3::Cross(refFace[1] - refFace[0], refFace[2] - refFace[0]));
+    float refPlaneDist = Vec3::Dot(refNormal, refFace[0]);
+    
+    auto ClipPolygonAgainstPlane = [](const std::vector<Vec3>& poly, const Vec3& planeNormal, float planeOffset) -> std::vector<Vec3> {
+        std::vector<Vec3> output;
+        for (size_t i = 0; i < poly.size(); ++i) {
+            Vec3 current = poly[i];
+            Vec3 next = poly[(i + 1) % poly.size()];
+
+            float d1 = Vec3::Dot(current, planeNormal) - planeOffset;
+            float d2 = Vec3::Dot(next, planeNormal) - planeOffset;
+
+            if (d1 >= 0) output.push_back(current);
+            if ((d1 >= 0) != (d2 >= 0)) {
+                Vec3 edge = next - current;
+                float t = d1 / (d1 - d2);
+                output.push_back(current + edge * t);
+            }
+        }
+        return output;
+    };
+    
+    std::vector<Vec3> clipped = incFace;
+    
+    for (int i = 0; i < 3; ++i) {
+        Vec3 v1 = refFace[i];
+        Vec3 v2 = refFace[(i + 1) % 3];
+        Vec3 edge = v2 - v1;
+        Vec3 inwardNormal = Vec3::Normalize(Vec3::Cross(refNormal, edge));
+        float offset = Vec3::Dot(inwardNormal, v1);
+        clipped = ClipPolygonAgainstPlane(clipped, inwardNormal, offset);
+        if (clipped.empty()) break;
+    }
+
+    for (Vec3& p : clipped) {
+        float d = Vec3::Dot(refNormal, p) - refPlaneDist;
+        if (d <= EPSILON) { 
+            contactPoints.push_back(p - refNormal * d); 
+        }
+    }
 }

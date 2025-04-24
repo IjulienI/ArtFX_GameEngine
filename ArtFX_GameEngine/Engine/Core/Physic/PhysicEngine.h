@@ -2,7 +2,6 @@
 #include <deque>
 
 #include "Constraint.h"
-#include "Core/Render/Component/RigidbodyComponent.h"
 
 class PhysicEngine
 {

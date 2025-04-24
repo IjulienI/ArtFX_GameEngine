@@ -1,6 +1,6 @@
 #pragma once
+#include "Component/RigidbodyComponent.h"
 
-#include "Core/Render/Component/RigidbodyComponent.h"
 
 struct Contact {
 	RigidbodyComponent* a;

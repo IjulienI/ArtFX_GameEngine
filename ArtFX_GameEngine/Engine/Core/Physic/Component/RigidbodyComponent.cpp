@@ -1,8 +1,8 @@
 ﻿#include "RigidbodyComponent.h"
 
-#include "MeshComponent.h"
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Physic/PhysicConstants.h"
+#include "Core/Render/Component/MeshComponent.h"
 #include "Debug/Log.h"
 #include "Math/Time.h"
 
@@ -180,6 +180,8 @@ void RigidbodyComponent::IntegrateVelocity()
     Vec3 location = mOwner->GetLocation();
     location += mVelocity * DELTA_STEP;
     mOwner->SetLocation(location);
+
+    mVelocity = mVelocity * (1.0f - mFriction * DELTA_STEP);
 
     Quaternion currentRotation = mOwner->GetRotation();
     Vec3 angularIncrement = mAngularVelocity * DELTA_STEP;
