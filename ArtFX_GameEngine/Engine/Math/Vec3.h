@@ -1,4 +1,5 @@
 #pragma once
+#include "Core/Physic/PhysicConstants.h"
 
 class Vec3
 {
@@ -17,8 +18,9 @@ public:
 	float LengthSq() const;
 	float Length() const;
 	void Normalize();
-	float Distance(Vec3 v);
+	float Distance(Vec3& v) const;
 	Vec3 UnitVector() const;
+	bool NearZero(float epsilon = EPSILON) const;
 
 	const float* GetAsFloatPtr() const
 	{

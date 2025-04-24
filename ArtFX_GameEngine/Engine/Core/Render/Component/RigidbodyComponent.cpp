@@ -7,49 +7,53 @@
 #include "Math/Time.h"
 
 
-
 RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelocity(Vec3::zero),
                                                         mAngularVelocity(Vec3::zero), mAcceleration(Vec3::zero), mAngularAcceleration(Vec3::zero),
                                                         mSumForces(Vec3::zero), mSumTorques(Vec3::zero)
 {
-    SetMass(100.0f);
+    mRestitution = 0.5f;
+    mFriction = 1.0f;
+    SetMass(1.0f);
     CalcMomentOfInertia();
 }
 
 void RigidbodyComponent::CalcMomentOfInertia()
 {
     const Mesh* mesh = mOwner->GetComponent<MeshComponent>()->GetMesh();
-
-    mMomentOfInertia.Zero();
-
-    float totalMass = mMass;
-
     const std::vector<Vertex>& vertices = mesh->GetVertices();
-    size_t vertexCount = mesh->GetVerticesCount();
+    size_t vertexCount = vertices.size();
+
     if (vertexCount == 0) return;
 
+    float totalMass = mMass;
     float massPerVertex = totalMass / static_cast<float>(vertexCount);
 
+    Mat3 I;
     for (auto& vertex : vertices)
     {
-        float x2 = vertex.position.x * vertex.position.x;
-        float y2 = vertex.position.y * vertex.position.y;
-        float z2 = vertex.position.z * vertex.position.z;
+        float x = vertex.position.x;
+        float y = vertex.position.y;
+        float z = vertex.position.z;
 
-        mMomentOfInertia.rows[0][0] += massPerVertex * (y2 + z2);
-        mMomentOfInertia.rows[1][1] += massPerVertex * (x2 + z2);
-        mMomentOfInertia.rows[2][2] += massPerVertex * (x2 + y2);
-
-        mMomentOfInertia.rows[0][1] -= massPerVertex * vertex.position.x * vertex.position.y;
-        mMomentOfInertia.rows[0][2] -= massPerVertex * vertex.position.x * vertex.position.z;
-        mMomentOfInertia.rows[1][2] -= massPerVertex * vertex.position.x * vertex.position.y;
+        float x2 = x * x;
+        float y2 = y * y;
+        float z2 = z * z;
+        
+        I.m[0][0] += massPerVertex * (y2 + z2);
+        I.m[1][1] += massPerVertex * (x2 + z2);
+        I.m[2][2] += massPerVertex * (x2 + y2);
+        
+        I.m[0][1] -= massPerVertex * x * y;
+        I.m[0][2] -= massPerVertex * x * z;
+        I.m[1][2] -= massPerVertex * y * z;
     }
+    
+    I.m[1][0] = I.m[0][1];
+    I.m[2][0] = I.m[0][2];
+    I.m[2][1] = I.m[1][2];
 
-    mMomentOfInertia.rows[1][0] = mMomentOfInertia.rows[0][1];
-    mMomentOfInertia.rows[2][0] = mMomentOfInertia.rows[0][2];
-    mMomentOfInertia.rows[2][1] = mMomentOfInertia.rows[1][2];
-
-    mInverseMomentOfInertia = mMomentOfInertia.Inverse();
+    mMomentOfInertia = I;
+    mInverseMomentOfInertia = I.Inverse();
 }
 
 void RigidbodyComponent::OnStart()
@@ -101,6 +105,13 @@ void RigidbodyComponent::ClearTorques()
     mSumTorques = Vec3::zero;
 }
 
+Mat3 RigidbodyComponent::GetWorldInverseIntertia() const
+{
+    Mat3 R = Mat3::CreateFromQuaternion(mOwner->GetRotation());
+    Mat3 I_local_inv = mInverseMomentOfInertia;
+    return R * I_local_inv * R.Transpose();
+}
+
 Vec3 RigidbodyComponent::GetLocation() const
 {
     return mOwner->GetLocation();
@@ -129,8 +140,8 @@ std::vector<Vec3> RigidbodyComponent::GetLocalAxes() const
 void RigidbodyComponent::ApplyImpulseAngular(const Vec3& pImpulse)
 {
     if (mStatic) return;
-    
-    mAngularVelocity += pImpulse * mInverseMass;
+
+    mAngularVelocity += mInverseMomentOfInertia * pImpulse;
 }
 
 void RigidbodyComponent::ApplyImpulseLinear(const Vec3& pImpulse)
@@ -145,7 +156,7 @@ void RigidbodyComponent::ApplyImpulseAtPoint(const Vec3& pImpulse, const Vec3& p
     if (mStatic) return;
 
     mVelocity += pImpulse * mInverseMass;
-    mAngularVelocity += Vec3::Cross(pImpulse,pPoint) * mInverseMass;
+    mAngularVelocity += mInverseMomentOfInertia * Vec3::Cross(pImpulse, pPoint);
 }
 
 void RigidbodyComponent::IntegrateForces()
@@ -153,9 +164,8 @@ void RigidbodyComponent::IntegrateForces()
     if (mStatic) return;
 
     mAcceleration = mSumForces * mInverseMass;
-
     mVelocity += mAcceleration * Time::deltaTime;
-
+    
     mAngularAcceleration = mInverseMomentOfInertia * mSumTorques;
     mAngularVelocity += mAngularAcceleration * Time::deltaTime;
 
@@ -169,16 +179,13 @@ void RigidbodyComponent::IntegrateVelocity()
 
     Vec3 location = mOwner->GetLocation();
     location += mVelocity * Time::deltaTime;
-    mOwner->SetLocation(location); 
+    mOwner->SetLocation(location);
 
     Quaternion currentRotation = mOwner->GetRotation();
     Vec3 angularIncrement = mAngularVelocity * Time::deltaTime;
-    if (angularIncrement.LengthSq() > EPSILON)
-    {        
-        Quaternion rotationDelta(Vec3::Normalize(angularIncrement), angularIncrement.Length());
-        Quaternion rotation = Quaternion::Concatenate(currentRotation, rotationDelta);
-        mOwner->SetRotation(rotation);
-    }           
+    Quaternion rotationDelta(Vec3::Normalize(angularIncrement), angularIncrement.Length());
+    Quaternion rotation = Quaternion::Concatenate(currentRotation, rotationDelta);
+    mOwner->SetRotation(rotation);
 }
 
 void RigidbodyComponent::ApplyImpulse(const Vec3& pImpulse)

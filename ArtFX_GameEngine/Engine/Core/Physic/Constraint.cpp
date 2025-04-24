@@ -2,8 +2,6 @@
 
 #include <algorithm>
 
-#include "Math/Time.h"
-
 MatMN Constraint::GetInvM() const {
     MatMN invM(12, 12);
     invM.Zero();
@@ -17,12 +15,12 @@ MatMN Constraint::GetInvM() const {
         invM.rows[1][1] = a->GetInverseMass();
         invM.rows[2][2] = a->GetInverseMass();
 
-        MatMN inverseInertiaA = a->GetInverseMomentOfInertia();
-        if (inverseInertiaA.M == 0 || inverseInertiaA.N == 0) {
+        Mat3 inverseInertiaA = a->GetInverseMomentOfInertia();
+        if (inverseInertiaA.m[0][0] == 0.0f || inverseInertiaA.m[1][1] == 0.0f) {
         } else {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    invM.rows[3 + i][3 + j] = inverseInertiaA[i][j];
+                    invM.rows[3 + i][3 + j] = inverseInertiaA.m[i][j];
                 }
             }
         }
@@ -37,12 +35,12 @@ MatMN Constraint::GetInvM() const {
         invM.rows[7][7] = b->GetInverseMass();
         invM.rows[8][8] = b->GetInverseMass();
 
-        MatMN inverseInertiaB = b->GetInverseMomentOfInertia();
-        if (inverseInertiaB.M == 0 || inverseInertiaB.N == 0) {
+        Mat3 inverseInertiaB = b->GetInverseMomentOfInertia();
+        if (inverseInertiaB.m[0][0] == 0.0f || inverseInertiaB.m[1][1] == 0.0f) {
         } else {
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
-                    invM.rows[9 + i][9 + j] = inverseInertiaB[i][j];
+                    invM.rows[9 + i][9 + j] = inverseInertiaB.m[i][j];
                 }
             }
         }
@@ -98,51 +96,53 @@ PenetrationConstraint::PenetrationConstraint(RigidbodyComponent* a, RigidbodyCom
 void PenetrationConstraint::PreSolve() {
     const Vec3 pa = a->LocalSpaceToWorldSpace(aPoint);
     const Vec3 pb = b->LocalSpaceToWorldSpace(bPoint);
-    Vec3 n = a->LocalSpaceToWorldSpace(normal);
+    Vec3 n = Vec3::Normalize(a->LocalSpaceToWorldSpace(normal)); // Normalisation
 
     const Vec3 ra = pa - a->GetLocation();
     const Vec3 rb = pb - b->GetLocation();
 
     jacobian.Zero();
-    
+
     const Vec3 crossRaN = Vec3::Cross(ra, n);
     const Vec3 crossRbN = Vec3::Cross(rb, n);
-    
+
     jacobian.rows[0][0] = -n.x;
     jacobian.rows[0][1] = -n.y;
-    jacobian.rows[0][2] = -n.z;    
+    jacobian.rows[0][2] = -n.z;
     jacobian.rows[0][3] = -crossRaN.x;
     jacobian.rows[0][4] = -crossRaN.y;
     jacobian.rows[0][5] = -crossRaN.z;
     jacobian.rows[0][6] = n.x;
     jacobian.rows[0][7] = n.y;
-    jacobian.rows[0][8] = n.z;    
+    jacobian.rows[0][8] = n.z;
     jacobian.rows[0][9] = crossRbN.x;
     jacobian.rows[0][10] = crossRbN.y;
     jacobian.rows[0][11] = crossRbN.z;
 
     friction = std::max(a->GetFriction(), b->GetFriction());
     if (friction > 0.0f) {
-        Vec3 t = Vec3::Normalize(n);
-        
+        Vec3 t = Vec3::Normalize(Vec3::Cross(n, Vec3::unitX)); // Normalisation
+        if (Maths::NearZero(t.Length())) {
+            t = Vec3::Normalize(Vec3::Cross(n, Vec3::unitY)); // Normalisation
+        }
+
         const Vec3 crossRaT = Vec3::Cross(ra, t);
         const Vec3 crossRbT = Vec3::Cross(rb, t);
-        
+
         jacobian.rows[1][0] = -t.x;
         jacobian.rows[1][1] = -t.y;
-        jacobian.rows[1][2] = -t.z;        
+        jacobian.rows[1][2] = -t.z;
         jacobian.rows[1][3] = -crossRaT.x;
         jacobian.rows[1][4] = -crossRaT.y;
         jacobian.rows[1][5] = -crossRaT.z;
         jacobian.rows[1][6] = t.x;
         jacobian.rows[1][7] = t.y;
-        jacobian.rows[1][8] = t.z;        
+        jacobian.rows[1][8] = t.z;
         jacobian.rows[1][9] = crossRbT.x;
         jacobian.rows[1][10] = crossRbT.y;
         jacobian.rows[1][11] = crossRbT.z;
     }
 
-    // Warm start
     const MatMN Jt = jacobian.Transpose();
     VecN impulses = Jt * cachedLambda;
 
@@ -155,13 +155,13 @@ void PenetrationConstraint::PreSolve() {
     float C = Vec3::Dot(pb - pa, n);
     C = std::min(0.0f, C + 0.01f);
 
-    Vec3 va = a->GetVelocity() +  Vec3::Cross(a->GetAngularVelocity(), ra);
-    Vec3 vb = b->GetVelocity() +  Vec3::Cross(b->GetAngularVelocity(), rb);
-    float vrelDotNormal = Vec3::Dot(va - vb, n);    
+    Vec3 va = a->GetVelocity() + Vec3::Cross(a->GetAngularVelocity(), ra);
+    Vec3 vb = b->GetVelocity() + Vec3::Cross(b->GetAngularVelocity(), rb);
+    float vrelDotNormal = Vec3::Dot(va - vb, n);
 
     float e = std::min(a->GetRestitution(), b->GetRestitution());
 
-    bias = (beta / Time::deltaTime) * C + (e * vrelDotNormal);
+    bias = (beta / DELTA_STEP) * C + (e * vrelDotNormal);
 }
 
 void PenetrationConstraint::Solve() {

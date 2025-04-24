@@ -6,9 +6,16 @@ class PolyCollisionComponent : public BoxCollisionComponent
 {
 private:
     Mesh* mMesh;
+    Mesh LocalMesh;
 public:
     PolyCollisionComponent(Actor* owner);
+    PolyCollisionComponent(Actor* owner, Mesh* mesh);
     virtual ~PolyCollisionComponent();
 
-    Mesh* GetMesh();
+    virtual void Draw(Matrix4Row viewProj);
+
+    Mesh* GetMesh() const
+    {
+        return mMesh;
+    }
 };

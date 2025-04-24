@@ -33,12 +33,21 @@ float Vec3::Length() const
 void Vec3::Normalize()
 {
 	float len = Length();
-	x /= len;
-	y /= len;
-	z /= len;
+	if (Maths::NearZero(len))
+	{
+		x = 0.0f;
+		y = 0.0f;
+		z = 0.0f;
+	}
+	else
+	{
+		x /= len;
+		y /= len;
+		z /= len;
+	}
 }
 
-float Vec3::Distance(Vec3 v)
+float Vec3::Distance(Vec3& v) const
 {
 	float difX = x - v.x;
 	float difY = y - v.y;
@@ -48,11 +57,17 @@ float Vec3::Distance(Vec3 v)
 
 Vec3 Vec3::UnitVector() const
 {
-	float magnitude = sqrt(LengthSq());
-	if (magnitude == 0.0f) {
+	float magnitude = Maths::Sqrt(LengthSq());
+	if (Maths::NearZero(magnitude))
+	{
 		return Vec3(0.0f, 0.0f, 0.0f);
 	}
 	return Vec3(x / magnitude, y / magnitude, z / magnitude);
+}
+
+bool Vec3::NearZero(float epsilon) const
+{
+	return Maths::NearZero(x, epsilon) && Maths::NearZero(y, epsilon) && Maths::NearZero(z, epsilon);
 }
 
 Vec3 Vec3::Transform(Vec3& vec, Matrix4& mat, float w)

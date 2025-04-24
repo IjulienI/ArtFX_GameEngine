@@ -62,13 +62,16 @@ void PhysicEngine::Update()
     for (auto& constraint : penetrations) {
         constraint.PreSolve();
     }
-    
-    for (auto& constraint : mConstraints) {
-        constraint->Solve();
-    }
-    for (auto& constraint : penetrations) {
-        constraint.Solve();
-    }
+
+    for (int i = 0; i < 8; i++)
+    {
+        for (auto& constraint : mConstraints) {
+            constraint->Solve();
+        }
+        for (auto& constraint : penetrations) {
+            constraint.Solve();
+        }
+    }   
 
     for (auto& constraint : mConstraints) {
         constraint->PostSolve();

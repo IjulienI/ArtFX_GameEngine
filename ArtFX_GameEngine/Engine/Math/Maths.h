@@ -3,6 +3,8 @@
 #include <limits>
 #include <cmath>
 
+#include "Core/Physic/PhysicConstants.h"
+
 namespace Maths
 {
     const float PI = 3.1415926535f;
@@ -21,9 +23,9 @@ namespace Maths
         return radians * 180.0f / PI;
     }
 
-    inline bool NearZero(float val, float epsilon = 0.001f)
+    inline bool NearZero(float val, float epsilon = EPSILON)
     {
-        return fabs(val)<=epsilon;
+        return fabs(val) <= epsilon;
     }
 
     template<typename T>

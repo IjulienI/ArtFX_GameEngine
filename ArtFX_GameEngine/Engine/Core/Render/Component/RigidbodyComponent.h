@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "Core/Class/Component/Component.h"
+#include "Math/Mat3.h"
 #include "Math/MatMN.h"
 
 class BaseCollisionComponent;
@@ -27,8 +28,8 @@ private:
 
     float mFriction;
 
-    MatMN mMomentOfInertia{3,3};
-    MatMN mInverseMomentOfInertia{3,3};
+    Mat3 mMomentOfInertia;
+    Mat3 mInverseMomentOfInertia;
 
     void CalcMomentOfInertia();
 
@@ -67,14 +68,15 @@ public:
     {
         return mAngularVelocity;
     }
-    MatMN GetMomentOfInertia() const
+    Mat3 GetMomentOfInertia() const
     {
         return mMomentOfInertia;
     }
-    MatMN GetInverseMomentOfInertia() const
+    Mat3 GetInverseMomentOfInertia() const
     {
         return mInverseMomentOfInertia;
     }
+    Mat3 GetWorldInverseIntertia() const;
     float GetRestitution() const
     {
         return mRestitution;

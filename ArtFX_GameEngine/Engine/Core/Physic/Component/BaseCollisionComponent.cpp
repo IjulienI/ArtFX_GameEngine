@@ -12,9 +12,17 @@ BaseCollisionComponent::BaseCollisionComponent(Actor* pOwner) : Component(pOwner
     RigidbodyComponent* rb = mOwner->GetComponent<RigidbodyComponent>();
     rb->SetCollisionComponent(this);
     PhysicInstance.AddRigidbody(rb);
+    Scene::ActiveScene->GetRenderer().AddCollision(this);
 }
 
-BaseCollisionComponent::~BaseCollisionComponent() = default;
+BaseCollisionComponent::~BaseCollisionComponent()
+{
+    Scene::ActiveScene->GetRenderer().RemoveCollision(this);
+};
+
+void BaseCollisionComponent::Draw(Matrix4Row viewProj)
+{
+}
 
 std::vector<Vec3> BaseCollisionComponent::GetVerticesInWorldSpace() const
 {

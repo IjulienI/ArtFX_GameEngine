@@ -47,6 +47,7 @@
     <ClCompile Include="Engine\Debug\Log.cpp" />
     <ClCompile Include="Engine\Input\InputEvent.cpp" />
     <ClCompile Include="Engine\Input\InputManager.cpp" />
+    <ClCompile Include="Engine\Math\Mat3.cpp" />
     <ClCompile Include="Engine\Math\MatMN.cpp" />
     <ClCompile Include="Engine\Math\Matrix4.cpp" />
     <ClCompile Include="Engine\Math\Matrix4Row.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="Engine\Core\Render\Component\RigidbodyComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\SpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Interface\IRenderer.h" />
+    <ClInclude Include="Engine\Core\Render\OpenGL\DrawType.h" />
     <ClInclude Include="Engine\Core\Render\OpenGL\RendererGL.h" />
     <ClInclude Include="Engine\Core\Render\OpenGL\VertexArray.h" />
     <ClInclude Include="Engine\Core\Render\RendererSdl.h" />
@@ -106,6 +108,7 @@
     <ClInclude Include="Engine\Input\IInputListener.h" />
     <ClInclude Include="Engine\Input\InputEvent.h" />
     <ClInclude Include="Engine\Input\InputManager.h" />
+    <ClInclude Include="Engine\Math\Mat3.h" />
     <ClInclude Include="Engine\Math\Maths.h" />
     <ClInclude Include="Engine\Math\MatMN.h" />
     <ClInclude Include="Engine\Math\Matrix4.h" />
@@ -135,6 +138,8 @@
     <Content Include="Engine\Core\Physic\PhysicConstants.h" />
     <Content Include="Engine\Core\Render\Shader\BasicMesh.frag" />
     <Content Include="Engine\Core\Render\Shader\BasicMesh.vert" />
+    <Content Include="Engine\Core\Render\Shader\Collision.frag" />
+    <Content Include="Engine\Core\Render\Shader\Collision.vert" />
     <Content Include="Engine\Core\Render\Shader\Simple.frag" />
     <Content Include="Engine\Core\Render\Shader\Simple.vert" />
     <Content Include="Engine\Core\Render\Shader\SpriteShader.frag" />

@@ -51,19 +51,21 @@ void GLTestScene::Start()
 
     RigidbodyComponent* debugBoxRigidbody = new RigidbodyComponent(debugBox);
 
-    BoxCollisionComponent* debugBoxPolyCollision = new BoxCollisionComponent(debugBox);
+    BoxCollisionComponent* debugBoxSphere = new BoxCollisionComponent(debugBox);
 
     Actor* debugBoxActor = new Actor();
     AddActor(debugBoxActor);
 
     debugBoxActor->SetLocation(Vec3(10.0f, 0.0f, 15.0f));
+    debugBoxActor->Rotate(Vec3(45.0f, 0.0f, 0.0f));
 
     MeshComponent* debugBoxActorComponent = new MeshComponent(debugBoxActor);
     debugBoxActorComponent->SetMesh(Asset::GetMesh("monkey"));
+    debugBoxActorComponent->AddTexture(Asset::GetTexture("Floor"));
 
     RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
 
-    SphereCollisionComponent* debugBoxActorPolyCollision = new SphereCollisionComponent(debugBoxActor);
+    BoxCollisionComponent* debugBoxActorPolyCollision = new BoxCollisionComponent(debugBoxActor);
 
 }
 

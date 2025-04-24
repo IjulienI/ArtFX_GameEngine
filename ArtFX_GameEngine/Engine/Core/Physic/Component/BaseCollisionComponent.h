@@ -18,6 +18,8 @@ public:
     BaseCollisionComponent(Actor* pOwner);
     virtual ~BaseCollisionComponent();
 
+    virtual void Draw(Matrix4Row viewProj);
+
     CollisionType GetCollisionType() const
     {
         return mCollisionType;
