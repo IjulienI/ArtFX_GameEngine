@@ -13,6 +13,7 @@ RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelo
 {
     mRestitution = 0.0f;
     mFriction = 1.0f;
+    mAngularDamping = 0.4f;
     SetMass(100.0f);
     CalcMomentOfInertia();
 }
@@ -31,21 +32,17 @@ void RigidbodyComponent::CalcMomentOfInertia()
     Mat3 I;
     for (auto& vertex : vertices)
     {
-        float x = vertex.position.x;
-        float y = vertex.position.y;
-        float z = vertex.position.z;
+        Vec3 vertexPos = vertex.position;
 
-        float x2 = x * x;
-        float y2 = y * y;
-        float z2 = z * z;
+        Vec3 vertexPos2 = vertex.position * vertex.position;
         
-        I.m[0][0] += massPerVertex * (y2 + z2);
-        I.m[1][1] += massPerVertex * (x2 + z2);
-        I.m[2][2] += massPerVertex * (x2 + y2);
+        I.m[0][0] += massPerVertex * (vertexPos2.y + vertexPos2.z);
+        I.m[1][1] += massPerVertex * (vertexPos2.x + vertexPos2.z);
+        I.m[2][2] += massPerVertex * (vertexPos2.x + vertexPos2.y);
         
-        I.m[0][1] -= massPerVertex * x * y;
-        I.m[0][2] -= massPerVertex * x * z;
-        I.m[1][2] -= massPerVertex * y * z;
+        I.m[0][1] -= massPerVertex * vertexPos.x * vertexPos.y;
+        I.m[0][2] -= massPerVertex * vertexPos.x * vertexPos.z;
+        I.m[1][2] -= massPerVertex * vertexPos.y * vertexPos.z;
     }
     
     I.m[1][0] = I.m[0][1];
@@ -79,7 +76,7 @@ bool RigidbodyComponent::IsStatic() const
 void RigidbodyComponent::SetMass(float pMass)
 {
     mMass = pMass;
-    if (pMass != 0.0f) mInverseMass = 1.0f / pMass;
+    if (pMass > 0.0f) mInverseMass = 1.0f / pMass;
     else mInverseMass = 0.0f;
     mStatic = IsStatic();
     CalcMomentOfInertia();
@@ -181,7 +178,8 @@ void RigidbodyComponent::IntegrateVelocity()
     location += mVelocity * DELTA_STEP;
     mOwner->SetLocation(location);
 
-    mVelocity = mVelocity * (1.0f - mFriction * DELTA_STEP);
+    mVelocity *= (1.0f - DELTA_STEP * mFriction / mMass);
+    mAngularVelocity *= (1.0f - DELTA_STEP * mAngularDamping / mMass);
 
     Quaternion currentRotation = mOwner->GetRotation();
     Vec3 angularIncrement = mAngularVelocity * DELTA_STEP;

@@ -27,6 +27,7 @@ private:
     float mRestitution;
 
     float mFriction;
+    float mAngularDamping;
 
     Mat3 mMomentOfInertia;
     Mat3 mInverseMomentOfInertia;
@@ -88,6 +89,10 @@ public:
     void SetFriction(float pFriction)
     {
         mFriction = pFriction;
+    }
+    void SetAngularDamping(float pAngularDamping)
+    {
+        mAngularDamping = pAngularDamping;
     }
     float GetFriction() const
     {

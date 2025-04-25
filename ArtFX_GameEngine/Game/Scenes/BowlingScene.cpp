@@ -44,10 +44,11 @@ void BowlingScene::Start()
 
         if (i == 6)
         {            
-            // RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPist);
-            // bowlingPistRigidbodyComponent->SetMass(0.0f);
-            //
-            // PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPist);
+            RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPist);
+            bowlingPistRigidbodyComponent->SetMass(0.0f);
+            
+            BoxCollisionComponent* bowlingPistCollisionComponent = new BoxCollisionComponent(bowlingPist, 
+                Asset::GetMesh("BowlingPistCollisionFloor").GetBoundingBox());
         }
     }
 
@@ -67,25 +68,26 @@ void BowlingScene::Start()
     BoxCollisionComponent* floorPolyCollision = new BoxCollisionComponent(floor);
 
     //BowlingPins
-    // Actor* bowlingPin = new Actor();
-    // AddActor(bowlingPin);
-    //
-    // bowlingPin->SetLocation(Vec3(-37.98f, 10.0f, 1.0f));
-    //
-    // MeshComponent* bowlingPistMeshComponent = new MeshComponent(bowlingPin);
-    // bowlingPistMeshComponent->SetMesh(Asset::GetMesh("BowlingPin"));
-    // bowlingPistMeshComponent->AddTexture(Asset::GetTexture("BowlingPin"));
-    //
-    // RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPin);
-    // bowlingPistRigidbodyComponent->SetMass(0.0f);
-    //
-    // PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPin);
+     Actor* bowlingPin = new Actor();
+     AddActor(bowlingPin);
+    
+     bowlingPin->SetLocation(Vec3(-37.98f, 10.0f, 0.0f));
+    
+     MeshComponent* bowlingPistMeshComponent = new MeshComponent(bowlingPin);
+     bowlingPistMeshComponent->SetMesh(Asset::GetMesh("BowlingPin"));
+     bowlingPistMeshComponent->AddTexture(Asset::GetTexture("BowlingPin"));
+    
+     RigidbodyComponent* bowlingPistRigidbodyComponent = new RigidbodyComponent(bowlingPin);
+     bowlingPistRigidbodyComponent->SetMass(1.5f);
+    
+     PolyCollisionComponent* bowlingPistCollisionComponent = new PolyCollisionComponent(bowlingPin);
 }
 
 void BowlingScene::Update()
 {
     Scene::Update();
     Log::Info("FPS : " + std::to_string( 1.0f / Time::deltaTime));
+    Log::Info("Camera Pos : " + Scene::mActors[0]->GetLocation().ToString());
 }
 
 void BowlingScene::Render()

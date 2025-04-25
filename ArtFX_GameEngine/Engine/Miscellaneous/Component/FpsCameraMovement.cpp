@@ -104,10 +104,10 @@ void FpsCameraMovement::OnCall(SDL_Event& event)
         debugBoxActorComponent->AddTexture(Asset::GetTexture("BowlingPin"));
 
         RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
-        debugBoxActorRigidbody->SetMass(2.0f);
-        debugBoxActorRigidbody->SetRestitution(0.2f);
+        debugBoxActorRigidbody->SetMass(1.5f);
+        debugBoxActorRigidbody->SetRestitution(0.0f);
 
-        SphereCollisionComponent* debugBoxActorPolyCollision = new SphereCollisionComponent(debugBoxActor);
+        PolyCollisionComponent* debugBoxActorPolyCollision = new PolyCollisionComponent(debugBoxActor);
         break;
     }
 }
