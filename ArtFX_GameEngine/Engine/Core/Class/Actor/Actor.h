@@ -12,6 +12,9 @@ protected:
     Scene* mScene;
     ActorState mActorState;
     Transform mTransform;
+
+    std::string mClassName;
+    std::string mName;
     
 private:
     std::vector<Component*> mComponents;
@@ -37,6 +40,17 @@ public:
     void UpdateComponentsTransform();
 
 public:
+
+    std::string GetClass()
+    {
+        return mClassName;
+    }
+    std::string GetName()
+    {
+        return mName;
+    }
+    void SetName(std::string name);
+    
     Vec3 GetLocation();
     Quaternion GetRotation();
     Vec3 GetScale();

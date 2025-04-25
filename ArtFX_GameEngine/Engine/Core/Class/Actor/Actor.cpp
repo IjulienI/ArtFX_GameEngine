@@ -73,6 +73,11 @@ void Actor::Destroy()
     
 }
 
+void Actor::SetName(std::string name)
+{
+    mName = name;
+}
+
 Vec3 Actor::GetLocation()
 {
     return mTransform.position;

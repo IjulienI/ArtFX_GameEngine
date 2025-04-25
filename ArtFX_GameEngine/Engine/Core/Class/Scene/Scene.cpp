@@ -127,3 +127,37 @@ IRenderer& Scene::GetRenderer()
 {
 	return *mRenderer;
 }
+
+Actor* Scene::GetActorOfClass(std::string pClass, bool& pValid, int pIndex) const
+{
+	return GetActorsOfClass(pClass, pValid)[pIndex];
+}
+
+std::vector<Actor*> Scene::GetActorsOfClass(std::string pClass, bool& pValid) const
+{
+	std::vector<Actor*> actors;
+	for (Actor* actor : mActors)
+	{
+		if (actor->GetClass() == pClass)
+			actors.push_back(actor);
+	}
+	pValid = !actors.empty();
+	return actors;
+}
+
+Actor* Scene::GetActorByName(std::string pName, bool& pValid, int pIndex) const
+{
+	return GetActorsByName(pName, pValid)[pIndex];
+}
+
+std::vector<Actor*> Scene::GetActorsByName(std::string pName, bool& pValid) const
+{
+	std::vector<Actor*> actors;
+	for (Actor* actor : mActors)
+	{
+		if (actor->GetName() == pName)
+			actors.push_back(actor);
+	}
+	pValid = !actors.empty();
+	return actors;
+}

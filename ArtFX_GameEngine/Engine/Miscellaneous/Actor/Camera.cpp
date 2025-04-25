@@ -5,6 +5,8 @@
 
 Camera::Camera():Actor()
 {
+    mClassName = "Camera";
+    mName = "WorldCamera";
     mCameraMovement = new FpsCameraMovement(this);
     SetLocation(Vec3(0, 0, 0));
     SetRotation(Quaternion::Identity);
