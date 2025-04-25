@@ -2,9 +2,9 @@
 
 #include "Actor/Skybox.h"
 #include "Core/Class/Actor/Actor.h"
+#include "Core/Physic/Component/RigidbodyComponent.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
-#include "Core/Render/Component/RigidbodyComponent.h"
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Debug/Log.h"
 #include "Math/Time.h"

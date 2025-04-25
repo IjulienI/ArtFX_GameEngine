@@ -21,4 +21,8 @@ public:
     virtual void OnEnd();
     int GetUpdateOrder() const { return mUpdateOrder; }
     virtual void OnUpdateWorldTransform() {}
+    Actor* GetOwner() const
+    {
+        return mOwner;
+    }
 };

@@ -13,7 +13,7 @@ public:
     static float deltaTime;
 
 private:
-    const static unsigned int FPS = 60;
+    const static unsigned int FPS = 144;
     const static unsigned int FRAME_DELAY = 1000 / FPS;
     //Maximum Delta Time
     const static unsigned int MAX_DT = 50; 

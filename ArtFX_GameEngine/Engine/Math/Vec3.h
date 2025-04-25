@@ -1,4 +1,8 @@
 #pragma once
+#include <sstream>
+#include <string>
+
+#include "Core/Physic/PhysicConstants.h"
 
 class Vec3
 {
@@ -17,7 +21,9 @@ public:
 	float LengthSq() const;
 	float Length() const;
 	void Normalize();
-	float Distance(Vec3 v);
+	float Distance(Vec3& v) const;
+	Vec3 UnitVector() const;
+	bool NearZero(float epsilon = EPSILON) const;
 
 	const float* GetAsFloatPtr() const
 	{
@@ -36,25 +42,47 @@ public:
 		return Vec3(a.x - b.x, a.y - b.y, a.z - b.z);
 	}
 
+	Vec3 operator-() const
+	{
+		return Vec3(-x,-y,-z);
+	}
+
+	float operator |(const Vec3& v) const
+	{
+		return Vec3::Dot(*this, v);
+	}
+
 	// Component-wise multiplication
-	friend Vec3 operator*(const Vec3& left, const Vec3& right)
+	Vec3 operator*(const Vec3& v) const
 	{
-		return Vec3(left.x * right.x, left.y * right.y, left.z * right.z);
+		return Vec3(x * v.x, y * v.y, z * v.z);
 	}
 
 	// Scalar multiplication
-	friend Vec3 operator*(const Vec3& vec, float scalar)
+	Vec3 operator*(float scalar) const
 	{
-		return Vec3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+		return Vec3(x * scalar, y * scalar, z * scalar);
 	}
 
-	// Scalar multiplication
-	friend Vec3 operator*(float scalar, const Vec3& vec)
+	friend Vec3 operator*(float scalar, const Vec3& v)
 	{
-		return Vec3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+		return Vec3(v.x * scalar, v.y * scalar, v.z * scalar);
 	}
 
-	// Scalar *=
+	std::string ToString() const
+	{
+		std::ostringstream os;
+		os<<"x: "<<x<<" y: "<<y<<" z: "<<z;
+		return os.str();
+	}
+
+	friend std::ostream& operator<<(std::ostream& o,const Vec3& v)
+	{
+		return o<<v.ToString();
+	}
+	
+
+	// Scalar
 	Vec3& operator*=(float scalar)
 	{
 		x *= scalar;
@@ -63,7 +91,7 @@ public:
 		return *this;
 	}
 
-	// Vector +=
+	// Vector	
 	Vec3& operator+=(const Vec3& right)
 	{
 		x += right.x;
@@ -71,14 +99,51 @@ public:
 		z += right.z;
 		return *this;
 	}
-
-	// Vector -=
+	
 	Vec3& operator-=(const Vec3& right)
 	{
 		x -= right.x;
 		y -= right.y;
 		z -= right.z;
 		return *this;
+	}
+
+	Vec3& operator*=(const Vec3& v)
+	{
+		x *= v.x;
+		y *= v.y;
+		z *= v.z;
+		return *this;
+	}
+
+	Vec3& operator/=(float scalar)
+	{
+		if (scalar != 0.0f) {
+			x /= scalar;
+			y /= scalar;
+			z /= scalar;
+		}
+		return *this;
+	}
+
+	bool operator<(const Vec3& right) const
+	{
+		return (x < right.x && y < right.y && z < right.z);
+	}
+
+	bool operator>(const Vec3& right) const
+	{
+		return (x > right.x && y > right.y && z > right.z);
+	}
+
+	static Vec3 Min(const Vec3& a, const Vec3& b)
+	{
+		return a < b ? b : a;
+	}
+
+	static Vec3 Max(const Vec3& a, const Vec3& b)
+	{
+		return a > b ? b: a;
 	}
 
 	// Normalize the provided vector
@@ -105,10 +170,15 @@ public:
 		return temp;
 	}
 
+	Vec3 operator ^(const Vec3& v) const
+	{
+		return Vec3::Cross(*this, v);
+	}
+
 	// Lerp from A to B by f
 	static Vec3 Lerp(const Vec3& a, const Vec3& b, float f)
 	{
-		return Vec3(a + f * (b - a));
+		return a + (b - a) * f;
 	}
 
 	// Reflect V about (normalized) N

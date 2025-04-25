@@ -7,6 +7,7 @@
 
 Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mTransform(Transform(this))
 {
+    Actor::Initialize();
     Actor::Start();
 }
 
@@ -16,8 +17,8 @@ void Actor::Initialize()
 }
 
 void Actor::Start()
-{
-    
+{    
+    Rotate(Vec3(45.0f, 0.0f, 0.0f));
 }
 
 void Actor::AttachScene(Scene& scene)

@@ -1,13 +1,14 @@
 ﻿#include "Game.h"
 #include <iostream>
 
+#include "Core/Physic/PhysicEngine.h"
 #include "Core/Render/OpenGL/RendererGL.h"
 #include "Debug/Log.h"
 #include "Game/Scenes/PongScene.h"
 #include "Engine/Math/Time.h"
 #include "Input/InputManager.h"
 
-Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mName(pName), mScenes(pScenes), mLoadedScene(pLoadedScene)
+Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mName(pName), mScenes(pScenes), mPhysicEngine(nullptr), mLoadedScene(pLoadedScene)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -21,7 +22,7 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
 
 void Game::Initialize()
 {
-    mWindow = new Window(1080,720, mName);
+    mWindow = new Window(1920,1080, mName);
 
     mRenderer = new RendererGL();
 
@@ -30,6 +31,7 @@ void Game::Initialize()
         if(mScenes.size() == 1) mLoadedScene = 0;
         mScenes[mLoadedScene]->SetRenderer(mRenderer);
         mScenes[mLoadedScene]->SetWindow(mWindow);
+        mPhysicEngine = &PhysicEngine::GetInstance();
         mScenes[mLoadedScene]->Load();
         mScenes[mLoadedScene]->Start();
         Loop();
@@ -44,6 +46,7 @@ void Game::Loop()
         Time::ComputeDeltaTime();
         CheckInputs();
         Update();
+        mPhysicEngine->Update();
         Render();
         Time::DelayTime();
     }
@@ -56,7 +59,6 @@ void Game::Render()
 
     mRenderer->Draw();
     mScenes[mLoadedScene]->Render();
-
     mRenderer->EndDraw();
 }
 
@@ -77,6 +79,10 @@ void Game::CheckInputs()
             break;
         case SDL_KEYDOWN:
             if (event.key.keysym.sym == SDLK_ESCAPE) mIsRunning = false;
+            if ( event.key.keysym.sym == SDLK_1) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Unlit);
+            if ( event.key.keysym.sym == SDLK_2) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Debug);
+            if ( event.key.keysym.sym == SDLK_3) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Wireframe);
+            if ( event.key.keysym.sym == SDLK_4) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Collision);
             break;
         default:
             Log::Warning(LogType::Input, "Unknown event type");

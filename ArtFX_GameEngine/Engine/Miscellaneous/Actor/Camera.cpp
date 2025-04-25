@@ -14,3 +14,7 @@ void Camera::UpdateActor()
 {
     Actor::UpdateActor();
 }
+
+void Camera::Start()
+{
+}

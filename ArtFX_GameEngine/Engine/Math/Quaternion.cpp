@@ -46,6 +46,16 @@ void Quaternion::Normalize()
 	w /= len;
 }
 
+Quaternion Quaternion::Inverse() const
+{
+	float normSquared = x * x + y * y + z * z + w * w;
+	if (normSquared == 0.0f) {
+		return Quaternion(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	
+	return Quaternion(-x / normSquared, -y / normSquared, -z / normSquared, w / normSquared);
+}
+
 Matrix4 Quaternion::AsMatrix() const
 {
 	// Transposed?
@@ -124,4 +134,22 @@ Matrix4Row Quaternion::AsMatrixRow() const
 	m.mat[3][3] =        1.0f;
 
 	return m;
+}
+
+Quaternion Quaternion::operator*(const Quaternion& q) const
+{
+	return Quaternion(
+	w * q.x + x * q.w + y * q.z - z * q.y,
+	w * q.y - x * q.z + y * q.w + z * q.x,
+	w * q.z + x * q.y - y * q.x + z * q.w,
+	w * q.w - x * q.x - y * q.y - z * q.z
+);
+	
+}
+
+Vec3 Quaternion::operator*(const Vec3& v) const
+{
+	Quaternion qv(v.x, v.y, v.z, 0.0f);
+	Quaternion result = (*this) * qv * this->Inverse();
+	return Vec3(result.x, result.y, result.z);
 }

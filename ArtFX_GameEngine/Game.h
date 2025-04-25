@@ -3,6 +3,8 @@
 #include "Engine/Core/Render/Window.h"
 #include <string>
 #include <vector>
+
+#include "Core/Physic/PhysicEngine.h"
 #include "Engine/Core/Class/Scene/Scene.h"
 
 class Game
@@ -17,6 +19,7 @@ private:
 
     Window* mWindow;
     IRenderer* mRenderer;
+    PhysicEngine* mPhysicEngine;
 
     std::vector<Scene*> mScenes;
     int mLoadedScene;

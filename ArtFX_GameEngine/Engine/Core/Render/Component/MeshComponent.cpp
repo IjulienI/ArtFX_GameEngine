@@ -4,7 +4,7 @@
 #include "Core/Class/Scene/Scene.h"
 #include "Core/Render/OpenGL/VertexArray.h"
 
-MeshComponent::MeshComponent(Actor* pOwner) : Component(pOwner), mMesh(nullptr), mTextureIndex(0)
+MeshComponent::MeshComponent(Actor* pOwner) : Component(pOwner), mMesh(nullptr), mTextureIndex(0), mVisible(true)
 {
     glPatchParameteri(GL_PATCH_VERTICES, 3);
 }
@@ -45,3 +45,9 @@ void MeshComponent::AddTexture(Texture& pTexture)
 {
     mMesh->AddTexture(&pTexture);
 }
+
+void MeshComponent::SetVisible(bool pVisible)
+{
+    mVisible = pVisible;
+}
+

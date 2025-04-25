@@ -28,6 +28,7 @@ public:
     void Draw() override;
     void DrawSprites() override;
     void DrawMeshes() override;
+    void DrawCollisions() override;
     void EndDraw() override;
     void Close() override;
 
@@ -42,7 +43,12 @@ public:
     void AddMesh(MeshComponent* mesh) override;
     void RemoveMesh(MeshComponent* mesh) override;
 
+    void AddCollision(BaseCollisionComponent* collision) override;
+    void RemoveCollision(BaseCollisionComponent* collision) override;
+
     void SetViewMatrix(Matrix4Row matrix) override;
+
+    void SetDawType(DrawType type) override;
 
     RendererType GetType() override;      
 };

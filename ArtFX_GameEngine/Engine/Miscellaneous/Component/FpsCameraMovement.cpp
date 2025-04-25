@@ -1,9 +1,16 @@
 ﻿#include "FpsCameraMovement.h"
 
 #include "Core/Class/Actor/Actor.h"
+#include "Core/Physic/Component/PolyCollisionComponent.h"
+#include "Core/Physic/Component/RigidbodyComponent.h"
+#include "Core/Physic/Component/SphereCollisionComponent.h"
+#include "Core/Render/Asset.h"
+#include "Core/Render/Component/MeshComponent.h"
 #include "Debug/Log.h"
 #include "Input/InputManager.h"
 #include "Math/Time.h"
+
+class SphereCollisionComponent;
 
 FpsCameraMovement::FpsCameraMovement(Camera* camera) : Component(reinterpret_cast<Actor*>(camera)), mCamera(camera),
                                                        mVelocity(Vec3::zero), mSpeed(10.0f), mSprintSpeed(30.0f), mPitch(0.0f)
@@ -21,6 +28,7 @@ void FpsCameraMovement::OnStart()
     InputManager.BindTo(SDL_SCANCODE_Q, this);
     InputManager.BindTo(SDL_SCANCODE_E, this);
     InputManager.BindTo(SDL_SCANCODE_LSHIFT, this);
+    InputManager.BindTo(SDL_SCANCODE_R, this);
     
     Component::OnStart();
 }
@@ -85,8 +93,21 @@ void FpsCameraMovement::OnCall(SDL_Event& event)
     case SDL_SCANCODE_E:
         mVelocity.y = event.type == SDL_KEYDOWN? -(mSprint? mSprintSpeed: mSpeed) : 0.0f;
         break;
-    default:
-        Log::Warning(LogType::Input, "Unknown event type");
+    case SDL_SCANCODE_R:
+        Actor* debugBoxActor = new Actor();
+        Scene::ActiveScene->AddActor(debugBoxActor);
+
+        debugBoxActor->SetLocation(Vec3(-37.98f, 10.0f, 1.0f));
+
+        MeshComponent* debugBoxActorComponent = new MeshComponent(debugBoxActor);
+        debugBoxActorComponent->SetMesh(Asset::GetMesh("BowlingPin"));
+        debugBoxActorComponent->AddTexture(Asset::GetTexture("BowlingPin"));
+
+        RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
+        debugBoxActorRigidbody->SetMass(1.5f);
+        debugBoxActorRigidbody->SetRestitution(0.0f);
+
+        PolyCollisionComponent* debugBoxActorPolyCollision = new PolyCollisionComponent(debugBoxActor);
         break;
     }
 }
