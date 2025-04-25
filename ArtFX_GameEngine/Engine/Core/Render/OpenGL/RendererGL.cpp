@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 
 #include "Core/Class/Actor/Actor.h"
+#include "Core/Physic/Component/BaseCollisionComponent.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
 #include "Core/Render/Component/SpriteComponent.h"
@@ -12,8 +13,9 @@
 RendererGL::RendererGL() : mWindow(nullptr), mSpriteVAO(nullptr), mContext(nullptr),
 mSpriteViewProj(Matrix4Row::CreateSimpleViewProj(Window::Dimensions.x, Window::Dimensions.y)),
 mView(Matrix4Row::CreateLookAt(Vec3(0,0,5), Vec3::unitX, Vec3::unitZ)),
-mProj(Matrix4Row::CreatePerspectiveFOV(70.0f, mWindow->GetDimensions().x , mWindow->GetDimensions().y, 0.01f, 100000.0f))
+mProj(Matrix4Row::CreatePerspectiveFOV(70.0f, mWindow->GetDimensions().x , mWindow->GetDimensions().y, 0.01f, 10000.0f))
 {
+    mDrawType = DrawType::Unlit;
 }
 
 RendererGL::~RendererGL()
@@ -63,14 +65,37 @@ bool RendererGL::Initialize(Window& rWindow)
 
 void RendererGL::BeginDraw()
 {
-    glClearColor(0.45f, 0.45f, 1.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void RendererGL::Draw()
 {
-    DrawMeshes();
-    DrawSprites();
+    switch (mDrawType)
+    {
+    case DrawType::Unlit:        
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        DrawMeshes();
+        DrawSprites();
+        break;
+    case DrawType::Debug:        
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        DrawMeshes();
+        DrawSprites();
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        DrawCollisions();
+        break;
+    case DrawType::Wireframe:
+        glLineWidth(0.5f);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        DrawMeshes();
+        DrawSprites();
+        break;
+    case DrawType::Collision:
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        DrawCollisions();
+        break;
+    }
 }
 
 void RendererGL::DrawSprites()
@@ -96,7 +121,18 @@ void RendererGL::DrawMeshes()
     glDisable(GL_BLEND);
     for (MeshComponent* mesh : mMeshes)
     {
-        mesh->Draw(mView * mProj);
+        if (mesh->GetVisible())
+            mesh->Draw(mView * mProj);
+    }
+}
+
+void RendererGL::DrawCollisions()
+{
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    for (BaseCollisionComponent* collision : mCollisions)
+    {
+        collision->Draw(mView * mProj);
     }
 }
 
@@ -111,6 +147,19 @@ void RendererGL::RemoveMesh(MeshComponent* mesh)
     it = std::find(mMeshes.begin(), mMeshes.end(), mesh);
     mMeshes.erase(it);
 }
+
+void RendererGL::AddCollision(BaseCollisionComponent* collision)
+{
+    mCollisions.emplace_back(collision);
+}
+
+void RendererGL::RemoveCollision(BaseCollisionComponent* collision)
+{
+    std::vector<BaseCollisionComponent*>::iterator it;
+    it = std::find(mCollisions.begin(), mCollisions.end(), collision);
+    mCollisions.erase(it);
+}
+
 
 void RendererGL::EndDraw()
 {
@@ -176,7 +225,12 @@ void RendererGL::SetViewMatrix(Matrix4Row matrix)
 {
     mView = matrix;
 }
-    
+
+void RendererGL::SetDawType(DrawType type)
+{
+    mDrawType = type;
+}
+
 IRenderer::RendererType RendererGL::GetType()
 {
     return RendererType::OPENGL;

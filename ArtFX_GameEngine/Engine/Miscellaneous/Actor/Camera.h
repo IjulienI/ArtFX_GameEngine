@@ -10,5 +10,6 @@ private:
 public:
     Camera();
     void UpdateActor() override;
+    void Start() override;
     
 };

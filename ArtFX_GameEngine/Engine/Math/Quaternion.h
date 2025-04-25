@@ -38,6 +38,8 @@ public:
 		return Maths::Sqrt(LengthSqr());
 	}
 
+	Quaternion Inverse() const;
+
 	// Normalize the provided quaternion
 	static Quaternion Normalize(const Quaternion& q)
 	{
@@ -130,6 +132,10 @@ public:
 	class Matrix4 AsMatrix() const;
 
 	class Matrix4Row AsMatrixRow() const;
+
+	Quaternion operator*(const Quaternion& q) const;
+
+	Vec3 operator*(const Vec3& v) const;
 
 	static const Quaternion Identity;
 };

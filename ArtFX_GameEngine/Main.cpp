@@ -8,7 +8,7 @@
 
 int main(int argc, char* argv[])
 {
-	Game* game = new Game("XCore - DebugEngine",{new BowlingScene});
+	Game* game = new Game("XCore - DebugEngine",{new BowlingScene()});
 	game->Initialize();
 	return 0;
 }
