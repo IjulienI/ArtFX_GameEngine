@@ -4,7 +4,6 @@
 #include "Core/Physic/PhysicEngine.h"
 #include "Core/Render/OpenGL/RendererGL.h"
 #include "Debug/Log.h"
-#include "Game/Scenes/PongScene.h"
 #include "Engine/Math/Time.h"
 #include "Input/InputManager.h"
 

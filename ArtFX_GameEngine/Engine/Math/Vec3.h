@@ -4,6 +4,8 @@
 
 #include "Core/Physic/PhysicConstants.h"
 
+class Quaternion;
+
 class Vec3
 {
 
@@ -24,6 +26,8 @@ public:
 	float Distance(Vec3& v) const;
 	Vec3 UnitVector() const;
 	bool NearZero(float epsilon = EPSILON) const;
+	bool NearEquals(const Vec3& v, float epsilon = EPSILON) const;
+	Quaternion LookAt(const Vec3& origin, const Vec3& target, const Vec3& up = Vec3(0, 1, 0)) const;
 
 	const float* GetAsFloatPtr() const
 	{
@@ -67,6 +71,11 @@ public:
 	friend Vec3 operator*(float scalar, const Vec3& v)
 	{
 		return Vec3(v.x * scalar, v.y * scalar, v.z * scalar);
+	}
+
+	Vec3 operator/(float scalar) const
+	{
+		return Vec3(x / scalar, y / scalar, z / scalar);
 	}
 
 	std::string ToString() const

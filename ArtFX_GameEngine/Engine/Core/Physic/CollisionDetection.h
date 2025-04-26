@@ -18,5 +18,6 @@ public:
 private:
 	static bool OverlapOnAxis(const std::vector<Vec3>& aVertices, const std::vector<Vec3>& bVertices, const Vec3& axis, float& overlap);
 	static bool OverlapOnAxis(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& axis, float& overlap);
+	static bool IsPointInTriangle(const Vec3& v0, const Vec3& v1, const Vec3& v2, const Vec3& p);
 	static void ComputeContactManifold(const std::vector<Vec3>& aVerts, const std::vector<Vec3>& bVerts, const Vec3& collisionNormal, std::vector<Vec3>& contactPoints);
 };

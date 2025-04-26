@@ -102,6 +102,16 @@ void RigidbodyComponent::ClearTorques()
     mSumTorques = Vec3::zero;
 }
 
+void RigidbodyComponent::ClearAll()
+{
+    mVelocity = Vec3::zero;
+    mAngularVelocity = Vec3::zero;
+    mAcceleration = Vec3::zero;
+    mAngularAcceleration = Vec3::zero;
+    mSumForces = Vec3::zero;
+    mSumTorques = Vec3::zero;
+}
+
 Mat3 RigidbodyComponent::GetWorldInverseIntertia() const
 {
     Mat3 R = Mat3::CreateFromQuaternion(mOwner->GetRotation());
@@ -179,7 +189,7 @@ void RigidbodyComponent::IntegrateVelocity()
     mOwner->SetLocation(location);
 
     mVelocity *= (1.0f - DELTA_STEP * mFriction / mMass);
-    mAngularVelocity *= (1.0f - DELTA_STEP * mAngularDamping / mMass);
+    //mAngularVelocity *= (1.0f - DELTA_STEP * mAngularDamping / mMass);
 
     Quaternion currentRotation = mOwner->GetRotation();
     Vec3 angularIncrement = mAngularVelocity * DELTA_STEP;
@@ -188,7 +198,7 @@ void RigidbodyComponent::IntegrateVelocity()
     mOwner->SetRotation(rotation);
 }
 
-void RigidbodyComponent::ApplyImpulse(const Vec3& pImpulse)
+void RigidbodyComponent::ApplyImpulse(const Vec3& pImpulse) 
 {
     if (mStatic) return;
 

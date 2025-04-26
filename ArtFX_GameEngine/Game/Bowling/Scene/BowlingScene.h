@@ -1,12 +1,16 @@
 ﻿#pragma once
+#include "Bowling/BowlingState.h"
 #include "Core/Class/Scene/Scene.h"
+
+class Player;
 
 class BowlingScene : public Scene
 {
-private:
-    const int PIST_AMOUNT = 12;
-    const float PIST_OFFSET = 6.33f;
-    
+protected:
+    Player* mPlayer = nullptr;
+
+    void SetUpBoxCollisions(int i);
+
 public:
     BowlingScene();
     ~BowlingScene() override = default;

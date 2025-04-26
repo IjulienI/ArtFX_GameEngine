@@ -2,7 +2,7 @@
 #include "Game.h"
 #include <SDL.h>
 
-#include "Scenes/BowlingScene.h"
+#include "Bowling/Scene/BowlingScene.h"
 #include "Scenes/Base/BaseScene.h"
 #include "Scenes/Debug/GLTestScene.h"
 

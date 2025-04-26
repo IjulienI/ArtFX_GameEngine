@@ -21,6 +21,13 @@ struct Box
 {
     Vec3 min;
     Vec3 max;
+
+    Box& operator / (float scalar)
+    {
+        min /= scalar;
+        max /= scalar;
+        return *this;
+    }
 };
 
 class Mesh
