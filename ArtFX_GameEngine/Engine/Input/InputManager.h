@@ -6,8 +6,6 @@
 class InputManager
 {
     std::map<SDL_Scancode, InputEvent*> mInputEvents;
-
-    SDL_Scancode keys [SDL_NUM_SCANCODES];
     
 public:
     InputManager() = default;

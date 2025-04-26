@@ -40,7 +40,7 @@ void FpsCameraMovement::Update()
     Quaternion newRotation = mOwner->GetTransform().GetRotation();
 
     float yawAngle = static_cast<float>(mMouseDeltaX) * 0.2f * Time::deltaTime;
-    Vec3 up = Vec3::Transform(Vec3::unitZ, newRotation);
+    Vec3 up = Vec3::Transform(Vec3::unitZ, newRotation); 
     Quaternion increment(up, yawAngle);
     newRotation = Quaternion::Concatenate(newRotation, increment);
     mOwner->SetRotation(newRotation);
@@ -94,20 +94,27 @@ void FpsCameraMovement::OnCall(SDL_Event& event)
         mVelocity.y = event.type == SDL_KEYDOWN? -(mSprint? mSprintSpeed: mSpeed) : 0.0f;
         break;
     case SDL_SCANCODE_R:
-        Actor* debugBoxActor = new Actor();
-        Scene::ActiveScene->AddActor(debugBoxActor);
+        if (event.type == SDL_KEYUP)
+        {
+            Actor* debugBoxActor = new Actor();
+            Scene::ActiveScene->AddActor(debugBoxActor);
 
-        debugBoxActor->SetLocation(Vec3(-37.98f, 10.0f, 1.0f));
+            debugBoxActor->SetLocation(Vec3(-37.98f, 36.0f, 1.0f));
 
-        MeshComponent* debugBoxActorComponent = new MeshComponent(debugBoxActor);
-        debugBoxActorComponent->SetMesh(Asset::GetMesh("BowlingPin"));
-        debugBoxActorComponent->AddTexture(Asset::GetTexture("BowlingPin"));
+            MeshComponent* debugBoxActorComponent = new MeshComponent(debugBoxActor);
+            debugBoxActorComponent->SetMesh(Asset::GetMesh("BowlingBall"));
+            debugBoxActorComponent->AddTexture(Asset::GetTexture("BowlingBall"));
 
-        RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
-        debugBoxActorRigidbody->SetMass(1.5f);
-        debugBoxActorRigidbody->SetRestitution(0.0f);
+            RigidbodyComponent* debugBoxActorRigidbody = new RigidbodyComponent(debugBoxActor);
+            debugBoxActorRigidbody->SetMass(1500.0f);
+            debugBoxActorRigidbody->SetRestitution(0.2f);
+            debugBoxActorRigidbody->SetFriction(0.05f);
 
-        PolyCollisionComponent* debugBoxActorPolyCollision = new PolyCollisionComponent(debugBoxActor);
+            SphereCollisionComponent* debugBoxActorPolyCollision = new SphereCollisionComponent(debugBoxActor);
+
+            debugBoxActorRigidbody->ApplyImpulse(Vec3(0.0f, -55000.0f, 0.0f));
+            debugBoxActorRigidbody->ApplyImpulseAngular(Vec3(0.0f, 1500.0f, 0.0f));
+        }        
         break;
     }
 }

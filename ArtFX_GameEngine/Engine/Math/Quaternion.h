@@ -40,6 +40,13 @@ public:
 
 	Quaternion Inverse() const;
 
+	std::string ToString() const
+	{
+		std::ostringstream os;
+		os<<"x: "<< x <<" y: "<< y <<" z: "<< z << " w: "<< w;
+		return os.str();
+	}
+
 	// Normalize the provided quaternion
 	static Quaternion Normalize(const Quaternion& q)
 	{

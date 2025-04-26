@@ -72,6 +72,7 @@ public:
     }
 
     void SetLocation(Vec3 loc);
+    void AddLocation(Vec3 loc);
     void SetScale(Vec3 scale);
     void SetRotation(Quaternion rotation);
 

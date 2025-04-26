@@ -5,10 +5,9 @@ class FpsCameraMovement;
 
 class Camera : public Actor
 {
-private:
-    FpsCameraMovement* mCameraMovement;
 public:
     Camera();
+    void Update() override;
     void UpdateActor() override;
     void Start() override;
     

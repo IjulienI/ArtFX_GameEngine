@@ -57,6 +57,8 @@ public:
     void ClearForces();
     void ClearTorques();
 
+    void ClearAll();
+
     float GetInverseMass() const
     {
         return mInverseMass;

@@ -143,11 +143,91 @@
     <ClCompile Include="Engine\Miscellaneous\Component\PlayerController.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Game\Actor\Skybox.cpp" />
+    <ClCompile Include="Game\Bowling\Actors\Pin.cpp" />
+    <ClCompile Include="Game\Bowling\Actors\Player.cpp" />
+    <ClCompile Include="Game\Bowling\Component\BowlingController.cpp" />
+    <ClCompile Include="Game\Bowling\Manager\PinManager.cpp" />
+    <ClCompile Include="Game\Bowling\Scene\BowlingScene.cpp">
+      <RuntimeLibrary>MultiThreadedDebugDll</RuntimeLibrary>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <SupportJustMyCode>true</SupportJustMyCode>
+      <AssemblerOutput>NoListing</AssemblerOutput>
+      <AssemblerListingLocation>Debug\</AssemblerListingLocation>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <BrowseInformation>false</BrowseInformation>
+      <BrowseInformationFile>Debug\</BrowseInformationFile>
+      <CompileAs>Default</CompileAs>
+      <ConformanceMode>true</ConformanceMode>
+      <DiagnosticsFormat>Column</DiagnosticsFormat>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <ErrorReporting>Prompt</ErrorReporting>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <EnableASAN>false</EnableASAN>
+      <EnableFuzzer>false</EnableFuzzer>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <EnableVectorLength>NotSet</EnableVectorLength>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <ForceConformanceInForLoopScope>true</ForceConformanceInForLoopScope>
+      <GenerateModuleDependencies>false</GenerateModuleDependencies>
+      <GenerateSourceDependencies>false</GenerateSourceDependencies>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <IgnoreStandardIncludePath>false</IgnoreStandardIncludePath>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ModuleDependenciesFile>Debug\</ModuleDependenciesFile>
+      <ModuleOutputFile>Debug\</ModuleOutputFile>
+      <OmitDefaultLibName>false</OmitDefaultLibName>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <ObjectFileName>Debug\</ObjectFileName>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ProgramDataBaseFileName>Debug\vc143.pdb</ProgramDataBaseFileName>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>Debug\ArtFX_GameEngine.pch</PrecompiledHeaderOutputFile>
+      <PreprocessToFile>false</PreprocessToFile>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <PreprocessSuppressLineNumbers>false</PreprocessSuppressLineNumbers>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+      <ShowIncludes>false</ShowIncludes>
+      <SourceDependenciesFile>Debug\</SourceDependenciesFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <SpectreMitigation>false</SpectreMitigation>
+      <StructMemberAlignment>Default</StructMemberAlignment>
+      <TrackerLogDirectory>Debug\ArtFX_GameEngine.tlog\</TrackerLogDirectory>
+      <TranslateIncludes>false</TranslateIncludes>
+      <MinimalRebuildFromTracking>true</MinimalRebuildFromTracking>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <UseFullPaths>true</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <XMLDocumentationFileName>Debug\</XMLDocumentationFileName>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <IntelJCCErratum>false</IntelJCCErratum>
+      <BuildStlModules>false</BuildStlModules>
+      <TreatAngleIncludeAsExternal>false</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+      <TreatExternalTemplatesAsInternal>true</TreatExternalTemplatesAsInternal>
+      <DisableAnalyzeExternal>false</DisableAnalyzeExternal>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_UNICODE;UNICODE;</PreprocessorDefinitions>
+      <EnablePREfast>false</EnablePREfast>
+      <OmitFramePointers>false</OmitFramePointers>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>E:\Git\ArtFX_GameEngine\\Dependencies\GL\SDL\include;E:\Git\ArtFX_GameEngine\\Dependencies\glew-2.2.0-win32\glew-2.2.0\include\GL;E:\Git\ArtFX_GameEngine\\Dependencies\TinyObjLoader\Include;E:\Git\ArtFX_GameEngine\\Dependencies\SDL2_image-2.8.2\include;E:\Git\ArtFX_GameEngine\\ArtFX_GameEngine\Engine;E:\Git\ArtFX_GameEngine\\ArtFX_GameEngine\Game;</AdditionalIncludeDirectories>
+      <LinkCompiled>true</LinkCompiled>
+    </ClCompile>
     <ClCompile Include="Game\Scenes\Base\BaseScene.cpp" />
-    <ClCompile Include="Game\Scenes\BowlingScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\GLTestScene.cpp" />
-    <ClCompile Include="Game\Scenes\PongScene.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -205,11 +285,16 @@
     <ClInclude Include="Engine\Miscellaneous\Component\PlayerController.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Game\Actor\Skybox.h" />
+    <ClInclude Include="Game\Bowling\Actors\Pin.h" />
+    <ClInclude Include="Game\Bowling\Actors\Player.h" />
+    <ClInclude Include="Game\Bowling\BowlingConstants.h" />
+    <ClInclude Include="Game\Bowling\BowlingState.h" />
+    <ClInclude Include="Game\Bowling\Component\BowlingController.h" />
+    <ClInclude Include="Game\Bowling\Manager\PinManager.h" />
+    <ClInclude Include="Game\Bowling\Scene\BowlingScene.h" />
     <ClInclude Include="Game\Scenes\Base\BaseScene.h" />
-    <ClInclude Include="Game\Scenes\BowlingScene.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
     <ClInclude Include="Game\Scenes\Debug\GLTestScene.h" />
-    <ClInclude Include="Game\Scenes\PongScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engine\Core\Physic\PhysicConstants.h" />
