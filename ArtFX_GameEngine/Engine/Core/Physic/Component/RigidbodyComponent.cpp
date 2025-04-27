@@ -3,8 +3,6 @@
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Physic/PhysicConstants.h"
 #include "Core/Render/Component/MeshComponent.h"
-#include "Debug/Log.h"
-#include "Math/Time.h"
 
 
 RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelocity(Vec3::zero),

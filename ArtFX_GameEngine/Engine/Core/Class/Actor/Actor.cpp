@@ -12,7 +12,7 @@ Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mT
 }
 
 void Actor::Initialize()
-{    
+{
     Log::Info(mName + " of class " + mClassName + " initialized");
 }
 

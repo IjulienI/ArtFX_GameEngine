@@ -3,11 +3,11 @@
     "revision": 0,
     "rules": [
         {
-            "primary-output": "Debug\\microsoft\\STL\\std.compat.obj",
+            "primary-output": "Release\\microsoft\\STL\\std.compat.obj",
             "outputs": [
-                "Debug\\microsoft\\STL\\std.compat.ixx.ifc.dt.module.json",
-                "Debug\\microsoft\\STL\\std.compat.ixx.ifc.dt.d.json",
-                "Debug\\microsoft\\STL\\std.compat.ifc"
+                "Release\\microsoft\\STL\\std.compat.ixx.ifc.dt.module.json",
+                "Release\\microsoft\\STL\\std.compat.ixx.ifc.dt.d.json",
+                "Release\\microsoft\\STL\\std.compat.ifc"
             ],
             "provides": [
                 {
