@@ -25,6 +25,8 @@ private:
 
     Actor* mPinExtractor = nullptr;
 
+    bool mCanShoot = false;
+
     float mPower = 0.7f;
     float mRotationPower = 0.0f;
 

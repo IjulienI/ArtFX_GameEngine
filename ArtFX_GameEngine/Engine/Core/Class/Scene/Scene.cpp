@@ -1,3 +1,8 @@
+/**
+ * @file Scene.cpp
+ * @brief Implémentation de la classe Scene, représentant une scène du jeu.
+ */
+
 #include "Scene.h"
 
 #include <algorithm>
@@ -7,6 +12,9 @@
 
 Scene* Scene::ActiveScene = nullptr;
 
+/**
+ * @brief Charge les ressources nécessaires à la scène.
+ */
 void Scene::Load()
 {
 	Asset::LoadTexture(*mRenderer, "Resources/Textures/BaseTexture.png", "BaseTexture");
@@ -41,6 +49,9 @@ void Scene::Start()
 	}
 }
 
+/**
+ * @brief Met à jour tous les acteurs de la scène.
+ */
 void Scene::Update()
 {
 	for (Actor* actor : mActors)
@@ -72,6 +83,10 @@ void Scene::SetWindow(Window* pWindow)
 	mCurrentWindow = pWindow;
 }
 
+/**
+ * @brief Ajoute un acteur à la scène.
+ * @param actor Pointeur vers l'acteur à ajouter.
+ */
 void Scene::AddActor(Actor* actor)
 {
 	actor->AttachScene(*this);
@@ -161,3 +176,4 @@ std::vector<Actor*> Scene::GetActorsByName(std::string pName, bool& pValid) cons
 	pValid = !actors.empty();
 	return actors;
 }
+

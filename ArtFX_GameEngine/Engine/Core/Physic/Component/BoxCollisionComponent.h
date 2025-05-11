@@ -6,6 +6,7 @@ class BoxCollisionComponent : public BaseCollisionComponent
 {
 protected:
     Box mBoundingBox;
+    float mRadius;
 
     VertexArray* mVertexArray;
     ShaderProgram mShaderProgram;
@@ -21,6 +22,10 @@ public:
     Box GetBoundingBox() const
     {
         return mBoundingBox;
+    }
+    float GetRadius() const
+    {
+        return mRadius;
     }
 
     void GenerateBox();

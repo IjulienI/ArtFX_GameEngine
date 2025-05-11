@@ -1,4 +1,9 @@
-﻿#include "Game.h"
+﻿/**
+ * @file Game.cpp
+ * @brief Implémentation de la classe Game, qui gère le cycle de vie du moteur.
+ */
+
+#include "Game.h"
 #include <iostream>
 
 #include "Core/Physic/PhysicEngine.h"
@@ -19,6 +24,9 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
     }
 }
 
+/**
+ * @brief Initialise le moteur de jeu.
+ */
 void Game::Initialize()
 {
     mWindow = new Window(1920,1080, mName);
@@ -37,6 +45,9 @@ void Game::Initialize()
     } 
 }
 
+/**
+ * @brief Boucle principale du moteur.
+ */
 void Game::Loop()
 {
     mIsRunning = true;
@@ -52,6 +63,9 @@ void Game::Loop()
     Close();
 }
 
+/**
+ * @brief Gère le rendu de la scène.
+ */
 void Game::Render()
 {
     mRenderer->BeginDraw();
@@ -61,11 +75,17 @@ void Game::Render()
     mRenderer->EndDraw();
 }
 
+/**
+ * @brief Met à jour la logique de la scène.
+ */
 void Game::Update()
 {
     mScenes[mLoadedScene]->Update();
 }
 
+/**
+ * @brief Vérifie les entrées utilisateur.
+ */
 void Game::CheckInputs()
 {
     if(!mIsRunning) return;
@@ -81,8 +101,8 @@ void Game::CheckInputs()
             
             #ifdef _DEBUG
             if ( event.key.keysym.sym == SDLK_1) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Unlit);
-            if ( event.key.keysym.sym == SDLK_2) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Debug);
-            if ( event.key.keysym.sym == SDLK_3) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Wireframe);
+            if ( event.key.keysym.sym == SDLK_2) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Wireframe);
+            if ( event.key.keysym.sym == SDLK_3) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Debug);
             if ( event.key.keysym.sym == SDLK_4) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Collision);
             #endif
             
@@ -95,9 +115,13 @@ void Game::CheckInputs()
     }    
 }
 
+/**
+ * @brief Ferme le moteur et libère les ressources.
+ */
 void Game::Close()
 {
     mScenes[mLoadedScene]->Close();
     mWindow->Close();
     SDL_Quit();
 }
+

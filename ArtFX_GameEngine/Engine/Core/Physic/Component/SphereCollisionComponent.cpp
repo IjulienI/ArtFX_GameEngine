@@ -13,6 +13,11 @@ SphereCollisionComponent::SphereCollisionComponent(Actor* actor) : BaseCollision
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    mShaderProgram.setVector3f("randomColor",
+        Vec3(0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX))
+    );
 }
 
 SphereCollisionComponent::SphereCollisionComponent(Actor* actor, float radius) : BaseCollisionComponent(actor), mRadius(radius)
@@ -22,6 +27,11 @@ SphereCollisionComponent::SphereCollisionComponent(Actor* actor, float radius) :
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    mShaderProgram.setVector3f("randomColor",
+    Vec3(0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+         0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+         0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX))
+);
 }
 
 SphereCollisionComponent::~SphereCollisionComponent() = default;

@@ -1,3 +1,8 @@
+/**
+ * @file Main.cpp
+ * @brief Point d'entrée principal du moteur de jeu.
+ */
+
 #include <iostream>
 #include "Game.h"
 #include <SDL.h>
@@ -8,7 +13,8 @@
 
 int main(int argc, char* argv[])
 {
-	Game* game = new Game("XCore - DebugEngine",{new BowlingScene()});
+	Game* game = new Game("XCore - DebugEngine",{new GLTestScene()});
 	game->Initialize();
 	return 0;
 }
+

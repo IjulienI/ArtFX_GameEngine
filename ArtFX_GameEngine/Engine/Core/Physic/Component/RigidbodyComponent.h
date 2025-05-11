@@ -28,6 +28,7 @@ private:
 
     float mFriction;
     float mAngularDamping;
+    float mLinearDamping;
 
     Mat3 mMomentOfInertia;
     Mat3 mInverseMomentOfInertia;

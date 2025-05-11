@@ -20,6 +20,7 @@ bool CollisionDetection::IsColliding(RigidbodyComponent* a, RigidbodyComponent* 
     CollisionType bType = b->GetCollisionComponent()->GetCollisionType();
 
 
+    //TEMP
     if (aType == CollisionType::Sphere && bType == CollisionType::Sphere) {
         return IsCollidingSphereSphere(a, b, contacts);
     }
@@ -163,7 +164,21 @@ bool CollisionDetection::IsCollidingPolygonPolygon(RigidbodyComponent* a, Rigidb
 }
 
 bool CollisionDetection::IsCollidingBoxBox(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts)
-{    
+{
+    Box aBox = dynamic_cast<BoxCollisionComponent*>(a->GetCollisionComponent())->GetBoundingBox();
+    Box bBox = dynamic_cast<BoxCollisionComponent*>(b->GetCollisionComponent())->GetBoundingBox();
+
+    Vec3 aMin = aBox.min;
+    Vec3 aMax = aBox.max;
+    Vec3 bMin = bBox.min;
+    Vec3 bMax = bBox.max;
+
+    if (aMax.x < bMin.x || aMin.x > bMax.x ||
+        aMax.y < bMin.y || aMin.y > bMax.y ||
+        aMax.z < bMin.z || aMin.z > bMax.z) {
+        return false;
+        }
+    
     const std::vector<Vec3>& aVerts = a->GetCollisionComponent()->GetVerticesInWorldSpace();
     const std::vector<Vec3>& bVerts = b->GetCollisionComponent()->GetVerticesInWorldSpace();
 
@@ -309,13 +324,11 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
     const std::vector<Vec3>& boxAxes = box->GetLocalAxes();
 
     std::vector<Vec3> axes;
-
-    // 1. Box local axes (X, Y, Z)
+    
     for (const Vec3& axis : boxAxes) {
         axes.push_back(Vec3::Normalize(axis));
     }
-
-    // 2. Global average normal of the polygon
+    
     Vec3 avgNormal = Vec3::zero;
     for (size_t i = 0; i + 2 < polyVerts.size(); i += 3) {
         avgNormal += Vec3::Cross(polyVerts[i + 1] - polyVerts[i], polyVerts[i + 2] - polyVerts[i]);
@@ -323,8 +336,7 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
     if (avgNormal.LengthSq() > EPSILON) {
         axes.push_back(Vec3::Normalize(avgNormal));
     }
-
-    // SAT
+    
     float minOverlap = std::numeric_limits<float>::max();
     Vec3 collisionNormal;
 
@@ -338,14 +350,12 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
             collisionNormal = axis;
         }
     }
-
-    // Correct normal direction
+    
     Vec3 direction = polygon->GetLocation() - box->GetLocation();
     if (Vec3::Dot(direction, collisionNormal) < 0.0f) {
         collisionNormal = -collisionNormal;
     }
-
-    // Find deepest points
+    
     Vec3 deepestPointA;
     float maxProjA = -FLT_MAX;
     for (const Vec3& v : boxVerts) {
@@ -365,8 +375,7 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
             deepestPointB = v;
         }
     }
-
-    // Create contact
+    
     Contact contact;
     contact.a = box;
     contact.b = polygon;

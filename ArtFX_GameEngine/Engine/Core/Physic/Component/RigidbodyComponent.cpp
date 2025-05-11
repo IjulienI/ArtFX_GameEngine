@@ -12,6 +12,7 @@ RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelo
     mRestitution = 0.0f;
     mFriction = 1.0f;
     mAngularDamping = 0.4f;
+    mLinearDamping = 0.4f;
     SetMass(100.0f);
     CalcMomentOfInertia();
 }
@@ -186,8 +187,8 @@ void RigidbodyComponent::IntegrateVelocity()
     location += mVelocity * DELTA_STEP;
     mOwner->SetLocation(location);
 
-    mVelocity *= (1.0f - DELTA_STEP * mFriction / mMass);
-    //mAngularVelocity *= (1.0f - DELTA_STEP * mAngularDamping / mMass);
+    mVelocity *= (1.0f - DELTA_STEP * mLinearDamping / mMass);
+    mAngularVelocity *= (1.0f - DELTA_STEP * mAngularDamping / mMass);
 
     Quaternion currentRotation = mOwner->GetRotation();
     Vec3 angularIncrement = mAngularVelocity * DELTA_STEP;

@@ -18,11 +18,12 @@ Player::Player() : Actor()
     mClassName = "Player";
     mName = "Player_01";
 
+    SetLocation(Vec3(-37.98f, 38.0f, 1.0f));
+
     //Set Variables
     controller = new BowlingController(this);
     
     mCamera = reinterpret_cast<Camera*>(mScene->GetActors()[0]);
-
 
     //SpawnBowlingball
     mBowlingball = new Actor();
@@ -54,7 +55,9 @@ Player::Player() : Actor()
 
 void Player::Shoot()
 {
-    if (mBowlingState != EBowlingState::PreShoot) return;
+    if (mBowlingState != EBowlingState::PreShoot || !mCanShoot) return;
+
+    mCanShoot = false;
 
     mBowlingState = EBowlingState::Shoot;
     mBowlingballMesh->SetVisible(false);
@@ -148,6 +151,10 @@ void Player::Update()
         mBowlingBallRotationArrow->SetLocation(Vec3(pos.x, pos.y, 0.02f));
         mPinExtractor->SetLocation(Vec3::Lerp(mPinExtractor->GetLocation(),
             Vec3(mPinExtractor->GetLocation().x, mPinExtractor->GetLocation().y, 1.3f), 0.03f));
+        if (mPinExtractor->GetLocation().z >= 1.25f)
+        {
+            mCanShoot = true;
+        }
         break;
     case EBowlingState::Shoot:        
         if (mBowlingBallThrow->GetLocation().y < 10.0f)
@@ -192,6 +199,12 @@ void Player::ChangeState(EBowlingState newState)
     {
     case EBowlingState::Intro:
     case EBowlingState::PreShoot:
+        SetLocation(Vec3(-37.98f, 38.0f, 1.0f));
+        SetRotation(Quaternion::Identity);
+        Rotate(Vec3(90.0f, 0.0f, 0.0f));
+        mPower = 0.7f;
+        mRotationPower = 0.0f;
+        ChangePower(0.0f);
         mBowlingBallForceDirArrow->GetComponent<MeshComponent>()->SetVisible(true);
         mBowlingBallRotationArrow->GetComponent<MeshComponent>()->SetVisible(true);
         mBowlingball->SetLocation(GetLocation());

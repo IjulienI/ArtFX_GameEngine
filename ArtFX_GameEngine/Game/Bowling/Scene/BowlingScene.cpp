@@ -84,8 +84,7 @@ void BowlingScene::Start()
     //Player
     mPlayer = new Player();\
     AddActor(mPlayer);
-
-    mPlayer->SetLocation(Vec3(-37.98f, 38.0f, 1.0f));
+    
     mPlayer->SetPinExtractor(PlayerPinExtractor);
     mPlayer->SetPinManger(pinManager);
      
@@ -108,6 +107,9 @@ void BowlingScene::Close() const
 
 void BowlingScene::SetUpBoxCollisions(int i )
 {
+
+    FpsCameraMovement* cameraMovement = new FpsCameraMovement(reinterpret_cast<Camera*>(mActors[0]));
+    
     Actor* BowlingWallLeft = new Actor();
     AddActor(BowlingWallLeft);
 
