@@ -34,5 +34,10 @@ public:
     {
         return mConstraints;
     }
+
+    std::deque<RigidbodyComponent*>& GetRigidbodies()
+    {
+        return mRigidbodyComponents;
+    }
     
 };

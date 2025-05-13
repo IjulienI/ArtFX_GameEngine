@@ -33,6 +33,7 @@
     <ClCompile Include="Engine\Core\Physic\Constraint.cpp" />
     <ClCompile Include="Engine\Core\Physic\Force.cpp" />
     <ClCompile Include="Engine\Core\Physic\PhysicEngine.cpp" />
+    <ClCompile Include="Engine\Core\Physic\TraceSystem.cpp" />
     <ClCompile Include="Engine\Core\Render\Asset.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Engine\Core\Render\Component\MeshComponent.cpp" />
@@ -94,6 +95,7 @@
     <ClInclude Include="Engine\Core\Physic\Contact.h" />
     <ClInclude Include="Engine\Core\Physic\Force.h" />
     <ClInclude Include="Engine\Core\Physic\PhysicEngine.h" />
+    <ClInclude Include="Engine\Core\Physic\TraceSystem.h" />
     <ClInclude Include="Engine\Core\Render\Asset.h" />
     <ClInclude Include="Engine\Core\Render\Component\AnimatedSpriteComponent.h" />
     <ClInclude Include="Engine\Core\Render\Component\MeshComponent.h" />
@@ -152,6 +154,9 @@
     <Content Include="Shaders\Simple.vert" />
     <Content Include="Shaders\SpriteShader.frag" />
     <Content Include="Shaders\SpriteShader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Game\Doom\" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
