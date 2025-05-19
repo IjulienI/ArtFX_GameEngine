@@ -1,5 +1,6 @@
 ﻿#include "CharacterMovementComponent.h"
 
+#include "Debug/Log.h"
 #include "Doom/Actors/DoomPlayer.h"
 #include "Math/Time.h"
 
@@ -16,9 +17,18 @@ void CharacterMovementComponent::OnStart()
 void CharacterMovementComponent::Update()
 {
     Component::Update();
-    mOwner->GetTransform().position += mWalkDirection * mWalkSpeed * Time::deltaTime;
-    mOwner->GetTransform().ComputeWorldTransform();
-    mWalkSpeed *= (1.0f - Time::deltaTime * mLinearDamping);
+    if (!(mWalkSpeed.Length() >= mMaxWalkSpeed))
+    {
+        mOwner->GetTransform().position += (mWalkSpeed) * Time::deltaTime;
+        mOwner->GetTransform().ComputeWorldTransform();
+        //Log::Info((mWalkSpeed * Time::deltaTime).ToString());
+    }
+    mWalkSpeed *= (1.0f - Time::deltaTime * (mMoving ? mLinearDamping : mLinearDamping * 3.0f));
+    if (mMoving)
+    {
+        mMoving = false;
+    }
+
 }
 
 void CharacterMovementComponent::OnEnd()
@@ -28,8 +38,8 @@ void CharacterMovementComponent::OnEnd()
 
 void CharacterMovementComponent::Move(float pIntensity, Vec3 pDirection)
 {
-    mWalkDirection = pDirection;
-    mWalkSpeed = mWalkSpeed * pIntensity;
+    mWalkSpeed = mWalkSpeed + pDirection * (pIntensity * 2.0f);    
+    mMoving = true;
 }
 
 void CharacterMovementComponent::Jump()

@@ -9,11 +9,17 @@ class DoomPlayer : public Actor
 private:
     DoomPlayerController* mPlayerController = nullptr;
     CharacterMovementComponent* mCharacterMovement = nullptr;
+    Camera* mCamera = nullptr;
 
     
 public:
     DoomPlayer();
     ~DoomPlayer() override = default;
+
+    CharacterMovementComponent* GetCharacterMovement() const
+    {
+        return mCharacterMovement;
+    }
 
     void Start() override;
     void Update() override;

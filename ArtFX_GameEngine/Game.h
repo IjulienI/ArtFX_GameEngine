@@ -42,7 +42,7 @@ private:
     std::vector<Scene*> mScenes;
     int mLoadedScene;
 
-    bool mIsRunning = false;    
+    bool mIsRunning = false;
     
     /**
      * @brief Boucle principale du moteur.

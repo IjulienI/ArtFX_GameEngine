@@ -5,9 +5,9 @@ class CharacterMovementComponent : public Component
 {
 private:
     int mJumpCount = 0;
-    float mWalkSpeed = 0.0f;
+    Vec3 mWalkSpeed = Vec3::zero;
 
-    Vec3 mWalkDirection = Vec3::zero;
+    bool mMoving = false;
     
 public:
     //--Base
@@ -19,9 +19,9 @@ public:
 
     //--Public Values    
     //Movement
-    float mMaxWalkSpeed = 10.0f;
+    float mMaxWalkSpeed = 1000.0f;
     float mWalkAcceleration = 0.2f;
-    float mLinearDamping = 0.5f;
+    float mLinearDamping = 2.0f;
 
     //Jump
     int mMaxJumpCount = 1;

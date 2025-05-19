@@ -75,6 +75,7 @@
     <ClCompile Include="Game\Bowling\Scene\BowlingScene.cpp" />
     <ClCompile Include="Game\Doom\Actors\DoomPlayer.cpp" />
     <ClCompile Include="Game\Doom\Component\DoomPlayerController.cpp" />
+    <ClCompile Include="Game\Doom\Scene\DoomScene.cpp" />
     <ClCompile Include="Game\Scenes\Base\BaseScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\GLTestScene.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Game\Bowling\Scene\BowlingScene.h" />
     <ClInclude Include="Game\Doom\Actors\DoomPlayer.h" />
     <ClInclude Include="Game\Doom\Component\DoomPlayerController.h" />
+    <ClInclude Include="Game\Doom\Scene\DoomScene.h" />
     <ClInclude Include="Game\Scenes\Base\BaseScene.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
     <ClInclude Include="Game\Scenes\Debug\GLTestScene.h" />
@@ -160,9 +162,6 @@
     <Content Include="Shaders\Simple.vert" />
     <Content Include="Shaders\SpriteShader.frag" />
     <Content Include="Shaders\SpriteShader.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\Doom\Scene\" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -54,10 +54,15 @@ void Game::Loop()
     while(mIsRunning)
     {
         Time::ComputeDeltaTime();
+        
         CheckInputs();
+
         Update();
+
         mPhysicEngine->Update();
+        
         Render();
+        
         Time::DelayTime();
     }
     Close();
@@ -89,10 +94,14 @@ void Game::Update()
 void Game::CheckInputs()
 {
     if(!mIsRunning) return;
-    
+
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
+    
+    while (SDL_PollEvent(&event))
+    {
+        //Log::Info("Input");        
+        switch (event.type)
+        {
         case SDL_QUIT:
             mIsRunning = false;
             break;
@@ -107,12 +116,18 @@ void Game::CheckInputs()
             #endif
             
             break;
-        default:
-            Log::Warning(LogType::Input, "Unknown event type");
+        default:            
             break;
-        }        
+        }
+        
         InputManager::Instance().HandleInputs(event);
-    }    
+    }
+
+    const Uint8* keystate = SDL_GetKeyboardState(NULL);
+    if (keystate[SDL_SCANCODE_W])
+    {
+        Log::Info("La touche RIGHT est maintenue");
+    }
 }
 
 /**

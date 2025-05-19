@@ -21,9 +21,9 @@ void InputManager::HandleInputs(SDL_Event& event)
     std::map<SDL_Scancode, InputEvent*>::iterator it = mInputEvents.find(event.key.keysym.scancode);
     if(it != mInputEvents.end())
     {
-        it->second->CallEvent(event);        
+        (*it).second->CallEvent(event);        
     }
-} 
+}
 
 void InputManager::BindTo(SDL_Scancode keyCode, IInputListener* listener)
 {
