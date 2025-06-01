@@ -6,9 +6,9 @@
 Skybox::Skybox() : Actor()
 {
     Asset::LoadMesh("Box.obj", "Skybox");
-    Asset::LoadTexture(mScene->GetRenderer(), "Resources/Textures/Skybox/Basic.png", "Skybox");
+    Asset::LoadTexture(mScene->GetRenderer(), "Resources/Textures/Skybox/Doom.png", "Skybox");
     
-    SetScale(Vec3(1000.0f, 1000.0f, 1000.0f));
+    SetScale(Vec3(200.0f, 200.0f, 200.0f));
     Rotate(Vec3(45.0f, 0.0f, 0.0f));
     
     Skybox::Start();

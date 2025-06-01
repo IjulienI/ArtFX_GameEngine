@@ -23,6 +23,7 @@ void DoomScene::Start()
     //SkyBox
     Skybox* skybox = new Skybox();
     AddActor(skybox);
+    skybox->SetLocation(Vec3(0.0f, 0.0f, -50.0f));
 
     //Floor
     Actor* floor = new Actor();
@@ -69,4 +70,5 @@ void DoomScene::Load()
     //Load Meshes
     Asset::LoadMesh("Box.obj", "Box");
     Asset::LoadMesh("Floor.obj", "Floor");
+    Asset::LoadMesh("Doom/Collision/DoomPlayerHitBox.obj", "DoomGuy");
 }

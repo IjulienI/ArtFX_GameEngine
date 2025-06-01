@@ -21,6 +21,11 @@ public:
         return mCharacterMovement;
     }
 
+    Camera* GetCamera() const
+    {
+        return mCamera;
+    }
+
     void Start() override;
     void Update() override;
     void Destroy() override;

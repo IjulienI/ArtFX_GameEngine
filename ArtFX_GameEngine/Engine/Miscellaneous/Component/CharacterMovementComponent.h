@@ -20,7 +20,7 @@ public:
     //--Public Values    
     //Movement
     float mMaxWalkSpeed = 1000.0f;
-    float mWalkAcceleration = 0.2f;
+    float mWalkAcceleration = 0.8f;
     float mLinearDamping = 2.0f;
 
     //Jump

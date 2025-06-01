@@ -20,15 +20,12 @@ void CharacterMovementComponent::Update()
     if (!(mWalkSpeed.Length() >= mMaxWalkSpeed))
     {
         mOwner->GetTransform().position += (mWalkSpeed) * Time::deltaTime;
-        mOwner->GetTransform().ComputeWorldTransform();
-        //Log::Info((mWalkSpeed * Time::deltaTime).ToString());
     }
     mWalkSpeed *= (1.0f - Time::deltaTime * (mMoving ? mLinearDamping : mLinearDamping * 3.0f));
     if (mMoving)
     {
         mMoving = false;
     }
-
 }
 
 void CharacterMovementComponent::OnEnd()
@@ -38,7 +35,7 @@ void CharacterMovementComponent::OnEnd()
 
 void CharacterMovementComponent::Move(float pIntensity, Vec3 pDirection)
 {
-    mWalkSpeed = mWalkSpeed + pDirection * (pIntensity * 2.0f);    
+    mWalkSpeed = mWalkSpeed + pDirection * pIntensity * mWalkAcceleration;    
     mMoving = true;
 }
 

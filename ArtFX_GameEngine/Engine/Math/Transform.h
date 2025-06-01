@@ -54,6 +54,8 @@ public:
         mNeedsUpdate = needsUpdate;
     }
 
+    void ForceComputeWorldTransform();
+
     void Rotate(Vec3 pRotation);
     void Rotate(float pRotation, Vec3 pAxis);
     void RotateX(float pRotation);
