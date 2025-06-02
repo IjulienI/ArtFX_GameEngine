@@ -21,13 +21,17 @@ void MeshComponent::Draw(Matrix4Row viewProj)
     mMesh->GetShaderProgram().Use();
     mMesh->GetShaderProgram().setMatrix4Row("uViewProj", viewProj);
     mMesh->GetShaderProgram().setMatrix4Row("uWorldTransform", wt);
+    mMesh->GetShaderProgram().setInteger("UTessellationLevel", mTessellationLevel);
     Texture* texture = mMesh->GetTexture(mTextureIndex);
+    
     if (texture)
     {
         texture->SetActive();
     }
+    
     mMesh->GetVertexArray()->SetActive();
-    glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVerticesCount());
+    glPointSize(6.0f);
+    glDrawArrays(mUseTessellation ? GL_PATCHES : GL_TRIANGLES, 0, mMesh->GetVerticesCount());
 }
 
 void MeshComponent::SetMesh(Mesh& mesh)

@@ -42,6 +42,17 @@ void GLTestScene::Start()
     floorMeshComponent->SetMesh(Asset::GetMesh("Floor"));
     floorMeshComponent->AddTexture(Asset::GetTexture("Floor"));
 
+    mTessVertexShader.Load("SimpleTess.vert", ShaderType::VERTEX);
+    mTessFragShader.Load("SimpleTess.frag", ShaderType::FRAGMENT);
+    mTessControlShader.Load("SimpleTess.tesc", ShaderType::TESSELLATION_CONTROL);
+    mTessEvalShader.Load("SimpleTess.tese", ShaderType::TESSELLATION_EVALUATION);
+
+    mTessProgram.Compose({ &mTessVertexShader, &mTessFragShader, &mTessControlShader, &mTessEvalShader });
+    floorMeshComponent->GetMesh()->SetShaderProgram(mTessProgram);
+    floorMeshComponent->SetUseTessellation(true);
+
+    
+
     RigidbodyComponent* floorRigidbody = new RigidbodyComponent(floor);
     floorRigidbody->SetMass(0.0f);
 

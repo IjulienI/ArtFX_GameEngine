@@ -41,4 +41,5 @@ void CharacterMovementComponent::Move(float pIntensity, Vec3 pDirection)
 
 void CharacterMovementComponent::Jump()
 {
+    
 }

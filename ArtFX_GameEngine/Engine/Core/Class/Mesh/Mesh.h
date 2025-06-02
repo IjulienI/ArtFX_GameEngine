@@ -53,7 +53,7 @@ public:
 
     //Getter Setters    
     void AddTexture(Texture* pTexture);
-    void SetShaderProgram(ShaderProgram*& pShaderProgram);
+    void SetShaderProgram(ShaderProgram& pShaderProgram);
     void SetVertexArray(VertexArray* pVertexArray);
     VertexArray* GetVertexArray() const
     {

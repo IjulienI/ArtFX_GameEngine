@@ -154,12 +154,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engine\Core\Physic\PhysicConstants.h" />
+    <Content Include="Shaders\Basic.tesc" />
+    <Content Include="Shaders\Basic.tese" />
     <Content Include="Shaders\BasicMesh.frag" />
     <Content Include="Shaders\BasicMesh.vert" />
     <Content Include="Shaders\Collision.frag" />
     <Content Include="Shaders\Collision.vert" />
     <Content Include="Shaders\Simple.frag" />
     <Content Include="Shaders\Simple.vert" />
+    <Content Include="Shaders\SimpleTess.frag" />
+    <Content Include="Shaders\SimpleTess.tesc" />
+    <Content Include="Shaders\SimpleTess.tese" />
+    <Content Include="Shaders\SimpleTess.vert" />
     <Content Include="Shaders\SpriteShader.frag" />
     <Content Include="Shaders\SpriteShader.vert" />
   </ItemGroup>

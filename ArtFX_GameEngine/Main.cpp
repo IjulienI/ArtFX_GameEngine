@@ -14,7 +14,7 @@
 
 int main(int argc, char* argv[])
 {
-	Game* game = new Game("XCore - DebugEngine",{new DoomScene()});
+	Game* game = new Game("XCore - DebugEngine",{new GLTestScene()});
 	game->Initialize();
 	return 0;
 }

@@ -9,6 +9,10 @@ protected:
     size_t mTextureIndex;
 
     bool mVisible;
+    bool mUseTessellation;
+
+    int mTessellationLevel;
+    
 public:
     MeshComponent(Actor* pOwner);
     virtual ~MeshComponent();
@@ -26,5 +30,15 @@ public:
     Mesh* GetMesh() const
     {
         return mMesh;
+    }
+
+    void SetUseTessellation(bool pUseTessellation)
+    {
+        mUseTessellation = pUseTessellation;
+    }
+
+    void SetTessellationLevel(int pTessellationLevel)
+    {
+        mTessellationLevel = pTessellationLevel;
     }
 };
