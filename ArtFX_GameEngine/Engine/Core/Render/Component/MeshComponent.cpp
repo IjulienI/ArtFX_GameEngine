@@ -22,6 +22,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
     mMesh->GetShaderProgram().setMatrix4Row("uViewProj", viewProj);
     mMesh->GetShaderProgram().setMatrix4Row("uWorldTransform", wt);
     mMesh->GetShaderProgram().setInteger("UTessellationLevel", mTessellationLevel);
+    mMesh->GetShaderProgram().setVector2f("uTiling", mTiling);
     Texture* texture = mMesh->GetTexture(mTextureIndex);
     
     if (texture)

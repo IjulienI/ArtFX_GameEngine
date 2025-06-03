@@ -16,8 +16,7 @@ out VS_OUT{
 
 void main()
 {
-    //uTiling = vec2(1.0, 1.0);
     gl_Position = vec4(pos, 1.0) * uWorldTransform * uViewProj;
     vs_out.color = vec4(pos, 1.0);
-    vs_out.texCoord = texCoord ;//* uTiling; TODO: Fix this
+    vs_out.texCoord = texCoord * uTiling;
 }

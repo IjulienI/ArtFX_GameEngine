@@ -8,10 +8,11 @@ protected:
     Mesh* mMesh;
     size_t mTextureIndex;
 
-    bool mVisible;
-    bool mUseTessellation;
+    bool mVisible = true;
+    bool mUseTessellation = false;
 
-    int mTessellationLevel;
+    int mTessellationLevel = 1;
+    Vec2 mTiling = Vec2(1.0f, 1.0f);
     
 public:
     MeshComponent(Actor* pOwner);
@@ -40,5 +41,10 @@ public:
     void SetTessellationLevel(int pTessellationLevel)
     {
         mTessellationLevel = pTessellationLevel;
+    }
+
+    void SetTiling(const Vec2& pTiling)
+    {
+        mTiling = pTiling;
     }
 };
