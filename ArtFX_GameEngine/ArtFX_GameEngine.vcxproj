@@ -168,6 +168,8 @@
     <Content Include="Shaders\SimpleTess.vert" />
     <Content Include="Shaders\SpriteShader.frag" />
     <Content Include="Shaders\SpriteShader.vert" />
+    <Content Include="Shaders\WaterTess.frag" />
+    <Content Include="Shaders\WaterTess.tese" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

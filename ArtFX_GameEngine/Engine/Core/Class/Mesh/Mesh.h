@@ -34,6 +34,7 @@ class Mesh
 {
 private:
     std::vector<Texture*> mTextures;
+    Texture* mNoiseTexture = nullptr;
     std::vector<Vertex> mVertices;
     VertexArray* mVertexArray;
     Shader mVertexShader, mFragmentShader;
@@ -69,6 +70,14 @@ public:
         return mVertices;
     }
     Texture* GetTexture(size_t index);
+    Texture* GetNoiseTexture() const
+    {
+        return mNoiseTexture;
+    }
+    void SetNoiseTexture(Texture& pNoiseTexture)
+    {
+        mNoiseTexture = &pNoiseTexture;
+    }
     void SetRadius(float radius);
     float GetRadius() const
     {

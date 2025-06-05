@@ -122,12 +122,6 @@ void Game::CheckInputs()
         
         InputManager::Instance().HandleInputs(event);
     }
-
-    const Uint8* keystate = SDL_GetKeyboardState(NULL);
-    if (keystate[SDL_SCANCODE_W])
-    {
-        Log::Info("La touche RIGHT est maintenue");
-    }
 }
 
 /**
