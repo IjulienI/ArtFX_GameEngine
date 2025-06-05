@@ -4,6 +4,7 @@
 
 #include "Core/Render/Asset.h"
 #include "Core/Render/OpenGL/VertexArray.h"
+#include "Debug/Log.h"
 
 /**
  * @file Mesh.cpp
@@ -42,13 +43,17 @@ void Mesh::AddTexture(Texture* pTexture)
         {
             mTextures.clear();
         }
+        for (auto& mTexture : mTextures)
+        {
+            if (mTexture == pTexture) return;
+        }
     }
     mTextures.emplace_back(pTexture);
 }
 
-void Mesh::SetShaderProgram(ShaderProgram*& pShaderProgram)
+void Mesh::SetShaderProgram(ShaderProgram& pShaderProgram)
 {
-    mShaderProgram = *pShaderProgram;
+    mShaderProgram = pShaderProgram;
 }
 
 void Mesh::SetVertexArray(VertexArray* pVertexArray)
@@ -63,7 +68,7 @@ int Mesh::GetVerticesCount() const
 
 Texture* Mesh::GetTexture(size_t index)
 {
-    if (index > mTextures.size())
+    if (index > mTextures.size() -1)
     {
         return nullptr;
     }

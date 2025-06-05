@@ -24,6 +24,8 @@ private:
     float mMass;
     float mInverseMass;
 
+    float mGravityScale = 1.0f; 
+
     float mRestitution;
 
     float mFriction;
@@ -32,6 +34,8 @@ private:
 
     Mat3 mMomentOfInertia;
     Mat3 mInverseMomentOfInertia;
+
+    bool mLockRotation = false;
 
     void CalcMomentOfInertia();
 
@@ -102,7 +106,21 @@ public:
         return mFriction;
     }
 
+    void SetLockRotation(bool pLockRotation)
+    {
+        mLockRotation = pLockRotation;
+    }
+
     Vec3 GetLocation() const;
+
+    float GetGravityScale() const
+    {
+        return mGravityScale;
+    }
+    void SetGravityScale(float pGravityScale)
+    {
+        mGravityScale = pGravityScale;
+    }
 
     void SetCollisionComponent(BaseCollisionComponent* pCollisionComponent);
     BaseCollisionComponent* GetCollisionComponent() const

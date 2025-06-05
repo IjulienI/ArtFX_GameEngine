@@ -36,14 +36,31 @@ void Shader::Load(std::string fileName, ShaderType shaderType)
   
     switch (mType)
     {
-    case VERTEX: {
+    case VERTEX:
+        {
             mId = glCreateShader(GL_VERTEX_SHADER);
             break;
-    }
-    case FRAGMENT: {
+        }
+    case FRAGMENT:
+        {
             mId = glCreateShader(GL_FRAGMENT_SHADER);
             break;
-    }
+        }
+    case TESSELLATION_CONTROL:
+        {
+            mId = glCreateShader(GL_TESS_CONTROL_SHADER);
+            break;
+        }
+    case TESSELLATION_EVALUATION:
+        {
+            mId = glCreateShader(GL_TESS_EVALUATION_SHADER);
+            break;
+        }
+    case GEOMETRY:
+        {
+            mId = glCreateShader(GL_GEOMETRY_SHADER);
+            break;
+        }
     default:
         {
             Log::Error(LogType::Render, "This shader type has not yet been implemented.");

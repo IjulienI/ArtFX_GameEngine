@@ -62,6 +62,7 @@
     <ClCompile Include="Engine\Math\Vec4.cpp" />
     <ClCompile Include="Engine\Math\VecN.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Actor\Camera.cpp" />
+    <ClCompile Include="Engine\Miscellaneous\Component\CharacterMovementComponent.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\FpsCameraMovement.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\MoveComponent.cpp" />
     <ClCompile Include="Engine\Miscellaneous\Component\PlayerController.cpp" />
@@ -72,6 +73,9 @@
     <ClCompile Include="Game\Bowling\Component\BowlingController.cpp" />
     <ClCompile Include="Game\Bowling\Manager\PinManager.cpp" />
     <ClCompile Include="Game\Bowling\Scene\BowlingScene.cpp" />
+    <ClCompile Include="Game\Doom\Actors\DoomPlayer.cpp" />
+    <ClCompile Include="Game\Doom\Component\DoomPlayerController.cpp" />
+    <ClCompile Include="Game\Doom\Scene\DoomScene.cpp" />
     <ClCompile Include="Game\Scenes\Base\BaseScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\DebugCollisionScene.cpp" />
     <ClCompile Include="Game\Scenes\Debug\GLTestScene.cpp" />
@@ -128,6 +132,7 @@
     <ClInclude Include="Engine\Math\Vec4.h" />
     <ClInclude Include="Engine\Math\VecN.h" />
     <ClInclude Include="Engine\Miscellaneous\Actor\Camera.h" />
+    <ClInclude Include="Engine\Miscellaneous\Component\CharacterMovementComponent.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\FpsCameraMovement.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\MoveComponent.h" />
     <ClInclude Include="Engine\Miscellaneous\Component\PlayerController.h" />
@@ -140,23 +145,31 @@
     <ClInclude Include="Game\Bowling\Component\BowlingController.h" />
     <ClInclude Include="Game\Bowling\Manager\PinManager.h" />
     <ClInclude Include="Game\Bowling\Scene\BowlingScene.h" />
+    <ClInclude Include="Game\Doom\Actors\DoomPlayer.h" />
+    <ClInclude Include="Game\Doom\Component\DoomPlayerController.h" />
+    <ClInclude Include="Game\Doom\Scene\DoomScene.h" />
     <ClInclude Include="Game\Scenes\Base\BaseScene.h" />
     <ClInclude Include="Game\Scenes\Debug\DebugCollisionScene.h" />
     <ClInclude Include="Game\Scenes\Debug\GLTestScene.h" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Engine\Core\Physic\PhysicConstants.h" />
+    <Content Include="Shaders\Basic.tesc" />
+    <Content Include="Shaders\Basic.tese" />
     <Content Include="Shaders\BasicMesh.frag" />
     <Content Include="Shaders\BasicMesh.vert" />
     <Content Include="Shaders\Collision.frag" />
     <Content Include="Shaders\Collision.vert" />
     <Content Include="Shaders\Simple.frag" />
     <Content Include="Shaders\Simple.vert" />
+    <Content Include="Shaders\SimpleTess.frag" />
+    <Content Include="Shaders\SimpleTess.tesc" />
+    <Content Include="Shaders\SimpleTess.tese" />
+    <Content Include="Shaders\SimpleTess.vert" />
     <Content Include="Shaders\SpriteShader.frag" />
     <Content Include="Shaders\SpriteShader.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\Doom\" />
+    <Content Include="Shaders\WaterTess.frag" />
+    <Content Include="Shaders\WaterTess.tese" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -8,6 +8,7 @@
 #include <SDL.h>
 
 #include "Bowling/Scene/BowlingScene.h"
+#include "Doom/Scene/DoomScene.h"
 #include "Scenes/Base/BaseScene.h"
 #include "Scenes/Debug/GLTestScene.h"
 

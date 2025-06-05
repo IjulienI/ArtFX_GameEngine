@@ -3,6 +3,11 @@
 
 class GLTestScene : public Scene
 {
+private:
+
+    Shader mTessVertexShader, mTessFragShader, mTessControlShader, mTessEvalShader, mTessWaterFragShader, mTessWaterEvalShader;
+    ShaderProgram mTessProgram, mTessWaterProgram;
+    
 public:
     GLTestScene();
     ~GLTestScene() override = default;

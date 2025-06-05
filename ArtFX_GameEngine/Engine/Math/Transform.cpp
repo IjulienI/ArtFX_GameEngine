@@ -1,6 +1,4 @@
-﻿
-
-#include "Transform.h"
+﻿#include "Transform.h"
 
 #include "Core/Class/Actor/Actor.h"
 
@@ -22,7 +20,6 @@ void Transform::ComputeWorldTransform()
     worldTransform *= Matrix4Row::CreateFromQuaternion(rotation);
     worldTransform *= Matrix4Row::CreateTranslation(position);
     owner->UpdateComponentsTransform();
-
 }
 
 Vec3 Transform::GetPosition()
@@ -38,6 +35,12 @@ Vec3 Transform::GetScale()
 Quaternion Transform::GetRotation()
 {
     return rotation;
+}
+
+void Transform::ForceComputeWorldTransform()
+{
+    mNeedsUpdate = true;
+    ComputeWorldTransform();
 }
 
 void Transform::Rotate(Vec3 pRotation)

@@ -3,6 +3,7 @@
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Class/Scene/Scene.h"
 #include "Core/Render/OpenGL/VertexArray.h"
+#include "Math/Time.h"
 
 MeshComponent::MeshComponent(Actor* pOwner) : Component(pOwner), mMesh(nullptr), mTextureIndex(0), mVisible(true)
 {
@@ -17,17 +18,36 @@ MeshComponent::~MeshComponent()
 void MeshComponent::Draw(Matrix4Row viewProj)
 {
     if (!mMesh) return;
+
+    mTime += Time::deltaTime;
+    
     Matrix4Row wt = mOwner->GetWorldTransform();
     mMesh->GetShaderProgram().Use();
     mMesh->GetShaderProgram().setMatrix4Row("uViewProj", viewProj);
     mMesh->GetShaderProgram().setMatrix4Row("uWorldTransform", wt);
-    Texture* texture = mMesh->GetTexture(mTextureIndex);
-    if (texture)
+    mMesh->GetShaderProgram().setInteger("uTessellationLevel", mTessellationLevel);
+    mMesh->GetShaderProgram().setVector2f("uTiling", mTiling);
+    mMesh->GetShaderProgram().setFloat("uDisplacementScale", mDisplacementScale);
+    mMesh->GetShaderProgram().setFloat("uTime", mTime);
+
+    //Active AlbedoTexture
+    glActiveTexture(GL_TEXTURE0);
+    Texture* albedoTexture = mMesh->GetTexture(mTextureIndex);
+    if (albedoTexture)
     {
-        texture->SetActive();
+        albedoTexture->SetActive();
     }
+
+    //Active NoiseTexture
+    glActiveTexture(GL_TEXTURE1);
+    Texture* noiseTexture = mMesh->GetNoiseTexture();
+    if (noiseTexture)
+    {
+        noiseTexture->SetActive();
+    }
+    
     mMesh->GetVertexArray()->SetActive();
-    glDrawArrays(GL_TRIANGLES, 0, mMesh->GetVerticesCount());
+    glDrawArrays(mUseTessellation ? GL_PATCHES : GL_TRIANGLES, 0, mMesh->GetVerticesCount());
 }
 
 void MeshComponent::SetMesh(Mesh& mesh)
