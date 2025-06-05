@@ -8,6 +8,7 @@ class InputEvent
 {
 private:
     std::vector<IInputListener*> mListeners;
+    
 public:
     InputEvent() = default;
     ~InputEvent();

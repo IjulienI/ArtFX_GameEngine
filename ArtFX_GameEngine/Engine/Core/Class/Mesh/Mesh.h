@@ -21,12 +21,20 @@ struct Box
 {
     Vec3 min;
     Vec3 max;
+
+    Box& operator / (float scalar)
+    {
+        min /= scalar;
+        max /= scalar;
+        return *this;
+    }
 };
 
 class Mesh
 {
 private:
     std::vector<Texture*> mTextures;
+    Texture* mNoiseTexture = nullptr;
     std::vector<Vertex> mVertices;
     VertexArray* mVertexArray;
     Shader mVertexShader, mFragmentShader;
@@ -46,7 +54,7 @@ public:
 
     //Getter Setters    
     void AddTexture(Texture* pTexture);
-    void SetShaderProgram(ShaderProgram*& pShaderProgram);
+    void SetShaderProgram(ShaderProgram& pShaderProgram);
     void SetVertexArray(VertexArray* pVertexArray);
     VertexArray* GetVertexArray() const
     {
@@ -62,6 +70,14 @@ public:
         return mVertices;
     }
     Texture* GetTexture(size_t index);
+    Texture* GetNoiseTexture() const
+    {
+        return mNoiseTexture;
+    }
+    void SetNoiseTexture(Texture& pNoiseTexture)
+    {
+        mNoiseTexture = &pNoiseTexture;
+    }
     void SetRadius(float radius);
     float GetRadius() const
     {

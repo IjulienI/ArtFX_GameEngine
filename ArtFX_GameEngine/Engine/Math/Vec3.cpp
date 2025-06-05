@@ -70,6 +70,57 @@ bool Vec3::NearZero(float epsilon) const
 	return Maths::NearZero(x, epsilon) && Maths::NearZero(y, epsilon) && Maths::NearZero(z, epsilon);
 }
 
+bool Vec3::NearEquals(const Vec3& v, float epsilon) const
+{
+	return Maths::Abs(x - v.x) <= epsilon &&
+	   Maths::Abs(y - v.y) <= epsilon &&
+	   Maths::Abs(z - v.z) <= epsilon;
+}
+
+Quaternion Vec3::LookAt(const Vec3& origin, const Vec3& target, const Vec3& worldUp) const
+{
+	Vec3 forward = Vec3::Normalize(target - origin);
+	Vec3 right = Vec3::Normalize(Vec3::Cross(worldUp, forward));
+	Vec3 up = Vec3::Cross(forward, right);
+
+	float rot00 = right.x,   rot01 = right.y,   rot02 = right.z;
+	float rot10 = up.x,      rot11 = up.y,      rot12 = up.z;
+	float rot20 = forward.x, rot21 = forward.y, rot22 = forward.z;
+
+	float trace = rot00 + rot11 + rot22;
+	Quaternion result;
+
+	if (trace > 0.0f) {
+		float s = sqrtf(trace + 1.0f) * 2.0f;
+		result.w = 0.25f * s;
+		result.x = (rot21 - rot12) / s;
+		result.y = (rot02 - rot20) / s;
+		result.z = (rot10 - rot01) / s;
+	} else {
+		if (rot00 > rot11 && rot00 > rot22) {
+			float s = sqrtf(1.0f + rot00 - rot11 - rot22) * 2.0f;
+			result.w = (rot21 - rot12) / s;
+			result.x = 0.25f * s;
+			result.y = (rot01 + rot10) / s;
+			result.z = (rot02 + rot20) / s;
+		} else if (rot11 > rot22) {
+			float s = sqrtf(1.0f + rot11 - rot00 - rot22) * 2.0f;
+			result.w = (rot02 - rot20) / s;
+			result.x = (rot01 + rot10) / s;
+			result.y = 0.25f * s;
+			result.z = (rot12 + rot21) / s;
+		} else {
+			float s = sqrtf(1.0f + rot22 - rot00 - rot11) * 2.0f;
+			result.w = (rot10 - rot01) / s;
+			result.x = (rot02 + rot20) / s;
+			result.y = (rot12 + rot21) / s;
+			result.z = 0.25f * s;
+		}
+	}
+
+	return Quaternion::Normalize(result);
+}
+
 Vec3 Vec3::Transform(Vec3& vec, Matrix4& mat, float w)
 {
 	Vec3 retVal;

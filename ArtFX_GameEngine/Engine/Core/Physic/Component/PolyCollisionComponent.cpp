@@ -11,6 +11,11 @@ PolyCollisionComponent::PolyCollisionComponent(Actor* owner) : BoxCollisionCompo
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    mShaderProgram.setVector3f("randomColor",
+        Vec3(0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX))
+    );
 }
 
 PolyCollisionComponent::PolyCollisionComponent(Actor* owner, Mesh* mesh) : BoxCollisionComponent(owner), mMesh(mesh)
@@ -19,6 +24,11 @@ PolyCollisionComponent::PolyCollisionComponent(Actor* owner, Mesh* mesh) : BoxCo
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    mShaderProgram.setVector3f("randomColor",
+    Vec3(0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+         0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+         0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX))
+);
 }
 
 PolyCollisionComponent::~PolyCollisionComponent() = default;

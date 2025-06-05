@@ -1,10 +1,14 @@
-﻿#include "Game.h"
+﻿/**
+ * @file Game.cpp
+ * @brief Implémentation de la classe Game, qui gère le cycle de vie du moteur.
+ */
+
+#include "Game.h"
 #include <iostream>
 
 #include "Core/Physic/PhysicEngine.h"
 #include "Core/Render/OpenGL/RendererGL.h"
 #include "Debug/Log.h"
-#include "Game/Scenes/PongScene.h"
 #include "Engine/Math/Time.h"
 #include "Input/InputManager.h"
 
@@ -20,6 +24,9 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
     }
 }
 
+/**
+ * @brief Initialise le moteur de jeu.
+ */
 void Game::Initialize()
 {
     mWindow = new Window(1920,1080, mName);
@@ -38,21 +45,32 @@ void Game::Initialize()
     } 
 }
 
+/**
+ * @brief Boucle principale du moteur.
+ */
 void Game::Loop()
 {
     mIsRunning = true;
     while(mIsRunning)
     {
         Time::ComputeDeltaTime();
+        
         CheckInputs();
+
         Update();
+
         mPhysicEngine->Update();
+        
         Render();
+        
         Time::DelayTime();
     }
     Close();
 }
 
+/**
+ * @brief Gère le rendu de la scène.
+ */
 void Game::Render()
 {
     mRenderer->BeginDraw();
@@ -62,39 +80,57 @@ void Game::Render()
     mRenderer->EndDraw();
 }
 
+/**
+ * @brief Met à jour la logique de la scène.
+ */
 void Game::Update()
 {
     mScenes[mLoadedScene]->Update();
 }
 
+/**
+ * @brief Vérifie les entrées utilisateur.
+ */
 void Game::CheckInputs()
 {
     if(!mIsRunning) return;
-    
+
     SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        switch (event.type) {
+    
+    while (SDL_PollEvent(&event))
+    {
+        //Log::Info("Input");        
+        switch (event.type)
+        {
         case SDL_QUIT:
             mIsRunning = false;
             break;
         case SDL_KEYDOWN:
             if (event.key.keysym.sym == SDLK_ESCAPE) mIsRunning = false;
+            
+            #ifdef _DEBUG
             if ( event.key.keysym.sym == SDLK_1) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Unlit);
-            if ( event.key.keysym.sym == SDLK_2) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Debug);
-            if ( event.key.keysym.sym == SDLK_3) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Wireframe);
+            if ( event.key.keysym.sym == SDLK_2) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Wireframe);
+            if ( event.key.keysym.sym == SDLK_3) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Debug);
             if ( event.key.keysym.sym == SDLK_4) mScenes[mLoadedScene]->GetRenderer().SetDawType(DrawType::Collision);
+            #endif
+            
             break;
-        default:
-            Log::Warning(LogType::Input, "Unknown event type");
+        default:            
             break;
-        }        
+        }
+        
         InputManager::Instance().HandleInputs(event);
-    }    
+    }
 }
 
+/**
+ * @brief Ferme le moteur et libère les ressources.
+ */
 void Game::Close()
 {
     mScenes[mLoadedScene]->Close();
     mWindow->Close();
     SDL_Quit();
 }
+

@@ -46,4 +46,10 @@ public:
 public:
 	std::deque<Actor*> GetActors();
 	IRenderer& GetRenderer();
+	
+	Actor* GetActorOfClass(std::string pClass, bool& pValid, int pIndex = 0) const;
+	std::vector<Actor*> GetActorsOfClass(std::string pClass, bool& pValid) const;
+
+	Actor* GetActorByName(std::string pName, bool& pValid, int pIndex = 0) const;
+	std::vector<Actor*> GetActorsByName(std::string pName, bool& pValid) const;
 };

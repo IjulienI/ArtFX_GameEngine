@@ -23,7 +23,7 @@ void PhysicEngine::Update()
 
     for (RigidbodyComponent* rigidbody : mRigidbodyComponents)
     {
-        Vec3 weight = Vec3(0.0f, 0.0f, rigidbody->GetMass() * GRAVITY * PIXELS_PER_METER);
+        Vec3 weight = Vec3(0.0f, 0.0f, rigidbody->GetMass() * (GRAVITY * rigidbody->GetGravityScale())* PIXELS_PER_METER);
         rigidbody->AddForce(weight);
 
         for (Vec3 force : mForces)

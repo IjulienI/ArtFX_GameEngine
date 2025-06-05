@@ -1,14 +1,21 @@
+/**
+ * @file Main.cpp
+ * @brief Point d'entrée principal du moteur de jeu.
+ */
+
 #include <iostream>
 #include "Game.h"
 #include <SDL.h>
 
-#include "Scenes/BowlingScene.h"
+#include "Bowling/Scene/BowlingScene.h"
+#include "Doom/Scene/DoomScene.h"
 #include "Scenes/Base/BaseScene.h"
 #include "Scenes/Debug/GLTestScene.h"
 
 int main(int argc, char* argv[])
 {
-	Game* game = new Game("XCore - DebugEngine",{new BowlingScene()});
+	Game* game = new Game("XCore - DebugEngine",{new GLTestScene()});
 	game->Initialize();
 	return 0;
 }
+

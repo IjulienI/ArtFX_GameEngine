@@ -6,7 +6,10 @@
 enum ShaderType
 {
     VERTEX,
-    FRAGMENT
+    FRAGMENT,
+    TESSELLATION_CONTROL,
+    TESSELLATION_EVALUATION,
+    GEOMETRY
 };
 
 class Shader

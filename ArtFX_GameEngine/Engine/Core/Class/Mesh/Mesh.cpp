@@ -4,15 +4,15 @@
 
 #include "Core/Render/Asset.h"
 #include "Core/Render/OpenGL/VertexArray.h"
+#include "Debug/Log.h"
+
+/**
+ * @file Mesh.cpp
+ * @brief Implémentation de la classe Mesh, représentant un maillage 3D.
+ */
 
 Mesh::Mesh() : mVertexArray(nullptr)
 {
-    mVertexShader.Load("BasicMesh.vert", ShaderType::VERTEX);
-    mFragmentShader.Load("BasicMesh.frag", ShaderType::FRAGMENT);
-    mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
-    AddTexture(&Asset::GetTexture("BaseTexture"));
-    CalculateRadius();
-    CalculateBoundingBox();
 }
 
 Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVertexArray(nullptr)
@@ -43,13 +43,17 @@ void Mesh::AddTexture(Texture* pTexture)
         {
             mTextures.clear();
         }
+        for (auto& mTexture : mTextures)
+        {
+            if (mTexture == pTexture) return;
+        }
     }
     mTextures.emplace_back(pTexture);
 }
 
-void Mesh::SetShaderProgram(ShaderProgram*& pShaderProgram)
+void Mesh::SetShaderProgram(ShaderProgram& pShaderProgram)
 {
-    mShaderProgram = *pShaderProgram;
+    mShaderProgram = pShaderProgram;
 }
 
 void Mesh::SetVertexArray(VertexArray* pVertexArray)
@@ -64,7 +68,7 @@ int Mesh::GetVerticesCount() const
 
 Texture* Mesh::GetTexture(size_t index)
 {
-    if (index > mTextures.size())
+    if (index > mTextures.size() -1)
     {
         return nullptr;
     }
@@ -95,8 +99,18 @@ float* Mesh::ToVerticeArray()
     return array;
 }
 
+/**
+ * @brief Calcule le rayon englobant du maillage.
+ */
 void Mesh::CalculateRadius()
 {
+
+    if (mVertices.empty())
+    {
+        mRadius = 0.0f;
+        return;
+    }
+    
     Vec3 center = Vec3::zero;
 
     for (const Vertex& vertex : mVertices)
@@ -115,6 +129,9 @@ void Mesh::CalculateRadius()
     mRadius = sqrtf(maxDistanceSquared);
 }
 
+/**
+ * @brief Calcule la boîte englobante du maillage.
+ */
 void Mesh::CalculateBoundingBox()
 {
     Box boundingBox;
@@ -136,3 +153,4 @@ void Mesh::CalculateBoundingBox()
 
     mBoundingBox = boundingBox;
 }
+

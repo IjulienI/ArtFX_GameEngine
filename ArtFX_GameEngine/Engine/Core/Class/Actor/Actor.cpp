@@ -12,8 +12,8 @@ Actor::Actor() : mScene(Scene::ActiveScene), mActorState(ActorState::Active), mT
 }
 
 void Actor::Initialize()
-{
-    Log::Info("Actor Initialize");
+{    
+    Log::Info(mName + " of class " + mClassName + " initialized");
 }
 
 void Actor::Start()
@@ -70,7 +70,12 @@ void Actor::UpdateActor()
 
 void Actor::Destroy()
 {
-    
+    mScene->RemoveActor(this);
+}
+
+void Actor::SetName(std::string name)
+{
+    mName = name;
 }
 
 Vec3 Actor::GetLocation()
@@ -111,6 +116,12 @@ std::vector<Component*> Actor::GetComponents()
 void Actor::SetLocation(Vec3 loc)
 {
     mTransform.position = loc;
+    mTransform.SetNeedsUpdate(true);
+}
+
+void Actor::AddLocation(Vec3 loc)
+{
+    mTransform.position += loc;
     mTransform.SetNeedsUpdate(true);
 }
 

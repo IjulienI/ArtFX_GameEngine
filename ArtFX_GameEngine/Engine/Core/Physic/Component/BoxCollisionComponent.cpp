@@ -7,11 +7,18 @@
 BoxCollisionComponent::BoxCollisionComponent(Actor* owner) : BaseCollisionComponent(owner)
 {
     mCollisionType = CollisionType::Box;
-    mBoundingBox = owner->GetComponent<MeshComponent>()->GetMesh()->GetBoundingBox();
+    MeshComponent* mesh = owner->GetComponent<MeshComponent>();
+    mBoundingBox = mesh->GetMesh()->GetBoundingBox();
+    mRadius = mesh->GetMesh()->GetRadius();
     GenerateBox();
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    mShaderProgram.setVector3f("randomColor",
+        Vec3(0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX))
+    );
 }
 
 BoxCollisionComponent::BoxCollisionComponent(Actor* owner, const Box box) : BaseCollisionComponent(owner)
@@ -22,6 +29,11 @@ BoxCollisionComponent::BoxCollisionComponent(Actor* owner, const Box box) : Base
     mVertexShader.Load("Collision.vert", ShaderType::VERTEX);
     mFragmentShader.Load("Collision.frag", ShaderType::FRAGMENT);
     mShaderProgram.Compose({&mVertexShader, &mFragmentShader });
+    mShaderProgram.setVector3f("randomColor",
+        Vec3(0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX),
+             0.5f + static_cast<float>(rand()) / (2.0f * RAND_MAX))
+    );
 }
 
 BoxCollisionComponent::~BoxCollisionComponent() = default;
