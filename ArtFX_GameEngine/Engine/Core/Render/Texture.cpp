@@ -50,7 +50,6 @@ bool Texture::LoadGl(RendererGL* Renderer, const std::string& FileName, SDL_Surf
 void Texture::SetActive() const
 {
     glBindTexture(GL_TEXTURE_2D, mTextureID);
-
 }
 
 bool Texture::LoadTexture(IRenderer& renderer, const std::string& filePath)

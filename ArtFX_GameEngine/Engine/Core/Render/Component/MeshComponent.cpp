@@ -21,7 +21,7 @@ void MeshComponent::Draw(Matrix4Row viewProj)
     mMesh->GetShaderProgram().Use();
     mMesh->GetShaderProgram().setMatrix4Row("uViewProj", viewProj);
     mMesh->GetShaderProgram().setMatrix4Row("uWorldTransform", wt);
-    mMesh->GetShaderProgram().setInteger("UTessellationLevel", mTessellationLevel);
+    mMesh->GetShaderProgram().setInteger("uTessellationLevel", mTessellationLevel);
     mMesh->GetShaderProgram().setVector2f("uTiling", mTiling);
     Texture* texture = mMesh->GetTexture(mTextureIndex);
     
@@ -29,10 +29,20 @@ void MeshComponent::Draw(Matrix4Row viewProj)
     {
         texture->SetActive();
     }
+
+    //Active NoiseTexture
+    glActiveTexture(GL_TEXTURE1);
+    if (mMesh->GetTexture(1) != nullptr)
+    {
+        mMesh->GetTexture(1)->SetActive();
+    }
     
     mMesh->GetVertexArray()->SetActive();
     glPointSize(6.0f);
     glDrawArrays(mUseTessellation ? GL_PATCHES : GL_TRIANGLES, 0, mMesh->GetVerticesCount());
+
+    //Active Albedo Texture
+    glActiveTexture(GL_TEXTURE0);
 }
 
 void MeshComponent::SetMesh(Mesh& mesh)

@@ -41,6 +41,8 @@ void GLTestScene::Start()
     MeshComponent* floorMeshComponent = new MeshComponent(floor);
     floorMeshComponent->SetMesh(Asset::GetMesh("Floor"));
     floorMeshComponent->AddTexture(Asset::GetTexture("Floor"));
+    floorMeshComponent->AddTexture(Asset::GetTexture("VoronoiNoise"));
+    
 
     mTessVertexShader.Load("SimpleTess.vert", ShaderType::VERTEX);
     mTessFragShader.Load("SimpleTess.frag", ShaderType::FRAGMENT);
@@ -50,6 +52,7 @@ void GLTestScene::Start()
     mTessProgram.Compose({ &mTessVertexShader, &mTessFragShader, &mTessControlShader, &mTessEvalShader });
     floorMeshComponent->GetMesh()->SetShaderProgram(mTessProgram);
     floorMeshComponent->SetUseTessellation(true);
+    floorMeshComponent->SetTessellationLevel(6);
 
     
 
@@ -118,6 +121,7 @@ void GLTestScene::Load()
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Jenga.png", "Jenga");
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Bowling/BowlingPin.png", "BowlingPin");
     Asset::LoadTexture(*mRenderer, "Resources/Textures/Bowling/BowlingBall.png", "BowlingBall");
+    Asset::LoadTexture(*mRenderer, "Resources/Textures/Noises/VoronoiNoise.png", "VoronoiNoise");
     
     //Load Meshes
     Asset::LoadMesh("Box.obj", "Box");
