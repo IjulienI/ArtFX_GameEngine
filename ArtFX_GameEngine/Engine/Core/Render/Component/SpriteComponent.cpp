@@ -11,12 +11,12 @@ mDrawOrder(drawOrder),
 mTexWidth(texture.GetWidht()),
 mTexHeight(texture.GetHeight())
 {
-    Scene::ActiveScene->GetRenderer().AddSprite(this);
+    mOwner->GetScene()->GetRenderer().AddSprite(this);
 }
 
 SpriteComponent::~SpriteComponent()
 {
-    Scene::ActiveScene->GetRenderer().RemoveSprite(this);
+    mOwner->GetScene()->GetRenderer().RemoveSprite(this);
 }
 
 void SpriteComponent::SetTexture(const Texture& pTexture)
@@ -28,7 +28,7 @@ void SpriteComponent::SetTexture(const Texture& pTexture)
 void SpriteComponent::Draw(IRenderer& pRenderer)
 {
     Vec2 origin {static_cast<float>(mTexWidth)/2.0f, static_cast<float>(mTexHeight)/2.0f};
-    pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(), origin, mOrientation);
+    pRenderer.DrawSprite(*mOwner, mTexture, Rectangle(Vec2::Zero(),Vec2(mTexWidth,mTexHeight)), origin, mOrientation);
 }
 
 void SpriteComponent::SetFlipX(bool status)

@@ -20,6 +20,7 @@ void DoomPlayerController::OnStart()
     InputManager.BindTo(SDL_SCANCODE_S, this);
     InputManager.BindTo(SDL_SCANCODE_A, this);
     InputManager.BindTo(SDL_SCANCODE_D, this);
+    InputManager.BindTo(SDL_SCANCODE_SPACE, this);
     
     Component::OnStart();
 }
@@ -41,6 +42,21 @@ void DoomPlayerController::Update()
 
     if (mInputEvents[SDL_SCANCODE_D])
         mMoveComponent->Move(1.0f, Camera->GetTransform().Right());
+
+    if (mInputEvents[SDL_SCANCODE_SPACE])
+    {
+        if (!mShoot)
+        {
+            mShoot = true;
+            mPlayer->Shoot();
+        }            
+    }
+    
+    if (!mInputEvents[SDL_SCANCODE_SPACE])
+    {
+        mShoot = false;
+    }
+    
 
     SDL_GetRelativeMouseState(&mMouseDeltaX, &mMouseDeltaY);
     

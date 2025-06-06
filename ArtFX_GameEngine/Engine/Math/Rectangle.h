@@ -4,6 +4,8 @@
 
 struct Rectangle
 {
+    Rectangle(Vec2 pPosition, Vec2 pDimensions);
+    
     Vec2 position;
     Vec2 dimensions;
 

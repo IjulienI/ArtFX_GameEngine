@@ -264,7 +264,7 @@ void RigidbodyComponent::IntegrateVelocity()
     if (mStatic) return;
 
     Vec3 location = mOwner->GetLocation();
-    location += mVelocity * DELTA_STEP;
+    location += mVelocity * DELTA_STEP * mVelocityMultiplier;
     mOwner->SetLocation(location);
 
     mVelocity *= (1.0f - DELTA_STEP * mLinearDamping / mMass);

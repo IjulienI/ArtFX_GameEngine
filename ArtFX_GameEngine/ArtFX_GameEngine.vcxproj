@@ -73,7 +73,9 @@
     <ClCompile Include="Game\Bowling\Component\BowlingController.cpp" />
     <ClCompile Include="Game\Bowling\Manager\PinManager.cpp" />
     <ClCompile Include="Game\Bowling\Scene\BowlingScene.cpp" />
+    <ClCompile Include="Game\Doom\Actors\DoomEnemy.cpp" />
     <ClCompile Include="Game\Doom\Actors\DoomPlayer.cpp" />
+    <ClCompile Include="Game\Doom\Actors\DoomWidget.cpp" />
     <ClCompile Include="Game\Doom\Component\DoomPlayerController.cpp" />
     <ClCompile Include="Game\Doom\Scene\DoomScene.cpp" />
     <ClCompile Include="Game\Scenes\Base\BaseScene.cpp" />
@@ -145,7 +147,9 @@
     <ClInclude Include="Game\Bowling\Component\BowlingController.h" />
     <ClInclude Include="Game\Bowling\Manager\PinManager.h" />
     <ClInclude Include="Game\Bowling\Scene\BowlingScene.h" />
+    <ClInclude Include="Game\Doom\Actors\DoomEnemy.h" />
     <ClInclude Include="Game\Doom\Actors\DoomPlayer.h" />
+    <ClInclude Include="Game\Doom\Actors\DoomWidget.h" />
     <ClInclude Include="Game\Doom\Component\DoomPlayerController.h" />
     <ClInclude Include="Game\Doom\Scene\DoomScene.h" />
     <ClInclude Include="Game\Scenes\Base\BaseScene.h" />

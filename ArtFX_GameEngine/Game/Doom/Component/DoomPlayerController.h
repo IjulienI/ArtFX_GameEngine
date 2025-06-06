@@ -19,7 +19,9 @@ private:
     
     CharacterMovementComponent* mMoveComponent = nullptr;
 
-    std::map<SDL_Scancode, bool> mInputEvents;      
+    std::map<SDL_Scancode, bool> mInputEvents;
+
+    bool mShoot = false;
     
 public:
     DoomPlayerController(DoomPlayer* player);

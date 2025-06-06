@@ -3,6 +3,9 @@
 
 class DoomScene : public Scene
 {
+
+private:
+    void SpawnWalls();
 public:
     DoomScene();
     ~DoomScene() override = default;

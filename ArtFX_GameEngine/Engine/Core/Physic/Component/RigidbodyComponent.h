@@ -112,6 +112,8 @@ private:
      * @brief Pointer to the associated collision component.
      */
     BaseCollisionComponent* mCollisionComponent;
+
+    Vec3 mVelocityMultiplier = Vec3::one;
     
 public:
     /**
@@ -385,4 +387,9 @@ public:
      * @return The point in world space.
      */
     Vec3 LocalSpaceToWorldSpace(const Vec3& pPoint) const;
+
+    void SetVelocityMultiplier(const Vec3& pVelocityMultiplier)
+    {
+        mVelocityMultiplier = pVelocityMultiplier;
+    }
 };

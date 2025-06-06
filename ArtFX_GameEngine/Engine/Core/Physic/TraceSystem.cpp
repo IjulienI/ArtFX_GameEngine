@@ -37,7 +37,6 @@ HitResult TraceSystem::LineTrace(Vec3& start, Vec3& end, RigidbodyComponent* sel
             }
         }
     }
-
     return result;
 }
 

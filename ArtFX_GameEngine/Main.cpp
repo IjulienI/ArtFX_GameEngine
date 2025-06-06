@@ -21,7 +21,7 @@
 int main(int argc, char* argv[])
 {
 	// Create a new game instance with the specified scenes.
-	Game* game = new Game("XCore - DebugEngine", {new BowlingScene()});
+	Game* game = new Game("XCore - DebugEngine", {new DoomScene()});
 	
 	// Initialize the game engine.
 	game->Initialize();

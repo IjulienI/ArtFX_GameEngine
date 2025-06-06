@@ -24,6 +24,7 @@ mView(Matrix4Row::CreateLookAt(Vec3(0,0,5), Vec3::unitX, Vec3::unitZ)),
 mProj(Matrix4Row::CreatePerspectiveFOV(0.8f, mWindow->GetDimensions().x , mWindow->GetDimensions().y, 0.01f, 10000.0f))
 {
     mDrawType = DrawType::Unlit;
+    mSpriteViewProj = Matrix4Row::CreateSimpleViewProj(800.0f, 600.0f);
 }
 
 RendererGL::~RendererGL()
@@ -52,6 +53,7 @@ bool RendererGL::Initialize(Window& rWindow)
     SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    
     mContext = SDL_GL_CreateContext(mWindow->GetSldWindow());
     glewExperimental = GL_TRUE;
     if(glewInit()!= GLEW_OK)
@@ -72,12 +74,13 @@ bool RendererGL::Initialize(Window& rWindow)
         &mSpriteFragmentShader
     });
     mSpriteVAO = new VertexArray(spriteVertices, 4);
+    mSpriteViewProj = Matrix4Row::CreateSimpleViewProj(Window::Dimensions.x, Window::Dimensions.y);
     
     return true;
 }
 
 /**
- * @brief Begins the drawing process by clearing the screen.
+ * @brief Begins the drawing process by clearing the screen.T
  */
 void RendererGL::BeginDraw()
 {
@@ -223,13 +226,17 @@ void RendererGL::EndDraw()
 void RendererGL::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
 {
     mSpriteShaderProgram.Use();
+
+    actor.GetTransform().ComputeWorldTransform();
+    
     Matrix4Row scaleMat = Matrix4Row::CreateScale(
     static_cast<float>(tex.GetWidht()),
     static_cast<float>(tex.GetHeight()),
-    1.0f);
+    0.0f);
     Matrix4Row world = scaleMat * actor.GetTransform().GetWorldTransform();
     mSpriteShaderProgram.setMatrix4Row("uWorldTransform", world);
     tex.SetActive();
+    
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
