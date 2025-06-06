@@ -1,4 +1,9 @@
-﻿#include "Asset.h"
+﻿/**
+ * @file Asset.cpp
+ * @brief Implementation of the Asset class, which manages textures and meshes for rendering.
+ */
+
+#include "Asset.h"
 
 #include <sstream>
 
@@ -6,6 +11,13 @@
 #include "Debug/Log.h"
 #include "tiny_obj_loader.h"
 
+/**
+ * @brief Loads a texture from a file and stores it in the asset manager.
+ * @param renderer Reference to the renderer.
+ * @param filePath Path to the texture file.
+ * @param name Name to associate with the loaded texture.
+ * @return The loaded texture.
+ */
 
 std::map<std::string, Texture> Asset::mTextures = {};
 std::map<std::string, Mesh> Asset::mMeshes = {};
@@ -16,6 +28,11 @@ Texture Asset::LoadTexture(IRenderer& renderer, const std::string& filePath, con
     return mTextures[name];
 }
 
+/**
+ * @brief Retrieves a texture by name.
+ * @param name Name of the texture.
+ * @return Reference to the texture.
+ */
 Texture& Asset::GetTexture(const std::string& name)
 {
     if(mTextures.find(name) == mTextures.end())
@@ -27,12 +44,23 @@ Texture& Asset::GetTexture(const std::string& name)
     return mTextures[name];
 }
 
+/**
+ * @brief Loads a mesh from a file and stores it in the asset manager.
+ * @param pFileName Path to the mesh file.
+ * @param pName Name to associate with the loaded mesh.
+ * @return The loaded mesh.
+ */
 Mesh Asset::LoadMesh(const std::string& pFileName, const std::string& pName)
 {
     mMeshes[pName] = LoadMeshFromFile(pFileName);
     return mMeshes[pName];
 }
 
+/**
+ * @brief Retrieves a mesh by name.
+ * @param pName Name of the mesh.
+ * @return Reference to the mesh.
+ */
 Mesh& Asset::GetMesh(const std::string& pName)
 {
     if (mMeshes.count(pName) == 0)
@@ -42,6 +70,9 @@ Mesh& Asset::GetMesh(const std::string& pName)
     return mMeshes[pName];
 }
 
+/**
+ * @brief Clears all loaded assets from the asset manager.
+ */
 void Asset::Clear()
 {
     for(auto iter : mTextures)
@@ -51,6 +82,12 @@ void Asset::Clear()
     mTextures.clear();
 }
 
+/**
+ * @brief Loads a texture from a file.
+ * @param renderer Reference to the renderer.
+ * @param filePath Path to the texture file.
+ * @return The loaded texture.
+ */
 Texture Asset::LoadTextureFromFile(IRenderer& renderer, const std::string& filePath)
 {
     Texture texture;
@@ -58,6 +95,11 @@ Texture Asset::LoadTextureFromFile(IRenderer& renderer, const std::string& fileP
     return texture;
 }
 
+/**
+ * @brief Loads a mesh from a file.
+ * @param pFileName Path to the mesh file.
+ * @return The loaded mesh.
+ */
 Mesh Asset::LoadMeshFromFile(const std::string& pFileName)
 {
     Mesh loaded;

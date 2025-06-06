@@ -1,4 +1,9 @@
-﻿#pragma once
+﻿/**
+ * @file Game.h
+ * @brief Declaration of the Game class, which manages the game engine lifecycle.
+ */
+
+#pragma once
 #include "Engine/Core/Render/RendererSdl.h"
 #include "Engine/Core/Render/Window.h"
 #include <string>
@@ -8,54 +13,83 @@
 #include "Engine/Core/Class/Scene/Scene.h"
 
 /**
- * @file Game.h
- * @brief Définition de la classe Game, qui gère le moteur de jeu.
- */
-
-/**
  * @class Game
- * @brief Classe principale du moteur de jeu.
+ * @brief Main class for the game engine.
  */
 class Game
 {
 public:    
     /**
-     * @brief Constructeur de la classe Game.
-     * @param pName Nom du jeu.
-     * @param pScenes Liste des scènes du jeu.
-     * @param pLoadedScene Indice de la scène chargée par défaut.
+     * @brief Constructs the Game class.
+     * @param pName Name of the game.
+     * @param pScenes List of scenes in the game.
+     * @param pLoadedScene Index of the default loaded scene.
      */
     Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene = 0);
 
     /**
-     * @brief Initialise le moteur de jeu.
+     * @brief Initializes the game engine.
      */
     void Initialize();
     
 private:
+    /**
+     * @brief Name of the game.
+     */
     std::string mName = "XCore - DebugEngine";
 
+    /**
+     * @brief Pointer to the game window.
+     */
     Window* mWindow;
+
+    /**
+     * @brief Pointer to the renderer used for rendering scenes.
+     */
     IRenderer* mRenderer;
+
+    /**
+     * @brief Pointer to the physics engine.
+     */
     PhysicEngine* mPhysicEngine;
 
+    /**
+     * @brief List of scenes in the game.
+     */
     std::vector<Scene*> mScenes;
+
+    /**
+     * @brief Index of the currently loaded scene.
+     */
     int mLoadedScene;
 
+    /**
+     * @brief Flag indicating whether the game engine is running.
+     */
     bool mIsRunning = false;
     
     /**
-     * @brief Boucle principale du moteur.
+     * @brief Main loop of the game engine.
      */
     void Loop();
 
+    /**
+     * @brief Handles rendering of the current scene.
+     */
     void Render();
+
+    /**
+     * @brief Updates the logic of the current scene.
+     */
     void Update();
+
+    /**
+     * @brief Checks user inputs and handles events.
+     */
     void CheckInputs();
 
     /**
-     * @brief Ferme le moteur et libère les ressources.
+     * @brief Closes the game engine and releases resources.
      */
     void Close();
 };
-

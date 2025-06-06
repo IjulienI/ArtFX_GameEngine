@@ -1,4 +1,9 @@
-﻿#include <vector>
+﻿/**
+ * @file PhysicEngine.cpp
+ * @brief Implementation of the PhysicEngine class, which manages physics simulation, rigidbodies, and constraints.
+ */
+
+#include <vector>
 #include <Core/Physic/PhysicEngine.h>
 
 #include "CollisionDetection.h"
@@ -94,4 +99,3 @@ void PhysicEngine::AddRigidbody(RigidbodyComponent* rigidbody)
 void PhysicEngine::RemoveRigidbody(RigidbodyComponent* rigidbody)
 {
 }
-

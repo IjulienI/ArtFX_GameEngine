@@ -1,9 +1,22 @@
-﻿#include "Window.h"
+﻿/**
+ * @file Window.cpp
+ * @brief Implementation of the Window class, which manages the creation and handling of an SDL window.
+ */
 
+#include "Window.h"
 #include "../../Debug/Log.h"
 
-Vec2 Window::Dimensions= { 1920.0f, 1080.0f};
+/**
+ * @brief Initializes the static Dimensions variable with default values.
+ */
+Vec2 Window::Dimensions = { 1920.0f, 1080.0f };
 
+/**
+ * @brief Constructs a Window object with the specified dimensions and title.
+ * @param pWitdh Width of the window.
+ * @param pHeight Height of the window.
+ * @param pTitle Title of the window.
+ */
 Window::Window(int pWitdh, int pHeight, std::string pTitle)
 {
     mSdlWindow = nullptr;
@@ -11,10 +24,17 @@ Window::Window(int pWitdh, int pHeight, std::string pTitle)
     Dimensions = {static_cast<float>(pWitdh), static_cast<float>(pHeight)};
 }
 
+/**
+ * @brief Copy constructor for Window.
+ */
 Window::Window(const Window&)
 {
 }
 
+/**
+ * @brief Opens the window and initializes SDL.
+ * @return True if the window was successfully opened, false otherwise.
+ */
 bool Window::Open()
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
@@ -33,11 +53,17 @@ bool Window::Open()
     return true;
 }
 
+/**
+ * @brief Closes the window and releases resources.
+ */
 void Window::Close()
 {
     SDL_DestroyWindow(mSdlWindow);
 }
 
+/**
+ * @brief Updates the window (placeholder for future functionality).
+ */
 void Window::Update()
 {
 }

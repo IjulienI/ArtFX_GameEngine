@@ -1,3 +1,8 @@
+/**
+ * @file CollisionDetection.cpp
+ * @brief Implementation of the CollisionDetection struct, providing static methods for 3D collision detection.
+ */
+
 #include "CollisionDetection.h"
 
 #include <algorithm>
@@ -10,6 +15,13 @@
 #include "Core/Class/Mesh/Mesh.h"
 #include "Math/Matrix4.h"
 
+/**
+ * @brief Checks if two rigidbodies are colliding and fills contact points.
+ * @param a First rigidbody.
+ * @param b Second rigidbody.
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsColliding(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts)
 {
     if (a->IsStatic() && b->IsStatic()) {
@@ -60,6 +72,13 @@ bool CollisionDetection::IsColliding(RigidbodyComponent* a, RigidbodyComponent* 
     return false;
 }
 
+/**
+ * @brief Checks for collision between two spheres.
+ * @param a First rigidbody (sphere).
+ * @param b Second rigidbody (sphere).
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsCollidingSphereSphere(RigidbodyComponent* a, RigidbodyComponent* b,
     std::vector<Contact>& contacts)
 {
@@ -91,6 +110,13 @@ bool CollisionDetection::IsCollidingSphereSphere(RigidbodyComponent* a, Rigidbod
     return true; 
 }
 
+/**
+ * @brief Checks for collision between two polygonal meshes.
+ * @param a First rigidbody (polygon).
+ * @param b Second rigidbody (polygon).
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsCollidingPolygonPolygon(RigidbodyComponent* a, RigidbodyComponent* b,
     std::vector<Contact>& contacts)
 {
@@ -163,6 +189,13 @@ bool CollisionDetection::IsCollidingPolygonPolygon(RigidbodyComponent* a, Rigidb
     return true;
 }
 
+/**
+ * @brief Checks for collision between two boxes.
+ * @param a First rigidbody (box).
+ * @param b Second rigidbody (box).
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsCollidingBoxBox(RigidbodyComponent* a, RigidbodyComponent* b, std::vector<Contact>& contacts)
 {
     Box aBox = dynamic_cast<BoxCollisionComponent*>(a->GetCollisionComponent())->GetBoundingBox();
@@ -252,6 +285,13 @@ bool CollisionDetection::IsCollidingBoxBox(RigidbodyComponent* a, RigidbodyCompo
     return true;
 }
 
+/**
+ * @brief Checks for collision between a box and a sphere.
+ * @param box Rigidbody representing the box.
+ * @param sphere Rigidbody representing the sphere.
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsCollidingBoxSphere(RigidbodyComponent* box, RigidbodyComponent* sphere, std::vector<Contact>& contacts)
 {
     BoxCollisionComponent* boxComponent = dynamic_cast<BoxCollisionComponent*>(box->GetCollisionComponent());
@@ -317,6 +357,13 @@ bool CollisionDetection::IsCollidingBoxSphere(RigidbodyComponent* box, Rigidbody
     return true;
 }
 
+/**
+ * @brief Checks for collision between a box and a polygonal mesh.
+ * @param box Rigidbody representing the box.
+ * @param polygon Rigidbody representing the polygonal mesh.
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, RigidbodyComponent* polygon, std::vector<Contact>& contacts)
 {
         const std::vector<Vec3>& boxVerts = box->GetCollisionComponent()->GetVerticesInWorldSpace();
@@ -388,6 +435,13 @@ bool CollisionDetection::IsCollidingBoxPolygon(RigidbodyComponent* box, Rigidbod
     return true;
 }
 
+/**
+ * @brief Checks for collision between a polygonal mesh and a sphere.
+ * @param polygon Rigidbody representing the polygonal mesh.
+ * @param sphere Rigidbody representing the sphere.
+ * @param contacts Output vector of contacts.
+ * @return True if colliding, false otherwise.
+ */
 bool CollisionDetection::IsCollidingPolygonSphere(RigidbodyComponent* polygon, RigidbodyComponent* sphere,
                                                   std::vector<Contact>& contacts)
 {
@@ -455,6 +509,14 @@ bool CollisionDetection::IsCollidingPolygonSphere(RigidbodyComponent* polygon, R
     return true;
 }
 
+/**
+ * @brief Checks for overlap between two sets of vertices along a given axis.
+ * @param aVertices Vertices of the first shape.
+ * @param bVertices Vertices of the second shape.
+ * @param axis Axis to check overlap on.
+ * @param overlap Output overlap value.
+ * @return True if overlapping, false otherwise.
+ */
 bool CollisionDetection::OverlapOnAxis(const std::vector<Vec3>& aVertices, const std::vector<Vec3>& bVertices, const Vec3& axis, float& overlap)
 {
     float minBox = std::numeric_limits<float>::max();
@@ -481,6 +543,14 @@ bool CollisionDetection::OverlapOnAxis(const std::vector<Vec3>& aVertices, const
     return true; 
 }
 
+/**
+ * @brief Checks for overlap between two rigidbodies along a given axis.
+ * @param a First rigidbody.
+ * @param b Second rigidbody.
+ * @param axis Axis to check overlap on.
+ * @param overlap Output overlap value.
+ * @return True if overlapping, false otherwise.
+ */
 bool CollisionDetection::OverlapOnAxis(RigidbodyComponent* a, RigidbodyComponent* b, const Vec3& axis, float& overlap)
 {
     std::vector<Vec3> aVertices = a->GetCollisionComponent()->GetVerticesInWorldSpace();
@@ -511,6 +581,14 @@ bool CollisionDetection::OverlapOnAxis(RigidbodyComponent* a, RigidbodyComponent
     return true;
 }
 
+/**
+ * @brief Checks if a point is inside a triangle.
+ * @param v0 First vertex of the triangle.
+ * @param v1 Second vertex of the triangle.
+ * @param v2 Third vertex of the triangle.
+ * @param p Point to test.
+ * @return True if the point is inside the triangle, false otherwise.
+ */
 bool CollisionDetection::IsPointInTriangle(const Vec3& v0, const Vec3& v1, const Vec3& v2, const Vec3& p)
 {
     Vec3 v0v1 = v1 - v0;
@@ -530,6 +608,13 @@ bool CollisionDetection::IsPointInTriangle(const Vec3& v0, const Vec3& v1, const
     return (u >= 0) && (v >= 0) && (u + v <= 1);
 }
 
+/**
+ * @brief Computes the contact manifold (contact points) between two sets of vertices.
+ * @param aVerts Vertices of the first shape.
+ * @param bVerts Vertices of the second shape.
+ * @param collisionNormal Collision normal vector.
+ * @param contactPoints Output vector of contact points.
+ */
 void CollisionDetection::ComputeContactManifold(const std::vector<Vec3>& aVerts, const std::vector<Vec3>& bVerts, const Vec3& collisionNormal, std::vector<Vec3>& contactPoints)
 {
     auto GetReferenceFace = [](const std::vector<Vec3>& verts, const Vec3& normal) -> std::vector<Vec3> {

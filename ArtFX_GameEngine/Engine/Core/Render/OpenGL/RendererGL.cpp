@@ -1,4 +1,9 @@
-﻿#include "RendererGL.h"
+﻿/**
+ * @file RendererGL.cpp
+ * @brief Implementation of the RendererGL class, which provides OpenGL-based rendering functionality.
+ */
+
+#include "RendererGL.h"
 
 #include <glew.h>
 #include <SDL_image.h>
@@ -10,6 +15,9 @@
 #include "Core/Render/Component/SpriteComponent.h"
 #include "Debug/Log.h"
 
+/**
+ * @brief Constructs a RendererGL object and initializes rendering matrices.
+ */
 RendererGL::RendererGL() : mWindow(nullptr), mSpriteVAO(nullptr), mContext(nullptr),
 mSpriteViewProj(Matrix4Row::CreateSimpleViewProj(Window::Dimensions.x, Window::Dimensions.y)),
 mView(Matrix4Row::CreateLookAt(Vec3(0,0,5), Vec3::unitX, Vec3::unitZ)),
@@ -22,6 +30,11 @@ RendererGL::~RendererGL()
 {
 }
 
+/**
+ * @brief Initializes the OpenGL renderer with the given window.
+ * @param rWindow Reference to the window object.
+ * @return True if initialization succeeded, false otherwise.
+ */
 bool RendererGL::Initialize(Window& rWindow)
 {
     mWindow = &rWindow;
@@ -63,12 +76,18 @@ bool RendererGL::Initialize(Window& rWindow)
     return true;
 }
 
+/**
+ * @brief Begins the drawing process by clearing the screen.
+ */
 void RendererGL::BeginDraw()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+/**
+ * @brief Draws all registered objects based on the current draw type.
+ */
 void RendererGL::Draw()
 {
     switch (mDrawType)
@@ -98,6 +117,9 @@ void RendererGL::Draw()
     }
 }
 
+/**
+ * @brief Draws all registered sprite components.
+ */
 void RendererGL::DrawSprites()
 {
     glDisable(GL_DEPTH_TEST);
@@ -115,6 +137,9 @@ void RendererGL::DrawSprites()
     }
 }
 
+/**
+ * @brief Draws all registered mesh components.
+ */
 void RendererGL::DrawMeshes()
 {
     glEnable(GL_DEPTH_TEST);
@@ -126,6 +151,9 @@ void RendererGL::DrawMeshes()
     }
 }
 
+/**
+ * @brief Draws all registered collision components.
+ */
 void RendererGL::DrawCollisions()
 {
     glEnable(GL_DEPTH_TEST);
@@ -136,11 +164,19 @@ void RendererGL::DrawCollisions()
     }
 }
 
+/**
+ * @brief Adds a mesh component to the renderer.
+ * @param mesh Pointer to the mesh component.
+ */
 void RendererGL::AddMesh(MeshComponent* mesh)
 {
     mMeshes.emplace_back(mesh);
 }
 
+/**
+ * @brief Removes a mesh component from the renderer.
+ * @param mesh Pointer to the mesh component.
+ */
 void RendererGL::RemoveMesh(MeshComponent* mesh)
 {
     std::vector<MeshComponent*>::iterator it;
@@ -148,11 +184,19 @@ void RendererGL::RemoveMesh(MeshComponent* mesh)
     mMeshes.erase(it);
 }
 
+/**
+ * @brief Adds a collision component to the renderer.
+ * @param collision Pointer to the collision component.
+ */
 void RendererGL::AddCollision(BaseCollisionComponent* collision)
 {
     mCollisions.emplace_back(collision);
 }
 
+/**
+ * @brief Removes a collision component from the renderer.
+ * @param collision Pointer to the collision component.
+ */
 void RendererGL::RemoveCollision(BaseCollisionComponent* collision)
 {
     std::vector<BaseCollisionComponent*>::iterator it;
@@ -160,12 +204,22 @@ void RendererGL::RemoveCollision(BaseCollisionComponent* collision)
     mCollisions.erase(it);
 }
 
-
+/**
+ * @brief Ends the drawing process and swaps the window buffers.
+ */
 void RendererGL::EndDraw()
 {
     SDL_GL_SwapWindow(mWindow->GetSldWindow());
 }
 
+/**
+ * @brief Draws a sprite for a given actor using the specified texture and transformation.
+ * @param actor Reference to the actor.
+ * @param tex Reference to the texture.
+ * @param rect Source rectangle for the texture.
+ * @param pos Position to draw the sprite.
+ * @param orientation Flip orientation for the sprite.
+ */
 void RendererGL::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos, Flip orientation)
 {
     mSpriteShaderProgram.Use();
@@ -179,6 +233,10 @@ void RendererGL::DrawSprite(Actor& actor, Texture& tex, Rectangle rect, Vec2 pos
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
+/**
+ * @brief Adds a sprite component to the renderer.
+ * @param sprite Pointer to the sprite component.
+ */
 void RendererGL::AddSprite(SpriteComponent* sprite)
 {
     int spriteDrawOrder = sprite->GetDrawOrder();
@@ -190,6 +248,10 @@ void RendererGL::AddSprite(SpriteComponent* sprite)
     mSprites.insert(sc, sprite);
 }
 
+/**
+ * @brief Removes a sprite component from the renderer.
+ * @param sprite Pointer to the sprite component.
+ */
 void RendererGL::RemoveSprite(SpriteComponent* sprite)
 {
     std::vector<SpriteComponent*>::iterator sc;
@@ -197,6 +259,10 @@ void RendererGL::RemoveSprite(SpriteComponent* sprite)
     mSprites.erase(sc);
 }
 
+/**
+ * @brief Toggles wireframe rendering mode.
+ * @param status True to enable wireframe mode, false to disable.
+ */
 void RendererGL::ShowWireframe(bool status)
 {
     if(status)
@@ -209,28 +275,47 @@ void RendererGL::ShowWireframe(bool status)
     }
 }
 
+/**
+ * @brief Closes the renderer and releases resources.
+ */
 void RendererGL::Close()
 {
     SDL_GL_DeleteContext(mContext);
     delete mSpriteVAO;
 }
 
+/**
+ * @brief Sets the shader program for rendering sprites.
+ * @param shaderProgram Pointer to the shader program.
+ */
 void RendererGL::SetSpriteShaderProgram(ShaderProgram* shaderProgram)
 {
     mSpriteShaderProgram = *shaderProgram;
     mSpriteShaderProgram.Use();
 }
 
+/**
+ * @brief Sets the view matrix for rendering.
+ * @param matrix The view matrix.
+ */
 void RendererGL::SetViewMatrix(Matrix4Row matrix)
 {
     mView = matrix;
 }
 
+/**
+ * @brief Sets the draw type for rendering.
+ * @param type The draw type.
+ */
 void RendererGL::SetDawType(DrawType type)
 {
     mDrawType = type;
 }
 
+/**
+ * @brief Gets the type of the renderer.
+ * @return RendererType enum value.
+ */
 IRenderer::RendererType RendererGL::GetType()
 {
     return RendererType::OPENGL;

@@ -1,6 +1,6 @@
 /**
  * @file Scene.cpp
- * @brief Implémentation de la classe Scene, représentant une scène du jeu.
+ * @brief Implementation of the Scene class, representing a game scene.
  */
 
 #include "Scene.h"
@@ -13,13 +13,16 @@
 Scene* Scene::ActiveScene = nullptr;
 
 /**
- * @brief Charge les ressources nécessaires à la scène.
+ * @brief Loads resources required by the scene.
  */
 void Scene::Load()
 {
 	Asset::LoadTexture(*mRenderer, "Resources/Textures/BaseTexture.png", "BaseTexture");
 }
 
+/**
+ * @brief Unloads resources used by the scene and deletes all actors.
+ */
 void Scene::Unload()
 {
 	while(!mActors.empty())
@@ -29,6 +32,9 @@ void Scene::Unload()
 	Asset::Clear();
 }
 
+/**
+ * @brief Constructs a Scene object, initializes the camera, and sets this as the active scene.
+ */
 Scene::Scene(): mTitle(""), mRenderer(nullptr), mUpdatingActors(false)
 {
 	ActiveScene = this;
@@ -36,11 +42,17 @@ Scene::Scene(): mTitle(""), mRenderer(nullptr), mUpdatingActors(false)
 	AddActor(mCamera);
 }
 
+/**
+ * @brief Destructor for Scene.
+ */
 Scene::~Scene()
 {
 	
 }
 
+/**
+ * @brief Calls Start on all actors in the scene.
+ */
 void Scene::Start()
 {
 	for (Actor* actor : mActors)
@@ -50,7 +62,7 @@ void Scene::Start()
 }
 
 /**
- * @brief Met à jour tous les acteurs de la scène.
+ * @brief Updates all actors in the scene.
  */
 void Scene::Update()
 {
@@ -60,10 +72,16 @@ void Scene::Update()
 	}
 }
 
+/**
+ * @brief Renders the scene. (To be implemented)
+ */
 void Scene::Render()
 {
 }
 
+/**
+ * @brief Closes the scene, deletes all actors, and clears assets.
+ */
 void Scene::Close() const
 {
 	for (Actor* actor : mActors)
@@ -73,19 +91,27 @@ void Scene::Close() const
 	Asset::Clear();
 }
 
+/**
+ * @brief Sets the renderer for the scene.
+ * @param pRenderer Pointer to the renderer.
+ */
 void Scene::SetRenderer(IRenderer* pRenderer)
 {
 	mRenderer = pRenderer;
 }
 
+/**
+ * @brief Sets the window for the scene.
+ * @param pWindow Pointer to the window.
+ */
 void Scene::SetWindow(Window* pWindow)
 {
 	mCurrentWindow = pWindow;
 }
 
 /**
- * @brief Ajoute un acteur à la scène.
- * @param actor Pointeur vers l'acteur à ajouter.
+ * @brief Adds an actor to the scene.
+ * @param actor Pointer to the actor to add.
  */
 void Scene::AddActor(Actor* actor)
 {
@@ -101,6 +127,10 @@ void Scene::AddActor(Actor* actor)
 	}
 }
 
+/**
+ * @brief Removes an actor from the scene.
+ * @param actor Pointer to the actor to remove.
+ */
 void Scene::RemoveActor(Actor* actor)
 {
 	auto it = std::find(mActors.begin(),mActors.end(),actor);
@@ -117,6 +147,9 @@ void Scene::RemoveActor(Actor* actor)
 	}	
 }
 
+/**
+ * @brief Updates all actors in the scene, including pending actors.
+ */
 void Scene::UpdateActors()
 {
 	mUpdatingActors = true;
@@ -133,21 +166,42 @@ void Scene::UpdateActors()
 	mPendingActors.clear();
 }
 
+/**
+ * @brief Returns the list of actors in the scene.
+ * @return Deque of pointers to actors.
+ */
 std::deque<Actor*> Scene::GetActors()
 {
 	return mActors;
 }
 
+/**
+ * @brief Returns the renderer for the scene.
+ * @return Reference to the renderer.
+ */
 IRenderer& Scene::GetRenderer()
 {
 	return *mRenderer;
 }
 
+/**
+ * @brief Returns an actor of a specific class.
+ * @param pClass Name of the class.
+ * @param pValid Reference to a boolean set to true if found.
+ * @param pIndex Index of the actor to retrieve.
+ * @return Pointer to the actor.
+ */
 Actor* Scene::GetActorOfClass(std::string pClass, bool& pValid, int pIndex) const
 {
 	return GetActorsOfClass(pClass, pValid)[pIndex];
 }
 
+/**
+ * @brief Returns all actors of a specific class.
+ * @param pClass Name of the class.
+ * @param pValid Reference to a boolean set to true if any found.
+ * @return Vector of pointers to actors.
+ */
 std::vector<Actor*> Scene::GetActorsOfClass(std::string pClass, bool& pValid) const
 {
 	std::vector<Actor*> actors;
@@ -160,11 +214,24 @@ std::vector<Actor*> Scene::GetActorsOfClass(std::string pClass, bool& pValid) co
 	return actors;
 }
 
+/**
+ * @brief Returns an actor by name.
+ * @param pName Name of the actor.
+ * @param pValid Reference to a boolean set to true if found.
+ * @param pIndex Index of the actor to retrieve.
+ * @return Pointer to the actor.
+ */
 Actor* Scene::GetActorByName(std::string pName, bool& pValid, int pIndex) const
 {
 	return GetActorsByName(pName, pValid)[pIndex];
 }
 
+/**
+ * @brief Returns all actors by name.
+ * @param pName Name of the actor.
+ * @param pValid Reference to a boolean set to true if any found.
+ * @return Vector of pointers to actors.
+ */
 std::vector<Actor*> Scene::GetActorsByName(std::string pName, bool& pValid) const
 {
 	std::vector<Actor*> actors;
@@ -176,4 +243,3 @@ std::vector<Actor*> Scene::GetActorsByName(std::string pName, bool& pValid) cons
 	pValid = !actors.empty();
 	return actors;
 }
-

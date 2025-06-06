@@ -1,6 +1,6 @@
 ﻿/**
  * @file Game.cpp
- * @brief Implémentation de la classe Game, qui gère le cycle de vie du moteur.
+ * @brief Implementation of the Game class, which manages the game engine lifecycle.
  */
 
 #include "Game.h"
@@ -12,6 +12,12 @@
 #include "Engine/Math/Time.h"
 #include "Input/InputManager.h"
 
+/**
+ * @brief Constructs the Game class and initializes SDL.
+ * @param pName Name of the game.
+ * @param pScenes List of scenes in the game.
+ * @param pLoadedScene Index of the default loaded scene.
+ */
 Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mName(pName), mScenes(pScenes), mPhysicEngine(nullptr), mLoadedScene(pLoadedScene)
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -25,7 +31,7 @@ Game::Game(std::string pName, std::vector<Scene*> pScenes, int pLoadedScene): mN
 }
 
 /**
- * @brief Initialise le moteur de jeu.
+ * @brief Initializes the game engine, sets up the window, renderer, and loads the default scene.
  */
 void Game::Initialize()
 {
@@ -46,7 +52,7 @@ void Game::Initialize()
 }
 
 /**
- * @brief Boucle principale du moteur.
+ * @brief Main loop of the game engine, handling updates, rendering, and inputs.
  */
 void Game::Loop()
 {
@@ -69,7 +75,7 @@ void Game::Loop()
 }
 
 /**
- * @brief Gère le rendu de la scène.
+ * @brief Handles rendering of the current scene.
  */
 void Game::Render()
 {
@@ -81,7 +87,7 @@ void Game::Render()
 }
 
 /**
- * @brief Met à jour la logique de la scène.
+ * @brief Updates the logic of the current scene.
  */
 void Game::Update()
 {
@@ -89,7 +95,7 @@ void Game::Update()
 }
 
 /**
- * @brief Vérifie les entrées utilisateur.
+ * @brief Checks user inputs and handles events.
  */
 void Game::CheckInputs()
 {
@@ -125,7 +131,7 @@ void Game::CheckInputs()
 }
 
 /**
- * @brief Ferme le moteur et libère les ressources.
+ * @brief Closes the game engine and releases resources.
  */
 void Game::Close()
 {
@@ -133,4 +139,3 @@ void Game::Close()
     mWindow->Close();
     SDL_Quit();
 }
-

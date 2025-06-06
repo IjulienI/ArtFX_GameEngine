@@ -1,3 +1,8 @@
+/**
+ * @file Constraint.cpp
+ * @brief Implementation of the Constraint and PenetrationConstraint classes for physics constraints.
+ */
+
 #include "Constraint.h"
 
 #include <algorithm>

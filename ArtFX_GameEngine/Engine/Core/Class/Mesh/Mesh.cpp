@@ -1,20 +1,21 @@
-﻿#include "Mesh.h"
+﻿/**
+ * @file Mesh.cpp
+ * @brief Implementation of the Mesh class, representing a 3D mesh.
+ */
 
+#include "Mesh.h"
 #include <algorithm>
-
 #include "Core/Render/Asset.h"
 #include "Core/Render/OpenGL/VertexArray.h"
 #include "Debug/Log.h"
 
-/**
- * @file Mesh.cpp
- * @brief Implémentation de la classe Mesh, représentant un maillage 3D.
- */
-
+/// Default constructor for Mesh.
 Mesh::Mesh() : mVertexArray(nullptr)
 {
 }
 
+/// Constructs a Mesh from a list of vertices.
+/// @param vertices The vertices to initialize the mesh with.
 Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVertexArray(nullptr)
 {
     float* verticeInfo = ToVerticeArray();
@@ -29,12 +30,15 @@ Mesh::Mesh(std::vector<Vertex> vertices) : mVertices(std::move(vertices)), mVert
     CalculateBoundingBox();
 }
 
+/// Unloads mesh resources and deletes the vertex array.
 void Mesh::Unload()
 {
     delete mVertexArray;
     mVertexArray = nullptr;
 }
 
+/// Adds a texture to the mesh.
+/// @param pTexture Pointer to the texture to add.
 void Mesh::AddTexture(Texture* pTexture)
 {
     if (!mTextures.empty())
@@ -51,21 +55,30 @@ void Mesh::AddTexture(Texture* pTexture)
     mTextures.emplace_back(pTexture);
 }
 
+/// Sets the shader program for the mesh.
+/// @param pShaderProgram Reference to the shader program.
 void Mesh::SetShaderProgram(ShaderProgram& pShaderProgram)
 {
     mShaderProgram = pShaderProgram;
 }
 
+/// Sets the vertex array object for the mesh.
+/// @param pVertexArray Pointer to the vertex array.
 void Mesh::SetVertexArray(VertexArray* pVertexArray)
 {
     mVertexArray = pVertexArray;
 }
 
+/// Returns the number of vertices in the mesh.
+/// @return Number of vertices.
 int Mesh::GetVerticesCount() const
 {
     return static_cast<int>(mVertices.size());
 }
 
+/// Returns the texture at the specified index.
+/// @param index Index of the texture.
+/// @return Pointer to the texture, or nullptr if out of range.
 Texture* Mesh::GetTexture(size_t index)
 {
     if (index > mTextures.size() -1)
@@ -75,11 +88,15 @@ Texture* Mesh::GetTexture(size_t index)
     return mTextures[index];
 }
 
+/// Sets the bounding sphere radius of the mesh.
+/// @param radius The radius value.
 void Mesh::SetRadius(float radius)
 {
     mRadius = radius;
 }
 
+/// Converts the mesh's vertices to a float array.
+/// @return Pointer to the float array (caller must delete[]).
 float* Mesh::ToVerticeArray()
 {
     float* array = new float[mVertices.size() * 8];
@@ -99,12 +116,9 @@ float* Mesh::ToVerticeArray()
     return array;
 }
 
-/**
- * @brief Calcule le rayon englobant du maillage.
- */
+/// Calculates the bounding sphere radius of the mesh.
 void Mesh::CalculateRadius()
 {
-
     if (mVertices.empty())
     {
         mRadius = 0.0f;
@@ -129,9 +143,7 @@ void Mesh::CalculateRadius()
     mRadius = sqrtf(maxDistanceSquared);
 }
 
-/**
- * @brief Calcule la boîte englobante du maillage.
- */
+/// Calculates the axis-aligned bounding box of the mesh.
 void Mesh::CalculateBoundingBox()
 {
     Box boundingBox;
@@ -153,4 +165,3 @@ void Mesh::CalculateBoundingBox()
 
     mBoundingBox = boundingBox;
 }
-

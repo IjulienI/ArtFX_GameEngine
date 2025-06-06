@@ -4,6 +4,7 @@
 #include "Core/Physic/Component/RigidbodyComponent.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
+#include "Core/Render/Component/SpriteComponent.h"
 #include "Doom/Component/DoomPlayerController.h"
 #include "Miscellaneous/Actor/Camera.h"
 #include "Miscellaneous/Component/CharacterMovementComponent.h"

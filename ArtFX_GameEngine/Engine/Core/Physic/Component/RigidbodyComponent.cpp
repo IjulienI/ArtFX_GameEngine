@@ -1,10 +1,18 @@
-﻿#include "RigidbodyComponent.h"
+﻿/**
+ * @file RigidbodyComponent.cpp
+ * @brief Implementation of the RigidbodyComponent class, which handles physics simulation for an Actor.
+ */
+
+#include "RigidbodyComponent.h"
 
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Physic/PhysicConstants.h"
 #include "Core/Render/Component/MeshComponent.h"
 
-
+/**
+ * @brief Constructs a RigidbodyComponent and initializes its physical properties.
+ * @param pOwner Pointer to the owning Actor.
+ */
 RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelocity(Vec3::zero),
                                                         mAngularVelocity(Vec3::zero), mAcceleration(Vec3::zero), mAngularAcceleration(Vec3::zero),
                                                         mSumForces(Vec3::zero), mSumTorques(Vec3::zero)
@@ -17,6 +25,9 @@ RigidbodyComponent::RigidbodyComponent(Actor* pOwner) : Component(pOwner), mVelo
     CalcMomentOfInertia();
 }
 
+/**
+ * @brief Calculates the moment of inertia tensor based on the mesh vertices.
+ */
 void RigidbodyComponent::CalcMomentOfInertia()
 {
     const Mesh* mesh = mOwner->GetComponent<MeshComponent>()->GetMesh();
@@ -52,26 +63,43 @@ void RigidbodyComponent::CalcMomentOfInertia()
     mInverseMomentOfInertia = I.Inverse();
 }
 
+/**
+ * @brief Called when the component is started.
+ */
 void RigidbodyComponent::OnStart()
 {
     Component::OnStart();
 }
 
+/**
+ * @brief Updates the rigidbody component every frame.
+ */
 void RigidbodyComponent::Update()
 {
     Component::Update();
 }
 
+/**
+ * @brief Called when the component is about to be destroyed or removed.
+ */
 void RigidbodyComponent::OnEnd()
 {
     Component::OnEnd();
 }
 
+/**
+ * @brief Checks if the rigidbody is static (immovable).
+ * @return True if static, false otherwise.
+ */
 bool RigidbodyComponent::IsStatic() const
 {
     return fabs(mInverseMass - 0.0f) < EPSILON;
 }
 
+/**
+ * @brief Sets the mass of the rigidbody and recalculates inertia.
+ * @param pMass The new mass.
+ */
 void RigidbodyComponent::SetMass(float pMass)
 {
     mMass = pMass;
@@ -81,26 +109,43 @@ void RigidbodyComponent::SetMass(float pMass)
     CalcMomentOfInertia();
 }
 
+/**
+ * @brief Adds a force to the rigidbody.
+ * @param pForce The force vector.
+ */
 void RigidbodyComponent::AddForce(const Vec3& pForce)
 {
     mSumForces += pForce;
 }
 
+/**
+ * @brief Adds a torque to the rigidbody.
+ * @param pTorque The torque vector.
+ */
 void RigidbodyComponent::AddTorque(const Vec3& pTorque)
 {
     mSumTorques += pTorque;
 }
 
+/**
+ * @brief Clears all accumulated forces.
+ */
 void RigidbodyComponent::ClearForces()
 {
     mSumForces = Vec3::zero;
 }
 
+/**
+ * @brief Clears all accumulated torques.
+ */
 void RigidbodyComponent::ClearTorques()
 {
     mSumTorques = Vec3::zero;
 }
 
+/**
+ * @brief Clears all velocities, accelerations, forces, and torques.
+ */
 void RigidbodyComponent::ClearAll()
 {
     mVelocity = Vec3::zero;
@@ -111,6 +156,10 @@ void RigidbodyComponent::ClearAll()
     mSumTorques = Vec3::zero;
 }
 
+/**
+ * @brief Gets the world inverse inertia tensor.
+ * @return The world inverse inertia matrix.
+ */
 Mat3 RigidbodyComponent::GetWorldInverseIntertia() const
 {
     Mat3 R = Mat3::CreateFromQuaternion(mOwner->GetRotation());
@@ -118,16 +167,28 @@ Mat3 RigidbodyComponent::GetWorldInverseIntertia() const
     return R * I_local_inv * R.Transpose();
 }
 
+/**
+ * @brief Gets the location of the rigidbody in world space.
+ * @return The position vector.
+ */
 Vec3 RigidbodyComponent::GetLocation() const
 {
     return mOwner->GetLocation();
 }
 
+/**
+ * @brief Sets the collision component associated with this rigidbody.
+ * @param pCollisionComponent Pointer to the collision component.
+ */
 void RigidbodyComponent::SetCollisionComponent(BaseCollisionComponent* pCollisionComponent)
 {
     mCollisionComponent = pCollisionComponent;
 }
 
+/**
+ * @brief Gets the local axes of the rigidbody in world space.
+ * @return Vector of 3 axes as Vec3.
+ */
 std::vector<Vec3> RigidbodyComponent::GetLocalAxes() const
 {
     Quaternion rotation = mOwner->GetRotation();
@@ -143,6 +204,10 @@ std::vector<Vec3> RigidbodyComponent::GetLocalAxes() const
     return { worldX, worldY, worldZ };
 }
 
+/**
+ * @brief Applies an angular impulse to the rigidbody.
+ * @param pImpulse The angular impulse vector.
+ */
 void RigidbodyComponent::ApplyImpulseAngular(const Vec3& pImpulse)
 {
     if (mStatic) return;
@@ -150,6 +215,10 @@ void RigidbodyComponent::ApplyImpulseAngular(const Vec3& pImpulse)
     mAngularVelocity += mInverseMomentOfInertia * pImpulse;
 }
 
+/**
+ * @brief Applies a linear impulse to the rigidbody.
+ * @param pImpulse The linear impulse vector.
+ */
 void RigidbodyComponent::ApplyImpulseLinear(const Vec3& pImpulse)
 {
     if (mStatic) return;
@@ -157,6 +226,11 @@ void RigidbodyComponent::ApplyImpulseLinear(const Vec3& pImpulse)
     mVelocity += pImpulse * mInverseMass;
 }
 
+/**
+ * @brief Applies an impulse at a specific point on the rigidbody.
+ * @param pImpulse The impulse vector.
+ * @param pPoint The point of application in local space.
+ */
 void RigidbodyComponent::ApplyImpulseAtPoint(const Vec3& pImpulse, const Vec3& pPoint)
 {
     if (mStatic) return;
@@ -165,6 +239,9 @@ void RigidbodyComponent::ApplyImpulseAtPoint(const Vec3& pImpulse, const Vec3& p
     mAngularVelocity += mInverseMomentOfInertia * Vec3::Cross(pImpulse, pPoint);
 }
 
+/**
+ * @brief Integrates forces to update velocity and angular velocity.
+ */
 void RigidbodyComponent::IntegrateForces()
 {
     if (mStatic) return;
@@ -179,6 +256,9 @@ void RigidbodyComponent::IntegrateForces()
     ClearTorques();
 }
 
+/**
+ * @brief Integrates velocity to update position and rotation.
+ */
 void RigidbodyComponent::IntegrateVelocity()
 {
     if (mStatic) return;
@@ -199,6 +279,10 @@ void RigidbodyComponent::IntegrateVelocity()
     }    
 }
 
+/**
+ * @brief Applies an impulse to the rigidbody.
+ * @param pImpulse The impulse vector.
+ */
 void RigidbodyComponent::ApplyImpulse(const Vec3& pImpulse) 
 {
     if (mStatic) return;
@@ -206,6 +290,11 @@ void RigidbodyComponent::ApplyImpulse(const Vec3& pImpulse)
     mVelocity += pImpulse * mInverseMass;
 }
 
+/**
+ * @brief Converts a point from world space to local space.
+ * @param pPoint The point in world space.
+ * @return The point in local space.
+ */
 Vec3 RigidbodyComponent::WorldSpaceToLocalSpace(const Vec3& pPoint) const
 {
     Vec3 translation = pPoint - mOwner->GetLocation();
@@ -216,6 +305,11 @@ Vec3 RigidbodyComponent::WorldSpaceToLocalSpace(const Vec3& pPoint) const
     return rotated;
 }
 
+/**
+ * @brief Converts a point from local space to world space.
+ * @param pPoint The point in local space.
+ * @return The point in world space.
+ */
 Vec3 RigidbodyComponent::LocalSpaceToWorldSpace(const Vec3& pPoint) const
 {
     Quaternion rotation = mOwner->GetRotation();

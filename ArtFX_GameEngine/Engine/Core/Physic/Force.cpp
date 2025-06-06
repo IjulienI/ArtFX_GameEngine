@@ -1,3 +1,8 @@
+/**
+ * @file Force.cpp
+ * @brief Implementation of the Force struct's static methods for generating physical forces.
+ */
+
 #include "Force.h"
 
 #include <algorithm>

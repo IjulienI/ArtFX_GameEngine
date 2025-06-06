@@ -1,10 +1,19 @@
-﻿#include "SphereCollisionComponent.h"
+﻿/**
+ * @file SphereCollisionComponent.cpp
+ * @brief Implementation of the SphereCollisionComponent class, representing a sphere-shaped collision component.
+ */
+
+#include "SphereCollisionComponent.h"
 
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Render/Asset.h"
 #include "Core/Render/Component/MeshComponent.h"
 #include "Core/Render/OpenGL/VertexArray.h"
 
+/**
+ * @brief Constructs a SphereCollisionComponent using the owner's mesh radius.
+ * @param actor Pointer to the owning Actor.
+ */
 SphereCollisionComponent::SphereCollisionComponent(Actor* actor) : BaseCollisionComponent(actor)
 {
     mCollisionType = CollisionType::Sphere;   
@@ -20,6 +29,11 @@ SphereCollisionComponent::SphereCollisionComponent(Actor* actor) : BaseCollision
     );
 }
 
+/**
+ * @brief Constructs a SphereCollisionComponent with a specified radius.
+ * @param actor Pointer to the owning Actor.
+ * @param radius The sphere radius.
+ */
 SphereCollisionComponent::SphereCollisionComponent(Actor* actor, float radius) : BaseCollisionComponent(actor), mRadius(radius)
 {
     mCollisionType = CollisionType::Sphere;
@@ -34,8 +48,15 @@ SphereCollisionComponent::SphereCollisionComponent(Actor* actor, float radius) :
 );
 }
 
+/**
+ * @brief Destructor for SphereCollisionComponent.
+ */
 SphereCollisionComponent::~SphereCollisionComponent() = default;
 
+/**
+ * @brief Draws the sphere collision shape.
+ * @param viewProj The view-projection matrix.
+ */
 void SphereCollisionComponent::Draw(Matrix4Row viewProj)
 {
     BaseCollisionComponent::Draw(viewProj);
@@ -50,6 +71,10 @@ void SphereCollisionComponent::Draw(Matrix4Row viewProj)
     glDrawArrays(GL_TRIANGLES, 0, mVertexArray->GetVerticeCount());
 }
 
+/**
+ * @brief Generates the sphere geometry for rendering.
+ * @param radius The radius of the sphere.
+ */
 void SphereCollisionComponent::GenerateSphere(float radius)
 {
     std::vector<float> vertices;
@@ -126,12 +151,20 @@ void SphereCollisionComponent::GenerateSphere(float radius)
     mVertexArray = new VertexArray(sphereVertices.data(), static_cast<unsigned int>(sphereVertices.size() / 8));
 }
 
+/**
+ * @brief Sets the radius of the sphere and regenerates geometry.
+ * @param radius The new radius.
+ */
 void SphereCollisionComponent::SetRadius(float radius)
 {
     mRadius = radius;
     GenerateSphere(mRadius);
 }
 
+/**
+ * @brief Gets the vertices of the sphere in world space.
+ * @return Vector of Vec3 vertices (empty for now).
+ */
 std::vector<Vec3> SphereCollisionComponent::GetVerticesInWorldSpace() const
 {
     return std::vector<Vec3>();

@@ -1,9 +1,18 @@
-﻿#include "BoxCollisionComponent.h"
+﻿/**
+ * @file BoxCollisionComponent.cpp
+ * @brief Implementation of the BoxCollisionComponent class, representing a box-shaped collision component.
+ */
+
+#include "BoxCollisionComponent.h"
 
 #include "Core/Class/Actor/Actor.h"
 #include "Core/Render/Component/MeshComponent.h"
 #include "Core/Render/OpenGL/VertexArray.h"
 
+/**
+ * @brief Constructs a BoxCollisionComponent using the owner's mesh bounding box.
+ * @param owner Pointer to the owning Actor.
+ */
 BoxCollisionComponent::BoxCollisionComponent(Actor* owner) : BaseCollisionComponent(owner)
 {
     mCollisionType = CollisionType::Box;
@@ -21,6 +30,11 @@ BoxCollisionComponent::BoxCollisionComponent(Actor* owner) : BaseCollisionCompon
     );
 }
 
+/**
+ * @brief Constructs a BoxCollisionComponent with a specified bounding box.
+ * @param owner Pointer to the owning Actor.
+ * @param box The bounding box to use.
+ */
 BoxCollisionComponent::BoxCollisionComponent(Actor* owner, const Box box) : BaseCollisionComponent(owner)
 {
     mCollisionType = CollisionType::Box;
@@ -36,8 +50,15 @@ BoxCollisionComponent::BoxCollisionComponent(Actor* owner, const Box box) : Base
     );
 }
 
+/**
+ * @brief Destructor for BoxCollisionComponent.
+ */
 BoxCollisionComponent::~BoxCollisionComponent() = default;
 
+/**
+ * @brief Draws the box collision shape.
+ * @param viewProj The view-projection matrix.
+ */
 void BoxCollisionComponent::Draw(Matrix4Row viewProj)
 {
     BaseCollisionComponent::Draw(viewProj);
@@ -52,12 +73,19 @@ void BoxCollisionComponent::Draw(Matrix4Row viewProj)
     glDrawArrays(GL_TRIANGLES, 0, mVertexArray->GetVerticeCount());
 }
 
+/**
+ * @brief Sets the bounding box for the collision component.
+ * @param box The new bounding box.
+ */
 void BoxCollisionComponent::SetBoundingBox(const Box& box)
 {
     mBoundingBox = box;
     GenerateBox();
 }
 
+/**
+ * @brief Generates the box geometry for rendering.
+ */
 void BoxCollisionComponent::GenerateBox()
 {
     std::vector<float> vertices;
@@ -103,6 +131,10 @@ void BoxCollisionComponent::GenerateBox()
     mVertexArray = new VertexArray(vertices.data(), static_cast<unsigned int>(vertices.size() / 8));
 }
 
+/**
+ * @brief Gets the 8 vertices of the box in world space.
+ * @return Vector of 8 Vec3 vertices.
+ */
 std::vector<Vec3> BoxCollisionComponent::GetVerticesInWorldSpace() const
 {
     std::vector<Vec3> worldVertices;
@@ -131,4 +163,3 @@ std::vector<Vec3> BoxCollisionComponent::GetVerticesInWorldSpace() const
 
     return worldVertices;
 }
-

@@ -1,4 +1,9 @@
-﻿#include "EventDispatcher.h"
+﻿/**
+ * @file EventDispatcher.cpp
+ * @brief Implementation of the EventDispatcher class.
+ */
+
+#include "EventDispatcher.h"
 #include <algorithm>
 
 void EventDispatcher::BindEvent(IObserver* listener)
